@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+ </head>
+ <body>
+    <div class="titulo">
+    <hr>
+
+    <h1>Fechas Feriado</h1>
+    <hr>
+    </div>
+    <div class="contenedor">
+    <section class="crud">
+        <article class="forma">
+            <h2 class="crud-titulo">Agregar Fecha</h2>
+            <form class="crud-form">
+                <label for="fecha">Fecha: <br>
+                <input type="date" id="fecha" name="fecha" placeholder="Ingrese una fecha..." required>
+                </label>
+                <label for="descripcion">Descripcion: <br>
+                <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion..." >
+                </label>
+                <input type="submit" value="Enviar">
+                <input type="hidden" id="id" name="id">
+            </form>
+        </article>
+        <article>
+            <h2>Ver Fechas</h2>
+            <table class="crud-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Descripcion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </article>
+    </section>
+     <template id="crud-template">
+        <tr>
+            <td class="fecha"></td>
+            <td class="descripcion"></td>
+            <td>
+                <button class="editar">Editar</button>
+                <button class="eliminar">Eliminar</button>
+            </td>
+        </tr>
+     </template>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/main.js"></script>
+ </body>
+ </html>
