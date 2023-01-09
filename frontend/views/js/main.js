@@ -105,6 +105,10 @@ d.addEventListener('submit', async (e) => {
                 )
             }
         }
+    }else{
+        $form.fecha.value = ""
+        $form.descripcion.value = ""
+        $form.id.value = "" 
     }
 })
 

@@ -40,6 +40,6 @@ hr{
     gap: 1rem;
     justify-content: center;
 }
-a, h1, h2, h3, p, b, td{
+a, h1, h2, h3, p, b,th, td{
     color: aliceblue;
 }

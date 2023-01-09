@@ -14,7 +14,6 @@ export const mostrarFechas = async (req, res) => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFechas())
         responderFront(res, result.recordset)
-        console.log(result.recordset)
     }catch(err){
         console.log('Error al traer los datos: ', err);
         res.status(500)
@@ -48,8 +47,6 @@ export const modificarFecha = async (req, res) => {
 export const eliminarFecha = async (req, res) => {
     try {
         let datos = req.body
-        console.log(datos)
-        console.log(datos.FechaID)
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(deleteFecha(datos.FechaID))
         responderFront(res, result.recordset)        

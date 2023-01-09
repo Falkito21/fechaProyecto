@@ -20,12 +20,13 @@
             <h2 class="crud-titulo">Agregar Fecha</h2>
             <form class="crud-form">
                 <label for="fecha">Fecha: <br>
-                <input type="date" id="fecha" name="fecha" placeholder="Ingrese una fecha..." required>
+                <input type="date" id="fecha" name="fecha" placeholder="Ingrese una fecha..." >
                 </label>
                 <label for="descripcion">Descripcion: <br>
                 <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion..." >
                 </label>
-                <input type="submit" value="Enviar">
+                <input type="submit" id="enviar" value="Enviar">
+                <input type="submit" id="cancelar" value="Cancelar"> 
                 <input type="hidden" id="id" name="id">
             </form>
         </article>
@@ -50,7 +51,7 @@
             <td class="descripcion"></td>
             <td>
                 <button class="editar">Editar</button>
-                <button class="eliminar">Eliminar</button>
+                <!-- <button class="eliminar">Eliminar</button> -->
             </td>
         </tr>
      </template>

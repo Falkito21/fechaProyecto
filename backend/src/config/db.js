@@ -19,7 +19,6 @@ export async function getConection(){
     try{
        
         const conection = await sql.connect(dbConfig)
-        console.log('conexion exitosa');
         return conection
     }catch(error){
         console.log('Error de conexion: ', error);
