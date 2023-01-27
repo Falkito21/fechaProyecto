@@ -7,3 +7,12 @@ En el mismo con get mostramos las fechas generadas por un usuario a travez de un
 Mostramos las fechas por medio de un template generado en el archivo HTML
 
     Para mas informacion contacteme al mail: juan.falco21@gmail.com
+
+
+    TAREAS
+
+    - validar los datos
+    - que cada funcion haga lo que tenga que hacer
+    - querys
+
+    - funcion responder al front 

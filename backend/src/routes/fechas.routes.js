@@ -1,7 +1,7 @@
 import express, {Router} from 'express'
 
 // importo todos los controladores del controller
-import {mostrarFechas, eliminarFecha, guardarFecha, modificarFecha} from '#Controllers/controller.js'
+import {mostrarFechas, eliminarFecha, guardarFecha, modificarFecha, verificarFecha, mostrarFecha} from '#Controllers/controller.js'
 
 const fechaRouter = Router()
 
@@ -16,8 +16,10 @@ fechaRouter.use((req,res,next)=>{
 })
 
 fechaRouter.get('/fechas', mostrarFechas)
+fechaRouter.get('/unaFecha', mostrarFecha)
 fechaRouter.post('/guardarFecha', guardarFecha)
 fechaRouter.put('/modificarFecha', modificarFecha)
 fechaRouter.delete('/eliminarFecha', eliminarFecha)
+fechaRouter.post('/verificarFecha', verificarFecha)
 
 export default fechaRouter

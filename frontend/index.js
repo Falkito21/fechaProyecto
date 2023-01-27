@@ -1,5 +1,4 @@
 const express = require('express')
-
 const app = express()
 
 app.use(express.static('views'))
@@ -10,6 +9,7 @@ app.use(express.urlencoded({extended: true}))
 app.get('/fecha', (req, res) => {
     res.sendFile(__dirname+'/views/index.html')
 })
+
 app.get('*', (req, res) => {
     const {method, url} = req
     res.status(404).send(
