@@ -22,7 +22,7 @@ export const mostrarFecha = async (req, res) => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFecha(fechaId))
         responderFront(res, 200, result.recordset)
-    } catch (error) {
+    } catch (err) {
         responderFront(res, 400, err)
     }
 }
@@ -32,16 +32,18 @@ export const guardarFecha = async (req, res) => {
         let datos = req.body
 
         let fechaDia = datos.FechaDia
-        let fechaDescripcion = datos.FechaDescription
+        let fechaDescripcion = datos.FechaDescripcion
 
         validarVacio(fechaDia, 'el dia')
-        validarVacio(fechaDescripcion, 'la descripcion')
+        validarVacio(fechaDescripcion, 'l`a descripcion')
         validarTipoString(fechaDescripcion)
 
+        console.log(fechaDescripcion)
+
         const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(postFechas(datos.FechaDia, datos.FechaDescription))
+        const result = await conexionBDD.request().query(postFechas(fechaDia, fechaDescripcion))
         responderFront(res, 200, 'Guardado Correctamente')
-    } catch (error) {
+    } catch (err) {
         responderFront(res, 404, err)
     }
 }
@@ -109,8 +111,8 @@ export const verificarFecha = async (req, res) => {
         if(result.recordset == '') return responderFront(res, false)
         if(result.recordset[0].FechaDia) return responderFront(res, true)
 
-    }catch(error){
-        console.log('Error al ejecutar la funcion verificarFecha: ', error)
+    }catch(err){
+        console.log('Error al ejecutar la funcion verificarFecha: ', err)
     }
 }
 

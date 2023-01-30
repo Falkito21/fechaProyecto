@@ -17,7 +17,6 @@ export const dbConfig = {
 
 export async function getConection(){
     try{
-       
         const conection = await sql.connect(dbConfig)
         return conection
     }catch(error){
