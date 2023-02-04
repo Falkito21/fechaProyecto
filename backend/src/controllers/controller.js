@@ -1,6 +1,6 @@
 import { responderFront} from '#Helpers/helpers.js';
 import { getConection} from './../config/db.js'
-import {validarId, validarVacio, validarTipoNumero, validarTipoString} from '#Helpers/validaciones.js'
+import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha, getEncontrar} from '#Database/querys.js'
 
 export const mostrarFechas = async (req, res) => {
@@ -17,7 +17,8 @@ export const mostrarFecha = async (req, res) => {
     try {
         let datos = req.body
         let fechaId = datos.FechaID
-        validarVacio(fechaId)
+
+        await validarVacio(fechaId, 'mostrarFecha')
 
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFecha(fechaId))
@@ -33,18 +34,19 @@ export const guardarFecha = async (req, res) => {
 
         let fechaDia = datos.FechaDia
         let fechaDescripcion = datos.FechaDescripcion
-
-        validarVacio(fechaDia, 'el dia')
-        validarVacio(fechaDescripcion, 'l`a descripcion')
-        validarTipoString(fechaDescripcion)
-
-        console.log(fechaDescripcion)
+        
+        await validarVacio(fechaDia, 'el dia')
+        await validarVacio(fechaDescripcion)
+        await validarEpocaFecha(fechaDia)
+        await validarTipoString(fechaDescripcion)
+        await validarCaracteres(fechaDescripcion)
+        await validarDuplicado(fechaDia)
 
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(postFechas(fechaDia, fechaDescripcion))
         responderFront(res, 200, 'Guardado Correctamente')
     } catch (err) {
-        responderFront(res, 404, err)
+        responderFront(res, 500, err)
     }
 }
 
@@ -56,9 +58,9 @@ export const modificarFecha = async (req, res) => {
         let fechaDia = datos.FechaDia
         let fechaDescripcion = datos.FechaDescripcion
         
-        validarVacio(fechaDia, 'el dia')
-        validarVacio(fechaDescripcion, 'la descripcion')
-        validarTipoString(fechaDescripcion)
+        await validarVacio(fechaDia, 'el dia')
+        await validarVacio(fechaDescripcion, 'la descripcion')
+        await validarTipoString(fechaDescripcion)
         await validarId(fechaId)
         
         const conexionBDD = await getConection()
@@ -69,16 +71,21 @@ export const modificarFecha = async (req, res) => {
     }
 }
 
+// export const eliminarEntre = async (req, res) => {
+//     let datos.body
+//     let FechaIdI = datos.
+// }
+
 export const eliminarFecha = async (req, res) => {
     try {
         let datos = req.body
-
         let fechaId = datos.FechaID
         
-        validarVacio(fechaId, 'id')
-
+        await validarVacio(fechaId, 'id')
         await validarId(fechaId)
+
         const conexionBDD = await getConection()
+
         await conexionBDD.request().query(deleteFecha(datos.FechaID))
         responderFront(res, 200, 'Eliminado correctamente')        
     } catch (err) {
@@ -89,15 +96,13 @@ export const eliminarFecha = async (req, res) => {
 export const verificarFecha = async (req, res) => {
     try{
         let datos = req.body
-
-        console.log(typeof datos.FechaDia.DD)
         
-        validarVacio(datos.FechaDia.DD)
-        validarTipoNumero(datos.FechaDia.DD)        
-        validarVacio(datos.FechaDia.MM)
-        validarTipoNumero(datos.FechaDia.MM)        
-        validarVacio(datos.FechaDia.YYYY)
-        validarTipoNumero(datos.FechaDia.YYYY)        
+        await validarVacio(datos.FechaDia.DD)
+        await validarTipoNumero(datos.FechaDia.DD)        
+        await validarVacio(datos.FechaDia.MM)
+        await validarTipoNumero(datos.FechaDia.MM)        
+        await validarVacio(datos.FechaDia.YYYY)
+        await validarTipoNumero(datos.FechaDia.YYYY)        
 
         let diaComp = datos.FechaDia.DD
         let mesComp = datos.FechaDia.MM

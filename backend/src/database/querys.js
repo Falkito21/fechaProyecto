@@ -49,9 +49,10 @@ export const getEncontrar = (fecha) => {
 
 export const postFechas = (dia, descripcion) => {
     try {
-        validarVacio(dia)
-        validarVacio(descripcion)
-        validarTipoString(descripcion)
+        validarVacio(dia, 'postFechas')
+        validarVacio(descripcion, 'postFechas')
+        validarTipoString(descripcion, 'postFechas')
+
         let query = ""
         query += "insert into Fechas"
         query += " ("
@@ -65,8 +66,8 @@ export const postFechas = (dia, descripcion) => {
         query += ");"
 
         return query
-    } catch (error) {
-        console.log('Error en postFechas de la BDD: ', error)
+    } catch (err) {
+        console.log('Error en postFechas de la BDD: ', err)
     }
 }
 
@@ -79,8 +80,8 @@ export const deleteFecha = (idFecha) => {
         query += "'" + idFecha + "'"
         query += ";"
         return query
-    } catch (error) {
-        console.log('Error en deleteFecha de la DBB: ', error)
+    } catch (err) {
+        console.log('Error en deleteFecha de la DBB: ', err)
     }
 }
 
@@ -98,8 +99,8 @@ export const putFecha = (id, dia, descripcion) => {
         query += "WHERE fechaID = '" + id + "';"
 
         return query
-    } catch (error) {
-        console.error('Error en la putFecha ', error)
+    } catch (err) {
+        console.err('Error en la putFecha ', err)
     }
 }
 
@@ -112,7 +113,35 @@ export const verificarId = (id) => {
         query += "WHERE FechaID = '" + id + "';"
 
         return query
-    } catch (error) {
-        console.log('Error en validarId: ', error)
+    } catch (err) {
+        console.log('Error en validarId: ', err)
+    }
+}
+
+// export const eliminarEntre = (inicio, fin) => {
+//     try {
+//         let query = ""
+//         query += "delete from Fechas"
+//         query += " where FechaID "
+//         query += "BETWEEN '" + inicio + "' "
+//         query += "AND '" + fin + "'"
+//         query += ";"
+//         return query 
+//     } catch (error) {
+        
+//     }
+// }
+
+export const verificarDuplicado = (fecha) => {
+    try{
+        validarVacio(fecha)
+        let query = ""
+        query += "SELECT FechaDia "
+        query += "FROM Fechas "
+        query += "WHERE FechaDia = '" + fecha + "';"
+        
+        return query
+    }catch(err){
+        console.log('Error en validarVacio: ', err)
     }
 }
