@@ -32,7 +32,7 @@ export const guardarFecha = async (req, res) => {
     try {
         let datos = req.body
 
-        let fechaDia = datos.FechaDia
+        let fechaDia = datos.FechaDiaBody
         let fechaDescripcion = datos.FechaDescripcion
         
         await validarVacio(fechaDia, 'el dia')
@@ -43,7 +43,7 @@ export const guardarFecha = async (req, res) => {
         await validarDuplicado(fechaDia)
 
         const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(postFechas(fechaDia, fechaDescripcion))
+        await conexionBDD.request().query(postFechas(fechaDia, fechaDescripcion))
         responderFront(res, 200, 'Guardado Correctamente')
     } catch (err) {
         responderFront(res, 500, err)

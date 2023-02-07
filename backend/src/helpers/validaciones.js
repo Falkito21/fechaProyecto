@@ -12,7 +12,7 @@ export const validarId = async(datos) => {
     if(result.recordset[0].FechaID == datos) return true
 }
 
-export const validarVacio = async (datos, tipo) => {
+export const validarVacio =  (datos, tipo) => {
     if(datos === '' || datos === null || datos === undefined){
         throw new Error('El valor de ' + tipo + ' es incorrecto o esta vacio.')
     }else{

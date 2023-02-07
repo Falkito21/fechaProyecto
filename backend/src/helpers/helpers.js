@@ -11,11 +11,16 @@ export const responderFront = async (res,codigoDeRespuesta,datos) => {
             case 200:
                 res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso OK" , "data" : datos});
                 break;
+                //error de conexion (bdd)
             case 400:
                 res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso NO HAY RUTA" , "data" : datos});
                 break;
+                //errores internos del back
+            case 501:
+                res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso NO HAY RUTA" , "data" : datos});
+                break;
             default:
-                res.status(500).json({ "mensaje" : "ERROR INESPERADO: " + datos});
+                res.status(500).json({ "mensaje" : "ERROR INESPERADO" + datos});
                 break;
         }
     } catch (err) {
