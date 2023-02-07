@@ -62,6 +62,9 @@ export const modificarFecha = async (req, res) => {
         await validarVacio(fechaDescripcion, 'la descripcion')
         await validarTipoString(fechaDescripcion)
         await validarId(fechaId)
+        await validarEpocaFecha(fechaDia)
+        await validarCaracteres(fechaDescripcion)
+        await validarDuplicado(fechaDia)
         
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(putFecha(fechaId, fechaDia, fechaDescripcion))
@@ -70,11 +73,6 @@ export const modificarFecha = async (req, res) => {
         responderFront(res, 404, err)
     }
 }
-
-// export const eliminarEntre = async (req, res) => {
-//     let datos.body
-//     let FechaIdI = datos.
-// }
 
 export const eliminarFecha = async (req, res) => {
     try {
@@ -121,3 +119,7 @@ export const verificarFecha = async (req, res) => {
     }
 }
 
+// export const eliminarEntre = async (req, res) => {
+//     let datos.body
+//     let FechaIdI = datos.
+// }

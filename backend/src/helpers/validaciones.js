@@ -56,8 +56,6 @@ export const validarEpocaFecha = async (datos) => {
     let fechaHoy = fechaAct.toLocaleDateString()
     fechaHoy = await formatFecha(fechaHoy)
     let esMayor = await compararFechas(datos, fechaHoy)
-    
-    console.log(esMayor)
 
     if(esMayor != true) throw new Error('La fecha no puede ser menor o igual a ' + fechaHoy)
     if(esMayor == true) return datos
@@ -69,8 +67,6 @@ export const formatFecha = async(fecha) => {
 }
 
 export const compararFechas = async (fechaUsuario, fechaHoy) => {
-    
         let fechaValida = moment(fechaUsuario).isAfter(fechaHoy)
-        console.log(fechaValida)
         return fechaValida   
 }
