@@ -86,3 +86,12 @@ export class ErrorController extends Error{
         this.message = 'Error en: ' + lugar
     }
 }
+
+export class ErrorDobleEspacios extends Error{
+    constructor(num){
+        super(num)
+
+        this.codigoRes = num
+        this.message = 'No se permiten dos o mas espacios en blanco juntos'
+    }
+}

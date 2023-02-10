@@ -1,8 +1,7 @@
 import { responderFront} from '#Helpers/helpers.js';
 import { getConection} from '#Config/db.js'
-import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody} from '#Helpers/validaciones.js'
+import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody, validarDobleEspacios} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha, getEncontrar} from '#Database/querys.js'
-import { ErrorController } from '#Helpers/erroresCustom.js';
 
 export const servicioMostrarFechas = async (req, res) => {
     try{
@@ -31,12 +30,13 @@ export const servicioMostrarFecha = async (req, res) => {
 
 const mostrarFecha = async (data) => {
     try{
-        let fechaId = data.FechaID
-        validarVacio(fechaId, 'mostrarFecha')
-        validarTipoNumero(fechaId)
-        await validarId(fechaId)
+        let fechaIdBody = data.FechaID
+        validarDobleEspacios(fechaIdBody)
+        validarVacio(fechaIdBody, 'mostrarFecha')
+        validarTipoNumero(fechaIdBody)
+        await validarId(fechaIdBody)
         const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(getFecha(fechaId))
+        const result = await conexionBDD.request().query(getFecha(fechaIdBody))
         return result.recordset
     }catch(error){
         throw error
@@ -58,6 +58,8 @@ const guardarFecha = async (data) => {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
         
+        validarDobleEspacios(fechaDiaBody)
+        validarDobleEspacios(fechaDescripcionBody)
         validarVacio(fechaDiaBody, 'el dia')
         validarVacio(fechaDescripcionBody, 'la descripcion')
         validarEpocaFecha(fechaDiaBody)
@@ -87,6 +89,9 @@ const modificarFecha = async (data) => {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
         
+        validarDobleEspacios(fechaIdBody)
+        validarDobleEspacios(fechaDiaBody)
+        validarDobleEspacios(fechaDescripcionBody)
         validarVacio(fechaDiaBody, 'el dia')
         validarVacio(fechaDescripcionBody, 'la descripcion')
         validarTipoString(fechaDescripcionBody)
@@ -113,11 +118,12 @@ export const servicioEliminarFecha = async (req, res) => {
 
 const eliminarFecha = async (data) => {
     try { 
-        let fechaId = data.FechaID
-        validarVacio(fechaId, 'id')
-        await validarId(fechaId)
+        let fechaIdBody = data.FechaID
+        validarDobleEspacios(fechaIdBody)
+        validarVacio(fechaIdBody, 'id')
+        await validarId(fechaIdBody)
         const conexionBDD = await getConection()
-        await conexionBDD.request().query(deleteFecha(fechaId))        
+        await conexionBDD.request().query(deleteFecha(fechaIdBody))        
     } catch (error) {
         throw error
     }
@@ -140,31 +146,31 @@ const tipoRespuesta = (respuesta, infoError) => {
 
 
 
-export const verificarFecha = async (req, res) => {
-    try{
-        validarBody(req.body)
-        let datos = req.body
+// export const verificarFecha = async (req, res) => {
+//     try{
+//         validarBody(req.body)
+//         let datos = req.body
         
-        validarVacio(datos.FechaDia.DD)
-        validarTipoNumero(datos.FechaDia.DD)        
-        validarVacio(datos.FechaDia.MM)
-        validarTipoNumero(datos.FechaDia.MM)        
-        validarVacio(datos.FechaDia.YYYY)
-        validarTipoNumero(datos.FechaDia.YYYY)        
+//         validarVacio(datos.FechaDia.DD)
+//         validarTipoNumero(datos.FechaDia.DD)        
+//         validarVacio(datos.FechaDia.MM)
+//         validarTipoNumero(datos.FechaDia.MM)        
+//         validarVacio(datos.FechaDia.YYYY)
+//         validarTipoNumero(datos.FechaDia.YYYY)        
 
-        let diaComp = datos.FechaDia.DD
-        let mesComp = datos.FechaDia.MM
-        let anioComp = datos.FechaDia.YYYY
+//         let diaComp = datos.FechaDia.DD
+//         let mesComp = datos.FechaDia.MM
+//         let anioComp = datos.FechaDia.YYYY
 
-        let fechaT = anioComp+mesComp+diaComp
+//         let fechaT = anioComp+mesComp+diaComp
         
-        const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(getEncontrar(fechaT))
+//         const conexionBDD = await getConection()
+//         const result = await conexionBDD.request().query(getEncontrar(fechaT))
         
-        if(result.recordset == '') return responderFront(res, false)
-        if(result.recordset[0].FechaDia) return responderFront(res, true)
+//         if(result.recordset == '') return responderFront(res, false)
+//         if(result.recordset[0].FechaDia) return responderFront(res, true)
 
-    }catch(error){
-        console.log('Error al ejecutar la funcion verificarFecha: ', error)
-    }
-}
+//     }catch(error){
+//         console.log('Error al ejecutar la funcion verificarFecha: ', error)
+//     }
+// }

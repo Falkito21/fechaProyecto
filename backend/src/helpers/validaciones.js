@@ -1,6 +1,6 @@
 import {verificarId, verificarDuplicado} from '#Database/querys.js'
 import { getConection} from '#Config/db.js'
-import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorEspacios} from '#Helpers/erroresCustom.js'
+import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '#Helpers/erroresCustom.js'
 import moment from 'moment'
 
 export const validarId = async (datos) => {
@@ -35,7 +35,6 @@ export const validarTipoString = (datos) => {
     }
 }
 
-
 export const validarCadaCaracter = (texto) => {
     const NUMEROS = new RegExp("^([^0-9]*)$")
     let noContNum = NUMEROS.test(texto)
@@ -53,14 +52,22 @@ export const validarDuplicado = async (datos) => {
         return datos
     } 
 }
+//si hay dos espacios juntos te devuelve verdadero
+export const validarDobleEspacios = (datos) => {
+    const ESPACIOS_INPUT = /^[ ]+[ ]+$/
+    let cumpleCond = ESPACIOS_INPUT.test(datos)
+    if(cumpleCond) throw new ErrorDobleEspacios(501)
+    if(!cumpleCond) return datos
+}
 
 export const validarCaracteres = (datos) => {
-    const LETRAS_INPUT = new RegExp("^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$");
+    const LETRAS_INPUT = /^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/;
     //cumple condicion
     let cumple = LETRAS_INPUT.test(datos)
     if(!cumple) throw new ErrorSignos(501)
     if(cumple) return datos
 }
+//Utilizar libreria para validar formato fecha
 
 export const validarEpocaFecha = (datos) => {
     let fechaAct = new Date()
@@ -89,31 +96,5 @@ export const validarBody = (info) => {
     return info
 }
 
-//!falta terminar 
-export const validarEspacios = (datos) => {
-    const VACIO_INPUT = new RegExp("")
-    let cumpleCond = VACIO_INPUT.test(datos)
-    if(cumpleCond) throw new ErrorEspacios(501)
-    if(!cumpleCond) return datos
-}
 
 
-
-
-
-
-
-
-
-// export const validarCadaCaracter = (texto) => {
-//     for(let i = 0; i < texto.length; i++){
-//         let num = [1,2,3,4,5,6,7,8,9,0]
-//             for(let l = 0; l<num.length; l++){
-//                 if(texto[i] == num[l]){
-//                     throw new ErrorNumeroEnString(501)
-//                 }
-//             }
-            
-//         }
-//         return texto
-//     }
