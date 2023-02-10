@@ -118,20 +118,6 @@ export const verificarId = (id) => {
     }
 }
 
-// export const eliminarEntre = (inicio, fin) => {
-//     try {
-//         let query = ""
-//         query += "delete from Fechas"
-//         query += " where FechaID "
-//         query += "BETWEEN '" + inicio + "' "
-//         query += "AND '" + fin + "'"
-//         query += ";"
-//         return query 
-//     } catch (error) {
-        
-//     }
-// }
-
 export const verificarDuplicado = (fecha) => {
     try{
         validarVacio(fecha)
@@ -145,3 +131,17 @@ export const verificarDuplicado = (fecha) => {
         console.log('Error en validarVacio: ', err)
     }
 }
+
+// export const eliminarEntre = (inicio, fin) => {
+//     try {
+//         let query = ""
+//         query += "delete from Fechas"
+//         query += " where FechaID "
+//         query += "BETWEEN '" + inicio + "' "
+//         query += "AND '" + fin + "'"
+//         query += ";"
+//         return query 
+//     } catch (error) {
+        
+//     }
+// }

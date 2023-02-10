@@ -1,106 +1,156 @@
 import { responderFront} from '#Helpers/helpers.js';
-import { getConection} from './../config/db.js'
-import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha} from '#Helpers/validaciones.js'
+import { getConection} from '#Config/db.js'
+import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha, getEncontrar} from '#Database/querys.js'
+import { ErrorController } from '#Helpers/erroresCustom.js';
 
-export const mostrarFechas = async (req, res) => {
+export const servicioMostrarFechas = async (req, res) => {
     try{
+        let respuesta = await mostrarFechas()
+        responderFront(res, 200, respuesta)
+    }catch(error){
+        responderFront(res, 400, error.message)
+    }
+}
+
+const mostrarFechas = async () => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFechas())
-        responderFront(res, 200, result.recordset)
-    }catch(err){
-        responderFront(res, 400, err)
+        return result.recordset
+}
+
+export const servicioMostrarFecha = async (req, res) => {
+    try {
+        validarBody(req.body)
+        let respuesta = await mostrarFecha(req.body)
+        responderFront(res, 200, respuesta)
+    } catch (error) {
+        responderFront(res, error.codigoRes, error.message)
     }
 }
 
-export const mostrarFecha = async (req, res) => {
-    try {
-        let datos = req.body
-        let fechaId = datos.FechaID
-
-        await validarVacio(fechaId, 'mostrarFecha')
-
+const mostrarFecha = async (data) => {
+    try{
+        let fechaId = data.FechaID
+        validarVacio(fechaId, 'mostrarFecha')
+        validarTipoNumero(fechaId)
+        await validarId(fechaId)
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFecha(fechaId))
-        responderFront(res, 200, result.recordset)
-    } catch (err) {
-        responderFront(res, 400, err)
+        return result.recordset
+    }catch(error){
+        throw error
     }
 }
 
-export const guardarFecha = async (req, res) => {
+export const servicioGuardarFecha = async (req, res) => {
     try {
-        let datos = req.body
-
-        let fechaDia = datos.FechaDiaBody
-        let fechaDescripcion = datos.FechaDescripcion
-        
-        await validarVacio(fechaDia, 'el dia')
-        await validarVacio(fechaDescripcion)
-        await validarEpocaFecha(fechaDia)
-        await validarTipoString(fechaDescripcion)
-        await validarCaracteres(fechaDescripcion)
-        await validarDuplicado(fechaDia)
-
-        const conexionBDD = await getConection()
-        await conexionBDD.request().query(postFechas(fechaDia, fechaDescripcion))
+        validarBody(req.body)
+        await guardarFecha(req.body)
         responderFront(res, 200, 'Guardado Correctamente')
-    } catch (err) {
-        responderFront(res, 500, err)
+    } catch (error) {
+        tipoRespuesta(res, error)
     }
 }
 
-export const modificarFecha = async (req, res) => {
-    try{
-        let datos = req.body
-
-        let fechaId  = datos.FechaID
-        let fechaDia = datos.FechaDia
-        let fechaDescripcion = datos.FechaDescripcion
-        
-        await validarVacio(fechaDia, 'el dia')
-        await validarVacio(fechaDescripcion, 'la descripcion')
-        await validarTipoString(fechaDescripcion)
-        await validarId(fechaId)
-        await validarEpocaFecha(fechaDia)
-        await validarCaracteres(fechaDescripcion)
-        await validarDuplicado(fechaDia)
-        
-        const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(putFecha(fechaId, fechaDia, fechaDescripcion))
-        responderFront(res, 200, 'Se modifico correctamente')
-    }catch (err){
-        responderFront(res, 404, err)
-    }
-}
-
-export const eliminarFecha = async (req, res) => {
+const guardarFecha = async (data) => {
     try {
-        let datos = req.body
-        let fechaId = datos.FechaID
+        let fechaDiaBody = data.FechaDia
+        let fechaDescripcionBody = data.FechaDescripcion
         
-        await validarVacio(fechaId, 'id')
-        await validarId(fechaId)
+        validarVacio(fechaDiaBody, 'el dia')
+        validarVacio(fechaDescripcionBody, 'la descripcion')
+        validarEpocaFecha(fechaDiaBody)
+        validarTipoString(fechaDescripcionBody)
+        validarCaracteres(fechaDescripcionBody)
+        await validarDuplicado(fechaDiaBody)
 
         const conexionBDD = await getConection()
-
-        await conexionBDD.request().query(deleteFecha(datos.FechaID))
-        responderFront(res, 200, 'Eliminado correctamente')        
-    } catch (err) {
-        responderFront(res, 404, err)
+        await conexionBDD.request().query(postFechas(fechaDiaBody, fechaDescripcionBody))
+    } catch (error) {
+        throw error    
     }
 }
+
+export const servicioModificarFecha = async (req, res) => {
+    try{
+        validarBody(req.body)
+        await modificarFecha(req.body)
+        responderFront(res, 200, 'Se modifico correctamente')
+    }catch (error){
+        tipoRespuesta(res, error)
+    }
+}
+const modificarFecha = async (data) => {
+    try {
+        let fechaIdBody  = data.FechaID
+        let fechaDiaBody = data.FechaDia
+        let fechaDescripcionBody = data.FechaDescripcion
+        
+        validarVacio(fechaDiaBody, 'el dia')
+        validarVacio(fechaDescripcionBody, 'la descripcion')
+        validarTipoString(fechaDescripcionBody)
+        await validarId(fechaIdBody)
+        validarEpocaFecha(fechaDiaBody)
+        validarCaracteres(fechaDescripcionBody)
+        await validarDuplicado(fechaDiaBody)
+        
+        const conexionBDD = await getConection()
+        await conexionBDD.request().query(putFecha(fechaIdBody, fechaDiaBody, fechaDescripcionBody))
+    } catch (error) {
+        throw error
+    }
+}
+export const servicioEliminarFecha = async (req, res) => {
+    try {
+        validarBody(req.body)
+        await eliminarFecha(req.body)
+        responderFront(res, 200, 'Eliminado correctamente') 
+    } catch (error) {
+        tipoRespuesta(res, error)
+    }
+}
+
+const eliminarFecha = async (data) => {
+    try { 
+        let fechaId = data.FechaID
+        validarVacio(fechaId, 'id')
+        await validarId(fechaId)
+        const conexionBDD = await getConection()
+        await conexionBDD.request().query(deleteFecha(fechaId))        
+    } catch (error) {
+        throw error
+    }
+}
+
+const tipoRespuesta = (respuesta, infoError) => {
+    if(infoError.codigoRes === 501){
+        responderFront(respuesta, infoError.codigoRes, infoError.message)
+    }else{
+        responderFront(respuesta, 500, infoError)
+    }
+}
+
+
+
+
+
+
+
+
+
 
 export const verificarFecha = async (req, res) => {
     try{
+        validarBody(req.body)
         let datos = req.body
         
-        await validarVacio(datos.FechaDia.DD)
-        await validarTipoNumero(datos.FechaDia.DD)        
-        await validarVacio(datos.FechaDia.MM)
-        await validarTipoNumero(datos.FechaDia.MM)        
-        await validarVacio(datos.FechaDia.YYYY)
-        await validarTipoNumero(datos.FechaDia.YYYY)        
+        validarVacio(datos.FechaDia.DD)
+        validarTipoNumero(datos.FechaDia.DD)        
+        validarVacio(datos.FechaDia.MM)
+        validarTipoNumero(datos.FechaDia.MM)        
+        validarVacio(datos.FechaDia.YYYY)
+        validarTipoNumero(datos.FechaDia.YYYY)        
 
         let diaComp = datos.FechaDia.DD
         let mesComp = datos.FechaDia.MM
@@ -114,12 +164,7 @@ export const verificarFecha = async (req, res) => {
         if(result.recordset == '') return responderFront(res, false)
         if(result.recordset[0].FechaDia) return responderFront(res, true)
 
-    }catch(err){
-        console.log('Error al ejecutar la funcion verificarFecha: ', err)
+    }catch(error){
+        console.log('Error al ejecutar la funcion verificarFecha: ', error)
     }
 }
-
-// export const eliminarEntre = async (req, res) => {
-//     let datos.body
-//     let FechaIdI = datos.
-// }

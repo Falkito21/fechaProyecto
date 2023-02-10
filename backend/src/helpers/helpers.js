@@ -16,11 +16,15 @@ export const responderFront = async (res,codigoDeRespuesta,datos) => {
                 res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso NO HAY RUTA" , "data" : datos});
                 break;
                 //errores internos del back
+                // a futuro
+            // case 500:
+            //     res.status(codigoDeRespuesta).json({ "Mensaje" : "ERROR ESPERADO" , "data" : datos});
+            //     break;
             case 501:
-                res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso NO HAY RUTA" , "data" : datos});
+                res.status(codigoDeRespuesta).json({ "Mensaje" : "ERROR CAPTURADO" , "data" : datos});
                 break;
             default:
-                res.status(500).json({ "mensaje" : "ERROR INESPERADO" + datos});
+                res.status(500).json({ "mensaje" : "ERROR INESPERADO " + datos});
                 break;
         }
     } catch (err) {

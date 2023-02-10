@@ -10,23 +10,27 @@
 
     - validar que no reciba escapes de strings(&^%$#<>) <>
 
-    - validar que la fecha sea mayor al del dia de hoy 
+    - validar que la fecha sea mayor al del dia de hoy <>
     
+    - utilizar extencion moment(validar y formatear fecha) <>
+
     - a futuro:
       - validar a travez de middlewares
 
 a saber: extencion JOI - te ayuda a realizar validaciones
 
-====================================
-Si utilizo servicios externos uso AWAIT en caso contrario (llamar funciones del mismo servicio interno) no utilizo AWAIT 
+================================================================================
+Si utilizo servicios externos uso AWAIT en caso contrario (llamar funciones del mismo servicio interno) no utilizo AWAIT  <>
 
-sql servicio externo
+sql servicio externo 
 
-validar variables del body 
+validar variables del body <>
 
-modificar codigo de error 500
-contemple el error 501 sino 500 
-buscar como poner el codigo de error en los throw new Error
+buscar como poner el codigo de error en los throw new Error <>
+modificar codigo de error 500 <>
+contemple el error 501 sino 500  <>
+    
+      -a futuro, muy a futuro. verificar el estado de error y si no esta contemplado en los casos de error, enviar mensaje con el codigo de error especifico y el mensaje que manda-
 
 Desencapsulamiento de funciones
 
