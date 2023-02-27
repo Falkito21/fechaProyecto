@@ -47,6 +47,7 @@ export const validarDuplicado = async (datos) => {
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarDuplicado(datos))
     if(result.recordset[0]){
+        //caso de que ya exista la fecha en en la BDD
         throw new ErrorDuplicado(datos, 501)
     }else{
         return datos
@@ -103,6 +104,3 @@ export const validarBody = (info) => {
     }
     return info
 }
-
-
-

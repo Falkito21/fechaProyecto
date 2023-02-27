@@ -192,6 +192,9 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                     .toBe('La fecha: 2033/04/10 YA existe.')
                 }
             })
+            test('Caso de que no exista la misma fecha en la base de datos', async () => {
+                await validarDuplicado(fechaDefault.FechaDia)
+            })
         })
     })
 
