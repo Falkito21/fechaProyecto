@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    list-style: none;
 }
 body{
     background-color: black;
@@ -40,6 +41,6 @@ hr{
     gap: 1rem;
     justify-content: center;
 }
-a, h1, h2, h3, p, b,th, td{
+a, h1, h2, h3, p, b,th, td, li, ul{
     color: aliceblue;
 }

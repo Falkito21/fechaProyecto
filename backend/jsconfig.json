@@ -6,7 +6,7 @@
         "paths": {
             "#Lib/*": ["./src/lib/*"],
             "#Config/*": ["./src/config/*"],
-            "#Controllers/*": ["./src/controllers/*"],
+            "#Controller/*": ["./src/controllers/*"],
             "#Routes/*": ["./src/routes/*"],
             "#Dto/*": ["./src/dto/*"],
             "#Database/*": ["./src/database/*"],
@@ -14,3 +14,5 @@
         }
     }
 }
+
+

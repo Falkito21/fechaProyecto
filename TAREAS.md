@@ -32,11 +32,13 @@ contemple el error 501 sino 500  <>
     
       -a futuro, muy a futuro. verificar el estado de error y si no esta contemplado en los casos de error, enviar mensaje con el codigo de error especifico y el mensaje que manda-
 
-Desencapsulamiento de funciones
+Desencapsulamiento de funciones <>
 
-Test Unitario(busacar)
-testeo para node (buscar)
+Test Unitario(busacar) <>
+testeo para node (buscar) <>
 hacer todas las pruebas con el testing (despues de buscar) -> mantener la bdd limpia 
 testear distintas posibilidades
 
 validar mensajes que recibe la funcion 
+
+realizar validacion de fecha para que no sea mayor a 60 anios mas que el anio actual

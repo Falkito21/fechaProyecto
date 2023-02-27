@@ -1,3 +1,4 @@
+import { ErrorQuerys } from '#Helpers/erroresCustom.js'
 import { validarTipoString, validarVacio } from '#Helpers/validaciones.js'
 
 export const getFechas = () => {
@@ -8,7 +9,8 @@ export const getFechas = () => {
         query += " Fechas"
         return query
     }catch(err){
-        console.log('Error en getFechas de la BDD', err);
+        console.log(err.statusCode)
+        throw new ErrorQuerys('getFechas')
     }
 }
 
@@ -85,6 +87,19 @@ export const deleteFecha = (idFecha) => {
     }
 }
 
+export const deleteFechas = () => {
+    try {
+        let query = ""
+        query += "DELETE "
+        query += "FROM Fechas"
+        query += ";"
+        return query
+    } catch (err) {
+        console.log('Error en deleteFechas de la DBB: ', err)
+    }
+}
+
+
 export const putFecha = (id, dia, descripcion) => {
     try {
         validarVacio(id)
@@ -128,20 +143,6 @@ export const verificarDuplicado = (fecha) => {
         
         return query
     }catch(err){
-        console.log('Error en validarVacio: ', err)
+        console.log('Error en validarDuplicado: ', err)
     }
 }
-
-// export const eliminarEntre = (inicio, fin) => {
-//     try {
-//         let query = ""
-//         query += "delete from Fechas"
-//         query += " where FechaID "
-//         query += "BETWEEN '" + inicio + "' "
-//         query += "AND '" + fin + "'"
-//         query += ";"
-//         return query 
-//     } catch (error) {
-        
-//     }
-// }

@@ -1,7 +1,7 @@
 import { responderFront} from '#Helpers/helpers.js';
 import { getConection} from '#Config/db.js'
 import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody, validarDobleEspacios} from '#Helpers/validaciones.js'
-import { deleteFecha, getFechas, postFechas, putFecha, getFecha, getEncontrar} from '#Database/querys.js'
+import { deleteFecha, getFechas, postFechas, putFecha, getFecha} from '#Database/querys.js'
 
 export const servicioMostrarFechas = async (req, res) => {
     try{
@@ -57,6 +57,8 @@ const guardarFecha = async (data) => {
     try {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
+
+        console.log('fjdsalkf: ',fechaDescripcionBody)
         
         validarDobleEspacios(fechaDiaBody)
         validarDobleEspacios(fechaDescripcionBody)
@@ -136,41 +138,3 @@ const tipoRespuesta = (respuesta, infoError) => {
         responderFront(respuesta, 500, infoError)
     }
 }
-
-
-
-
-
-
-
-
-
-
-// export const verificarFecha = async (req, res) => {
-//     try{
-//         validarBody(req.body)
-//         let datos = req.body
-        
-//         validarVacio(datos.FechaDia.DD)
-//         validarTipoNumero(datos.FechaDia.DD)        
-//         validarVacio(datos.FechaDia.MM)
-//         validarTipoNumero(datos.FechaDia.MM)        
-//         validarVacio(datos.FechaDia.YYYY)
-//         validarTipoNumero(datos.FechaDia.YYYY)        
-
-//         let diaComp = datos.FechaDia.DD
-//         let mesComp = datos.FechaDia.MM
-//         let anioComp = datos.FechaDia.YYYY
-
-//         let fechaT = anioComp+mesComp+diaComp
-        
-//         const conexionBDD = await getConection()
-//         const result = await conexionBDD.request().query(getEncontrar(fechaT))
-        
-//         if(result.recordset == '') return responderFront(res, false)
-//         if(result.recordset[0].FechaDia) return responderFront(res, true)
-
-//     }catch(error){
-//         console.log('Error al ejecutar la funcion verificarFecha: ', error)
-//     }
-// }
