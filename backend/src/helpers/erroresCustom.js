@@ -61,7 +61,7 @@ export class ErrorNumeroEnString extends Error{
 
 export class ErrorId extends Error{
     constructor(id ,num){
-        super(num)
+        super(id,num)
 
         this.codigoRes = num
         this.message = 'El id: '+ id + ' no existe.'

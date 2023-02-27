@@ -42,7 +42,7 @@ export const validarCadaCaracter = (texto) => {
     if(!noContNum) throw new ErrorNumeroEnString(501)
     if(noContNum) return texto
 }
-
+//test listo
 export const validarDuplicado = async (datos) => {
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarDuplicado(datos))

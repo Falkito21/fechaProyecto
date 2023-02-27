@@ -117,10 +117,10 @@ export const putFecha = (id, dia, descripcion) => {
         throw new err
     }
 }
-
+//test listo 
 export const verificarId = (id) => {
     try {
-        validarVacio(id)
+        validarVacio(id, 'id en verificarId')
         let query = ""
         query += "SELECT FechaID "
         query += "FROM Fechas "
@@ -128,10 +128,10 @@ export const verificarId = (id) => {
 
         return query
     } catch (err) {
-        throw new err
+        throw err.message
     }
 }
-
+//test listo
 export const verificarDuplicado = (fecha) => {
     try{
         validarVacio(fecha, 'fecha en verificarDuplicado')

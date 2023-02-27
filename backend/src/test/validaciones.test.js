@@ -181,23 +181,47 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                 .toBe('La fecha no puede ser menor o igual a ' + fechaAct)
             }
         })
-        describe('Validamos la funcion validarDuplicado', () => {
-            test('Caso de que ya exista una fecha en la base de datos', async () => {
-                try {
-                    await validarDuplicado('2033/04/10')
-                } catch (error) {
-                    expect(error.codigoRes)
-                    .toBe(501)
-                    expect(error.message)
-                    .toBe('La fecha: 2033/04/10 YA existe.')
-                }
-            })
-            test('Caso de que no exista la misma fecha en la base de datos', async () => {
-                await validarDuplicado(fechaDefault.FechaDia)
-            })
+    })
+    describe('Validamos la funcion validarDuplicado', () => {
+        test('Caso de que ya exista una fecha en la base de datos', async () => {
+            try {
+                await validarDuplicado('2033/04/10')
+            } catch (error) {
+                expect(error.codigoRes)
+                .toBe(501)
+                expect(error.message)
+                .toBe('La fecha: 2033/04/10 YA existe.')
+            }
+        })
+        test('Caso de que no exista la misma fecha en la base de datos', async () => {
+            await validarDuplicado(fechaDefault.FechaDia)
+            expect(await validarDuplicado(fechaDefault.FechaDia))
+            .toBe(fechaDefault.FechaDia)
         })
     })
-
+    describe('Validamos la funcion validarId', () => {
+        test('Caso de que el ID sea undefined',async () => {
+            try {
+                await validarId(fechaDefault.FechaId)
+            } catch (error) {
+                expect(error)
+                .toBe('El valor de id en verificarId es incorrecto o esta vacio.')
+            }
+        })
+        test('Caso de que el ID no exista', async () => {
+            try {
+                await validarId(1)
+            } catch (error) {
+                expect(error.message)
+                .toBe('El id: 1 no existe.')
+            }
+        })
+        test('Caso de que el ID si exista', async () => {
+            await validarId(1140)
+            expect(await validarId(1140))
+            .toBe(true)
+        })
+    })
 })
 
 
