@@ -1,6 +1,6 @@
 export class ErrorElementoVacio extends Error {
     constructor(tipo, num) {
-        super(num)
+        super(tipo, num)
 
         this.codigoRes = num
         this.message = 'El valor de ' + tipo + ' es incorrecto o esta vacio.'

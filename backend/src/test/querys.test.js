@@ -9,11 +9,16 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             })
         test('Caso en el que se genere algun error en la query', () => {
             try {
-                verificarDuplicado(fechaDefault.FechaDia)
+                verificarDuplicado(fechaDefault.FechaDa)
             } catch (error) {
                 expect(error)
-                .toEqual('Error en validarDuplicad: ', error)
+                .toBe('El valor de fecha en verificarDuplicado es incorrecto o esta vacio.')
             }
+        })
+        test('Caso en el que todo salga ok en la query', () => {
+            verificarDuplicado(fechaDefault.FechaDia)
+            expect(verificarDuplicado(fechaDefault.FechaDia))
+            .toBe("SELECT FechaDia FROM Fechas WHERE FechaDia = '" + fechaDefault.FechaDia + "';")
         })
     })
 })

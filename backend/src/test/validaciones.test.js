@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import {compararFechas, formatFecha, validarBody, validarCadaCaracter, validarCaracteres, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio} from '#Helpers/validaciones.js'
+import {compararFechas, formatFecha, validarBody, validarCadaCaracter, validarCaracteres, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
 import  { fechaSinData, fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDiaConDobleEspacios, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
 
 
@@ -180,6 +180,18 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                 expect(error.message)
                 .toBe('La fecha no puede ser menor o igual a ' + fechaAct)
             }
+        })
+        describe('Validamos la funcion validarDuplicado', () => {
+            test('Caso de que ya exista una fecha en la base de datos', async () => {
+                try {
+                    await validarDuplicado('2033/04/10')
+                } catch (error) {
+                    expect(error.codigoRes)
+                    .toBe(501)
+                    expect(error.message)
+                    .toBe('La fecha: 2033/04/10 YA existe.')
+                }
+            })
         })
     })
 

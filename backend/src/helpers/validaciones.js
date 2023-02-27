@@ -44,7 +44,6 @@ export const validarCadaCaracter = (texto) => {
 }
 
 export const validarDuplicado = async (datos) => {
-    console.log('validarDuplicado: ', datos)
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarDuplicado(datos))
     if(result.recordset[0]){

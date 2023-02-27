@@ -9,8 +9,7 @@ export const getFechas = () => {
         query += " Fechas"
         return query
     }catch(err){
-        console.log(err.statusCode)
-        throw new ErrorQuerys('getFechas')
+        console.log('error en getFechas: ',err)
     }
 }
 
@@ -115,7 +114,7 @@ export const putFecha = (id, dia, descripcion) => {
 
         return query
     } catch (err) {
-        console.err('Error en la putFecha ', err)
+        throw new err
     }
 }
 
@@ -129,13 +128,13 @@ export const verificarId = (id) => {
 
         return query
     } catch (err) {
-        console.log('Error en validarId: ', err)
+        throw new err
     }
 }
 
 export const verificarDuplicado = (fecha) => {
     try{
-        validarVacio(fecha)
+        validarVacio(fecha, 'fecha en verificarDuplicado')
         let query = ""
         query += "SELECT FechaDia "
         query += "FROM Fechas "
@@ -143,6 +142,6 @@ export const verificarDuplicado = (fecha) => {
         
         return query
     }catch(err){
-        console.log('Error en validarDuplicado: ', err)
+        throw err.message
     }
 }
