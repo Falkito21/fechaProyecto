@@ -204,7 +204,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             try {
                 await validarId(fechaDefault.FechaId)
             } catch (error) {
-                expect(error)
+                expect(error.message)
                 .toBe('El valor de id en verificarId es incorrecto o esta vacio.')
             }
         })

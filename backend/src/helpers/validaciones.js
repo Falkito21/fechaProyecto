@@ -2,7 +2,7 @@ import {verificarId, verificarDuplicado} from '#Database/querys.js'
 import { getConection} from '#Config/db.js'
 import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '#Helpers/erroresCustom.js'
 import moment from 'moment'
-
+//Test listo 
 export const validarId = async (datos) => {
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarId(datos))

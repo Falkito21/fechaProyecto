@@ -15,7 +15,7 @@ export const getFechas = () => {
 
 export const getFecha = (id) => {
     try {
-        validarVacio(id)
+        validarVacio(id, 'id en getFecha')
         let query = ""
         query += "SELECT FechaID, FechaDescripcion,FechaDia "
         query += "FROM "
@@ -25,7 +25,7 @@ export const getFecha = (id) => {
         query += "'" + id +"'"
         return query
     } catch (err) {
-        console.log('Error en getFecha: ', err)
+        throw err
     }
 }
 
@@ -47,7 +47,7 @@ export const getEncontrar = (fecha) => {
         console.log('Error en getSoloFecha de la BDD', err)
     }
 }
-
+//Test listo 
 export const postFechas = (dia, descripcion) => {
     try {
         validarVacio(dia, 'postFechas')
@@ -68,13 +68,13 @@ export const postFechas = (dia, descripcion) => {
 
         return query
     } catch (err) {
-        console.log('Error en postFechas de la BDD: ', err)
+        throw err
     }
 }
-
+// Test listo 
 export const deleteFecha = (idFecha) => { 
     try {
-        validarVacio(idFecha)
+        validarVacio(idFecha, 'id en idFecha')
         let query = ""
         query += "delete from Fechas"
         query += " where FechaID = "
@@ -82,10 +82,10 @@ export const deleteFecha = (idFecha) => {
         query += ";"
         return query
     } catch (err) {
-        console.log('Error en deleteFecha de la DBB: ', err)
+        throw err
     }
 }
-
+//Test listo 
 export const deleteFechas = () => {
     try {
         let query = ""
@@ -98,12 +98,12 @@ export const deleteFechas = () => {
     }
 }
 
-
+// Test listo 
 export const putFecha = (id, dia, descripcion) => {
     try {
-        validarVacio(id)
-        validarVacio(dia)
-        validarVacio(descripcion)
+        validarVacio(id, 'id en putFecha')
+        validarVacio(dia, 'dia en putFecha')
+        validarVacio(descripcion, 'descripcion en putFecha')
         validarTipoString(descripcion)
         let query = ""
         query += "UPDATE Fechas"
@@ -114,7 +114,7 @@ export const putFecha = (id, dia, descripcion) => {
 
         return query
     } catch (err) {
-        throw new err
+        throw err
     }
 }
 //test listo 
@@ -128,7 +128,7 @@ export const verificarId = (id) => {
 
         return query
     } catch (err) {
-        throw err.message
+        throw err
     }
 }
 //test listo
@@ -142,6 +142,6 @@ export const verificarDuplicado = (fecha) => {
         
         return query
     }catch(err){
-        throw err.message
+        throw err
     }
 }
