@@ -1,6 +1,6 @@
 import { responderFront} from '#Helpers/helpers.js';
 import { getConection} from '#Config/db.js'
-import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody, validarDobleEspacios} from '#Helpers/validaciones.js'
+import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody, validarDobleEspacios, validarCadaCaracter} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha} from '#Database/querys.js'
 
 export const servicioMostrarFechas = async (req, res) => {
@@ -12,9 +12,10 @@ export const servicioMostrarFechas = async (req, res) => {
     }
 }
 
-const mostrarFechas = async () => {
+export const mostrarFechas = async () => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFechas())
+        console.log(result.recordset[0].FechaDia)
         return result.recordset
 }
 
@@ -28,7 +29,7 @@ export const servicioMostrarFecha = async (req, res) => {
     }
 }
 
-const mostrarFecha = async (data) => {
+export const mostrarFecha = async (data) => {
     try{
         let fechaIdBody = data.FechaID
         validarDobleEspacios(fechaIdBody)
@@ -52,18 +53,16 @@ export const servicioGuardarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
-
-const guardarFecha = async (data) => {
+//Test listo
+export const guardarFecha = async (data) => {
     try {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
-
-        console.log('fjdsalkf: ',fechaDescripcionBody)
         
-        validarDobleEspacios(fechaDiaBody)
         validarDobleEspacios(fechaDescripcionBody)
         validarVacio(fechaDiaBody, 'el dia')
         validarVacio(fechaDescripcionBody, 'la descripcion')
+        validarCadaCaracter(fechaDescripcionBody)
         validarEpocaFecha(fechaDiaBody)
         validarTipoString(fechaDescripcionBody)
         validarCaracteres(fechaDescripcionBody)
@@ -72,7 +71,7 @@ const guardarFecha = async (data) => {
         const conexionBDD = await getConection()
         await conexionBDD.request().query(postFechas(fechaDiaBody, fechaDescripcionBody))
     } catch (error) {
-        throw error    
+        throw error
     }
 }
 
@@ -85,22 +84,20 @@ export const servicioModificarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
-const modificarFecha = async (data) => {
+export const modificarFecha = async (data) => {
     try {
         let fechaIdBody  = data.FechaID
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
-        
-        validarDobleEspacios(fechaIdBody)
-        validarDobleEspacios(fechaDiaBody)
+
         validarDobleEspacios(fechaDescripcionBody)
         validarVacio(fechaDiaBody, 'el dia')
         validarVacio(fechaDescripcionBody, 'la descripcion')
+        validarCadaCaracter(fechaDescripcionBody)
         validarTipoString(fechaDescripcionBody)
         await validarId(fechaIdBody)
         validarEpocaFecha(fechaDiaBody)
         validarCaracteres(fechaDescripcionBody)
-        await validarDuplicado(fechaDiaBody)
         
         const conexionBDD = await getConection()
         await conexionBDD.request().query(putFecha(fechaIdBody, fechaDiaBody, fechaDescripcionBody))
@@ -118,7 +115,7 @@ export const servicioEliminarFecha = async (req, res) => {
     }
 }
 
-const eliminarFecha = async (data) => {
+export const eliminarFecha = async (data) => {
     try { 
         let fechaIdBody = data.FechaID
         validarDobleEspacios(fechaIdBody)
@@ -131,7 +128,7 @@ const eliminarFecha = async (data) => {
     }
 }
 
-const tipoRespuesta = (respuesta, infoError) => {
+export const tipoRespuesta = (respuesta, infoError) => {
     if(infoError.codigoRes === 501){
         responderFront(respuesta, infoError.codigoRes, infoError.message)
     }else{

@@ -1,6 +1,6 @@
 import { ErrorQuerys } from '#Helpers/erroresCustom.js'
 import { validarTipoString, validarVacio } from '#Helpers/validaciones.js'
-
+// Test listo
 export const getFechas = () => {
     try{
         let query = ""
@@ -12,7 +12,7 @@ export const getFechas = () => {
         console.log('error en getFechas: ',err)
     }
 }
-
+//Test listo
 export const getFecha = (id) => {
     try {
         validarVacio(id, 'id en getFecha')
@@ -28,7 +28,7 @@ export const getFecha = (id) => {
         throw err
     }
 }
-
+// NO se usa
 export const getEncontrar = (fecha) => {
     try{
         validarVacio(fecha)

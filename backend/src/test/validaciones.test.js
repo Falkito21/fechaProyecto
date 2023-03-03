@@ -1,7 +1,5 @@
-import supertest from 'supertest'
 import {compararFechas, formatFecha, validarBody, validarCadaCaracter, validarCaracteres, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
-import  { fechaSinData, fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDiaConDobleEspacios, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
-
+import  { fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
 
 describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     describe('Verificacion de la funcion validarBody', () => {
@@ -217,8 +215,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             }
         })
         test('Caso de que el ID si exista', async () => {
-            await validarId(1140)
-            expect(await validarId(1140))
+            await validarId(2029)
+            expect(await validarId(2029))
             .toBe(true)
         })
     })

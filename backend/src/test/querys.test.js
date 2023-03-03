@@ -47,6 +47,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de dia en putFecha es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso de que se genere un error en la query con la descripcion', () => {
@@ -55,6 +57,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de descripcion en putFecha es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso de que se genere un 2do error en la query con la descripcion', () => {
@@ -71,13 +75,15 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de id en putFecha es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
     })
     describe('Verificamos la funcion deleteFechas', () => {
         test('Unico caso donde la query este OK', () => {
-            deleteFechas()
-            expect(deleteFechas())
+            let asd = deleteFechas()
+            expect(asd)
             .toBe("DELETE FROM Fechas;")
         })
     })
@@ -88,6 +94,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de id en idFecha es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso en el que la query este OK', () => {
@@ -103,6 +111,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de postFechas es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso de que se genere un error en la query con la descripcion', () => {
@@ -111,6 +121,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de postFechas es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso de que se genere un 2do error en la query con la descripcion', () => {
@@ -119,6 +131,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('La descripcion no es de tipo texto.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso en el que la query este todo OK', () => {
@@ -134,6 +148,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de id en getFecha es incorrecto o esta vacio.')
+                expect(error.codigoRes)
+                .toBe(501)
             }
         })
         test('Caso en el que la query esta todo OK', () => {
