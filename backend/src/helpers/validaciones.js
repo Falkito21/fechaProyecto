@@ -21,7 +21,7 @@ export const validarVacio = (datos, tipo) => {
 //ver despues si tiene sentido testear o no 
 export const validarTipoNumero = (datos) => {
     if(typeof datos !== 'number'){
-        throw new ErrorTipo('La fecha', 'numero', 501)
+        throw new ErrorTipo('El id', 'numero', 501)
     }else{
      return datos
     }
@@ -87,7 +87,7 @@ export const cortarFecha = (unaFecha) => {
 }
 //Test listo
 export const formatFecha = (fecha) => {
-        let fechaH = moment(fecha).format()
+        let fechaH = moment(new Date(fecha)).format()
         fechaH = cortarFecha(fechaH)
         return fechaH
 }

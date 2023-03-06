@@ -215,84 +215,9 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             }
         })
         test('Caso de que el ID si exista', async () => {
-            await validarId(2029)
-            expect(await validarId(2029))
+            let id =  await validarId(2030)
+            expect(id)
             .toBe(true)
         })
     })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// describe('Checkeo general de todas las Rutas de la API', () => {
-    
-
-//     test('Guardar una fecha en formato json', async() => {
-//         const data = {
-//             FechaDia: "2024-04-09",
-//             FechaDescripcion: "Primera fecha de testing" 
-//         }
-//         await api
-//             .post('/guardarFecha')
-//             .send(data)
-//             .expect(200)
-//             .then(async (res) => {
-//                 expect(res.body.FechaID).toBeTrusthy()
-//                 expect(res.body.FechaDia).toBe(data.FechaDia)
-//                 expect(res.body.FechaDescripcion).toBe(data.FechaDescripcion)
-//             })
-//     })
-    
-    
-    
-    
-    // test('Guarda una fecha en formato json', async() => {   
-    //     const data = {
-    //         FechaDia: "2024-04-09",
-    //         FechaDescripcion: "Primera fecha de testing" 
-    //     }
-    //     await api
-    //     .post('/guardarFecha')
-    //     .send(data)
-    //     .set('Accept', 'application/json')
-    //     .expect('Content-Type', /application\/json/)
-    //     .expect(200)
-    // })
-
-    // test('Retorna un json con un listado de fechas', async () => {
-    // await api
-    //     .get('/fechas')
-    //     .expect(200)
-    //     .expect('Content-Type', /application\/json/)
-    // })
-    
-    // test('Eliminamos una fecha con un id determinado', async() => {
-    //         await api
-    //             .delete('/eliminarFecha')
-    //         .send({
-    //              FechaID: 1009   
-    //         })
-    //         expect(200)
-    // })
-// })
-
-// afterAll(() => {
-//     sql.close()
-//     server.close()
-// })

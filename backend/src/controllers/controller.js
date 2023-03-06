@@ -15,7 +15,6 @@ export const servicioMostrarFechas = async (req, res) => {
 export const mostrarFechas = async () => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFechas())
-        console.log(result.recordset[0].FechaDia)
         return result.recordset
 }
 
@@ -32,7 +31,6 @@ export const servicioMostrarFecha = async (req, res) => {
 export const mostrarFecha = async (data) => {
     try{
         let fechaIdBody = data.FechaID
-        validarDobleEspacios(fechaIdBody)
         validarVacio(fechaIdBody, 'mostrarFecha')
         validarTipoNumero(fechaIdBody)
         await validarId(fechaIdBody)
@@ -84,6 +82,7 @@ export const servicioModificarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
+//Test listo
 export const modificarFecha = async (data) => {
     try {
         let fechaIdBody  = data.FechaID
@@ -95,6 +94,7 @@ export const modificarFecha = async (data) => {
         validarVacio(fechaDescripcionBody, 'la descripcion')
         validarCadaCaracter(fechaDescripcionBody)
         validarTipoString(fechaDescripcionBody)
+        validarTipoNumero(fechaIdBody)
         await validarId(fechaIdBody)
         validarEpocaFecha(fechaDiaBody)
         validarCaracteres(fechaDescripcionBody)
@@ -115,11 +115,12 @@ export const servicioEliminarFecha = async (req, res) => {
     }
 }
 
+//Test listo
 export const eliminarFecha = async (data) => {
     try { 
         let fechaIdBody = data.FechaID
-        validarDobleEspacios(fechaIdBody)
         validarVacio(fechaIdBody, 'id')
+        validarTipoNumero(fechaIdBody)
         await validarId(fechaIdBody)
         const conexionBDD = await getConection()
         await conexionBDD.request().query(deleteFecha(fechaIdBody))        
