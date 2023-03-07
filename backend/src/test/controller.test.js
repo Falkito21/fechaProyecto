@@ -7,66 +7,8 @@ import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas
 // Mocks
 import {fechaConDescripcionErronea, fechaConFechaAntigua, fechaDescripcionConSignos, fechaModificarConDescNum, fechaModificarDobleEspacios, fechaModificarFechaAnt, fechaModificarIdError, fechaModificarSinDesc, fechaModificarSinDia, fechaRepetida, fechaSinDescripcion, fechaSinDia, fechaAct, fechaModificarFechaRep, idFechaEliminarFechaVacio, idFechaEliminarFechaNoNum, fechaModificarIdNoNum, fechaModificarIdMal, fechaEliminarIdMal, mostrarFechaIdVacio, mostrarFechaIdNoNum, mostrarFechaIdNoExist, mostrarFechaIdExist} from "./mock.js"
 
-
 describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
-    describe('Verificamos la funcion mostrarFechas', () => {
-        test('Unico caso en el cual trae los datos', async () => {
-            let data = await mostrarFechas()
-            let obj = data[0]
-            expect(obj)
-            .toHaveProperty('FechaID')
-            expect(obj)
-            .toBeDefined()
-            expect(obj)
-            .toHaveProperty('FechaDescripcion')
-            expect(obj)
-            .toBeDefined()
-            expect(obj)
-            .toHaveProperty('FechaDia')
-            expect(obj)
-            .toBeDefined()
-        })
-    })
-    describe('Verificamos la funcion mostrarFecha', () => {
-        test('Caso en el que el ID esta vacio', async () => {
-                try {
-                    await mostrarFecha(mostrarFechaIdVacio)
-                } catch (error) {
-                    expect(error.message)
-                    .toBe('El valor de mostrarFecha es incorrecto o esta vacio.')
-                    expect(error.codigoRes)
-                    .toBe(501)
-                }
-            })
-            test('Caso en el cual el ID no es de tipo numerico', async () => {
-                try {
-                    await mostrarFecha(mostrarFechaIdNoNum)
-                } catch (error) {
-                    expect(error.message)
-                    .toBe('El id no es de tipo numero.')
-                    expect(error.codigoRes)
-                    .toBe(501)
-                }
-            })
-            test('Caso en el cual el ID no exista', async () => {
-                let id = mostrarFechaIdNoExist.FechaID
-                try {
-                    await mostrarFecha(mostrarFechaIdNoExist)
-                } catch (error) {
-                    expect(error.message)
-                    .toBe('El id: ' + id + ' no existe.')
-                    expect(error.codigoRes)
-                    .toBe(501)
-                }
-            })
-            test('Caso en el cual el ID si existe', async () => {
-                let data = await mostrarFecha(mostrarFechaIdExist)
-                expect(data[0].FechaID)
-                .toBe(mostrarFechaIdExist.FechaID)
-                expect(data[0].FechaDescripcion)
-                .toBe('Fecha diferente pero ok')
-            })
-        })
+    
     describe('Verificamos la funcion guardarFecha', () => {
         test('Caso en el cual la descripcion tiene doble espacios', async() => {
             
@@ -130,6 +72,66 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             //tiene sentido enviar una fecha que esta ok?
             //si es asi como hago para que cada vez que hago un test me cambie la fecha??
         })
+    })
+    describe('Verificamos la funcion mostrarFechas', () => {
+        test('Unico caso en el cual trae los datos', async () => {
+            let data = await mostrarFechas()
+            let obj = data[0]
+            expect(obj)
+            .toHaveProperty('FechaID')
+            expect(obj)
+            .toBeDefined()
+            expect(obj)
+            .toHaveProperty('FechaDescripcion')
+            expect(obj)
+            .toBeDefined()
+            expect(obj)
+            .toHaveProperty('FechaDia')
+            expect(obj)
+            .toBeDefined()
+        })
+    })
+    describe('Verificamos la funcion mostrarFecha', () => {
+        test('Caso en el que el ID esta vacio', async () => {
+                try {
+                    await mostrarFecha(mostrarFechaIdVacio)
+                } catch (error) {
+                    expect(error.message)
+                    .toBe('El valor de mostrarFecha es incorrecto o esta vacio.')
+                    expect(error.codigoRes)
+                    .toBe(501)
+                }
+            })
+            test('Caso en el cual el ID no es de tipo numerico', async () => {
+                try {
+                    await mostrarFecha(mostrarFechaIdNoNum)
+                } catch (error) {
+                    expect(error.message)
+                    .toBe('El id no es de tipo numero.')
+                    expect(error.codigoRes)
+                    .toBe(501)
+                }
+            })
+            test('Caso en el cual el ID no exista', async () => {
+                let id = mostrarFechaIdNoExist.FechaID
+                try {
+                    await mostrarFecha(mostrarFechaIdNoExist)
+                } catch (error) {
+                    expect(error.message)
+                    .toBe('El id: ' + id + ' no existe.')
+                    expect(error.codigoRes)
+                    .toBe(501)
+                }
+            })
+            test('Caso en el cual el ID si existe', async () => {
+                let info = await mostrarFechas()
+                let fechaId = info[0]
+                let data = await mostrarFecha(fechaId)
+                expect(data[0].FechaID)
+                .toBe(fechaId.FechaID)
+                expect(data[0].FechaDescripcion)
+                .toBe(fechaId.FechaDescripcion)
+            })
     })
     describe('Verificamos la funcion modificarFecha', () => {
             test('Caso en el cual la descripcion de la fecha contenga doble espacios', async () => {
@@ -195,6 +197,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             })
             test('Caso en el el cual la fecha es antigua', async () => {
                 try {
+                    let data = await mostrarFechas()
+                    fechaModificarFechaAnt.FechaID = data[0].FechaID
                     await modificarFecha(fechaModificarFechaAnt)
                 } catch (error) {
                     expect(error.message)

@@ -1,3 +1,4 @@
+import { mostrarFechas } from '../controllers/controller.js'
 import {compararFechas, formatFecha, validarBody, validarCadaCaracter, validarCaracteres, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
 import  { fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
 
@@ -215,8 +216,10 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             }
         })
         test('Caso de que el ID si exista', async () => {
-            let id =  await validarId(2030)
-            expect(id)
+            let data = await mostrarFechas()
+            let id = data[0].FechaID
+            let info =  await validarId(id)
+            expect(info)
             .toBe(true)
         })
     })

@@ -5,6 +5,7 @@ import {server} from "../index.js"
 const api = supertest(app)
 
 import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaIdMal} from './mock.js'
+import { mostrarFechas, servicioGuardarFecha } from "../controllers/controller.js"
 
 describe('Testeamos las funciones de SERVICIO', () => {
     describe('Verificamos el servicio servicioMostrarFechas', () => {
@@ -20,8 +21,40 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .expect(404)
         })
     })
+    
+    describe('Verificamos el servicio guardarFecha', () => {
+        test('Caso en dode la fecha esta OK', async () => {
+            // let dia = Math.random() * (10 - 1) + 1
+            let dia = new Date().getDate()
+            let diaC = '0' + dia
+             let fechaNew = serviciosGuardarFechaCorr.FechaDia + diaC
+             serviciosGuardarFechaCorr.FechaDia = fechaNew
+             const res = await api 
+            .post('/guardarFecha')
+            .send(serviciosGuardarFechaCorr)
+            expect(res.status)
+            .toBe(200)
+            
+        })
+        test('Caso en donde la fecha es Erronea', async () => {
+             const res = await api 
+             .post('/guardarFecha')
+             .send(serviciosGuardarFechaCorr)
+            expect(res.status)
+            .toBe(501)
+        })
+        test('Caso en donde la ruta es incorrecta', async () => {
+            const res = await api
+            .post('/guardarFeca')
+            .send(serviciosGuardarFechaCorr)
+            expect(res.status)
+            .toBe(404)
+        })
+    })
     describe('Verificamos el servicio servicioMostrarFecha', () => {
         test('Caso en el cual trae la fecha indicada', async () => {
+            let datos = await mostrarFechas()
+            serviciosMostrarFechaCorr.FechaID = datos[0].FechaID
             await api
             .get('/unaFecha')
             .send(serviciosMostrarFechaCorr)
@@ -40,32 +73,10 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .expect(404)
         })
     })
-    describe('Verificamos el servicio guardarFecha', () => {
-        test('Caso en dode la fecha esta OK', async () => {
-            const res = await api 
-            .post('/guardarFecha')
-            .send(serviciosGuardarFechaCorr)
-            expect(res.status)
-            .toBe(200)
-            
-        })
-        test('Caso en donde la fecha es Erronea', async () => {
-            const res = await api 
-            .post('/guardarFecha')
-            .send(serviciosGuardarFechaCorr)
-            expect(res.status)
-            .toBe(501)
-        })
-        test('Caso en donde la ruta es incorrecta', async () => {
-            const res = await api
-            .post('/guardarFeca')
-            .send(serviciosGuardarFechaCorr)
-            expect(res.status)
-            .toBe(404)
-        })
-    })
     describe('Verificamos el servicio modificarFecha', () => {
         test('Caso donde la fecha se modifica correctamente', async() => {
+            let datos = await mostrarFechas()
+            serviciosModificarFechaCorr.FechaID = datos[0].FechaID
             const res = await api
             .put('/modificarFecha')
             .send(serviciosModificarFechaCorr)
@@ -89,6 +100,8 @@ describe('Testeamos las funciones de SERVICIO', () => {
     })
     describe('Verificamos el servicio modificarFecha', () => {
         test('Caso en el cual esta TODO OK', async() => {
+            let datos = await mostrarFechas()
+            serviciosEliminarFechaCorr.FechaID = datos[0].FechaID
             const res = await api 
             .delete('/eliminarFecha')
             .send(serviciosEliminarFechaCorr)
@@ -96,6 +109,7 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(200)
         })
         test('Caso en el cual lanza ERROR', async () => {
+            
             const res = await api
             .delete('/eliminarFecha')
             .send(serviciosEliminarFechaInc)

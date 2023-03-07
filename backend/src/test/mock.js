@@ -1,4 +1,6 @@
 import { formatFecha } from "#Helpers/validaciones.js"
+// import { mostrarFechas } from "#Controller/controller.js"
+
 export const fechaDefault = {
     FechaDia: "2034-04-09",
     FechaDescripcion: "Primera fecha de testing" 
@@ -118,6 +120,7 @@ export const mostrarFechaIdNoExist = {
 export const mostrarFechaIdExist = {
     FechaID: 2030
 }
+
 export const serviciosMostrarFechaCorr = {
     FechaID: 2030
     ,FechaDia: '2035-05-12'
@@ -129,7 +132,7 @@ export const serviciosMostrarFechaIdMal = {
     ,FechaDescripcion: 'Fecha diferente 2 pero ok'
 }
 export const serviciosGuardarFechaCorr = { 
-    FechaDia: "2037-05-19"
+    FechaDia: "2037-05-"
     ,FechaDescripcion: "Fecha AGREGADA por test"
 }
 export const serviciosModificarFechaCorr = { 

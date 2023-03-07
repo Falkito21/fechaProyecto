@@ -93,7 +93,7 @@ export const formatFecha = (fecha) => {
 }
 //Test listo
 export const compararFechas = (fechaUsuario, fechaHoy) => {
-    let fechaValida = moment(fechaUsuario).isAfter(fechaHoy)
+    let fechaValida = moment(new Date(fechaUsuario)).isAfter(new Date(fechaHoy))
     return fechaValida   
 }
 
