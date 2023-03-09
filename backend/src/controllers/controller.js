@@ -2,7 +2,6 @@ import { responderFront} from '#Helpers/helpers.js';
 import { getConection} from '#Config/db.js'
 import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteres, validarEpocaFecha, validarBody, validarDobleEspacios, validarCadaCaracter} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha} from '#Database/querys.js'
-import { clearConfigCache } from 'prettier';
 
 export const servicioMostrarFechas = async (req, res) => {
     try{
@@ -28,7 +27,6 @@ export const servicioMostrarFecha = async (req, res) => {
         responderFront(res, error.codigoRes, error.message)
     }
 }
-
 
 export const mostrarFecha = async (data) => {
     try{

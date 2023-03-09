@@ -29,8 +29,7 @@ export class ErrorSignos extends Error{
 
         this.codigoRes = num
         this.message = 'La descripcion no puede contener signos($%^&&)'
-    }
-    
+    } 
 }
 
 export class ErrorFechaAntigua extends Error {

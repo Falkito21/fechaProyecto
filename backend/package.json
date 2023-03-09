@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "postinstall": "npm run prepare",
     "test": "jest --verbose  --detectOpenHandles",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "cross-env DB_DATABASE=testFechaStore npm run test -- --watch"
   },
   "author": "Juan Falco (https://portafolio-juan-falco.netlify.app/)",
   "license": "MIT",
@@ -26,6 +26,7 @@
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "babel-jest": "^29.4.2",
+    "cross-env": "^7.0.3",
     "eslint": "8.26.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "17.0.0",

@@ -5,13 +5,20 @@ import { formatFecha, validarVacio } from "#Helpers/validaciones.js"
 import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas} from "../controllers/controller.js"
 
 // Mocks
-import {fechaConDescripcionErronea, fechaConFechaAntigua, fechaDescripcionConSignos, fechaModificarConDescNum, fechaModificarDobleEspacios, fechaModificarFechaAnt, fechaModificarIdError, fechaModificarSinDesc, fechaModificarSinDia, fechaRepetida, fechaSinDescripcion, fechaSinDia, fechaAct, fechaModificarFechaRep, idFechaEliminarFechaVacio, idFechaEliminarFechaNoNum, fechaModificarIdNoNum, fechaModificarIdMal, fechaEliminarIdMal, mostrarFechaIdVacio, mostrarFechaIdNoNum, mostrarFechaIdNoExist, mostrarFechaIdExist} from "./mock.js"
+import {fechaConDescripcionErronea, fechaConFechaAntigua, fechaDescripcionConSignos, fechaModificarConDescNum, fechaModificarDobleEspacios, fechaModificarFechaAnt, fechaModificarIdError, fechaModificarSinDesc, fechaModificarSinDia, fechaRepetida, fechaSinDescripcion, fechaSinDia, fechaAct, fechaModificarFechaRep, idFechaEliminarFechaVacio, idFechaEliminarFechaNoNum, fechaModificarIdNoNum, fechaModificarIdMal, fechaEliminarIdMal, mostrarFechaIdVacio, mostrarFechaIdNoNum, mostrarFechaIdNoExist, mostrarFechaIdExist, fechaConDescripcionConDobleEspacios} from "./mock.js"
 
 describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
     
     describe('Verificamos la funcion guardarFecha', () => {
         test('Caso en el cual la descripcion tiene doble espacios', async() => {
-            
+            try {
+                await guardarFecha(fechaConDescripcionConDobleEspacios)
+            } catch (error) {
+                expect(error.codigoRes)
+                .toBe(501)
+                expect(error.message)
+                .toBe('No se permiten dos o mas espacios en blanco juntos')
+            }
         })
         test('Caso en el cual el dia esta mal o vacia', async() => {
             try {

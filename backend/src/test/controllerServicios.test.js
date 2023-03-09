@@ -21,7 +21,6 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .expect(404)
         })
     })
-    
     describe('Verificamos el servicio guardarFecha', () => {
         test('Caso en dode la fecha esta OK', async () => {
             // let dia = Math.random() * (10 - 1) + 1
@@ -30,8 +29,8 @@ describe('Testeamos las funciones de SERVICIO', () => {
              let fechaNew = serviciosGuardarFechaCorr.FechaDia + diaC
              serviciosGuardarFechaCorr.FechaDia = fechaNew
              const res = await api 
-            .post('/guardarFecha')
-            .send(serviciosGuardarFechaCorr)
+             .post('/guardarFecha')
+             .send(serviciosGuardarFechaCorr)
             expect(res.status)
             .toBe(200)
             
@@ -117,7 +116,6 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(501)
         })
     })
-
     afterAll(() => {
         sql.close()
         server.close()
