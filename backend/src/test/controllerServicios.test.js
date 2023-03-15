@@ -4,8 +4,12 @@ import app from "#Config/http.js"
 import {server} from "../index.js"
 const api = supertest(app)
 
-import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaIdMal} from './mock.js'
+import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './mock.js'
 import { mostrarFechas, servicioGuardarFecha } from "../controllers/controller.js"
+
+//! **************************************************
+//! * CORRER DOS VECES PARA VER SI FUNCIONA TODO OK  *
+//! **************************************************
 
 describe('Testeamos las funciones de SERVICIO', () => {
     describe('Verificamos el servicio servicioMostrarFechas', () => {
@@ -25,9 +29,11 @@ describe('Testeamos las funciones de SERVICIO', () => {
         test('Caso en dode la fecha esta OK', async () => {
             // let dia = Math.random() * (10 - 1) + 1
             let dia = new Date().getDate()
-            let diaC = '0' + dia
+            // let diaC = '0' + dia
+            let diaC = dia
              let fechaNew = serviciosGuardarFechaCorr.FechaDia + diaC
              serviciosGuardarFechaCorr.FechaDia = fechaNew
+            //  console.log(fechaNew)
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr)
@@ -68,7 +74,7 @@ describe('Testeamos las funciones de SERVICIO', () => {
         test('Caso en el cual la ruta es incorrecta', async () => {
             await api
             .get('/unaFeca')
-            .send(serviciosMostrarFechaCorr)
+            .send(serviciosMostrarFechaCorr2)
             .expect(404)
         })
     })

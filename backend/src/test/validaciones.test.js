@@ -137,8 +137,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion formatFecha', () => {
         test('Unico caso en el cual devuelve el formato correcto', ()=> {
-            formatFecha('5/2/2022')
-            expect(formatFecha('5/2/2022'))
+            let fechaFormateada = formatFecha('5/2/2022')
+            expect(fechaFormateada)
             .toBe('2022-05-02')
         })
     })

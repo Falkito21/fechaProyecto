@@ -120,9 +120,11 @@ export const mostrarFechaIdNoExist = {
 export const mostrarFechaIdExist = {
     FechaID: 2030
 }
-
+export const serviciosMostrarFechaCorr2 = {
+    FechaID: 1
+}
 export const serviciosMostrarFechaCorr = {
-    FechaID: 2030
+    FechaID: 1
     ,FechaDia: '2035-05-12'
     ,FechaDescripcion: 'Fecha diferente 2 pero ok'
 }

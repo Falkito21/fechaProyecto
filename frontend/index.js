@@ -1,4 +1,4 @@
-const express = require('express')
+import express from 'express'
 const app = express()
 
 app.use(express.static('views'))
@@ -21,6 +21,6 @@ app.get('*', (req, res) => {
     )
 })
 
-PORT = 3200
+const PORT = 3200
 const server = app.listen(PORT, () => console.log('Servidor Express a la escucha en el puerto: ' + PORT))
  server.on('error', error => console.error(`Error al tratar de iniciar el servidor Express en el puerto: ` + PORT + '. EL error es el siguiente: ' + error.message))

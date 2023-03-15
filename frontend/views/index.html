@@ -11,45 +11,44 @@
     <div class="titulo">
     <hr>
 
-    <h1>Fechas Feriado</h1>
+    <h1>Bienvenido!!</h1>
     <hr>
     </div>
     <div class="contenedor">
     <section class="crud">
         <article class="forma">
-            <h2 class="crud-titulo">Agregar Fecha</h2>
-            <form class="crud-form">
+            <h2 class="crud-titulo">Ingrese un Fecha</h2>
+            <form class="crud-form" id="form">
                 <label for="fecha">Fecha: <br>
-                <input type="date" id="fecha" name="fecha" placeholder="Ingrese una fecha..." >
+                <input type="date" id="fecha" name="FechaDia" placeholder="Ingrese una fecha..." >
                 </label>
                 <label for="descripcion">Descripcion: <br>
-                <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion..." >
+                <input id="descripcion" type="text" name="FechaDescripcion" placeholder="Descripcion..." >
                 </label>
-                <input type="submit" class="enviar" id="enviar" value="Enviar">
-                <input type="hidden" id="id" name="id">
+                <input type="submit" class="enviar" id="enviar"  value="Enviar">
             </form>
         </article>
         <article>
             <h2>Ver Fechas</h2>
-            <table class="crud-table">
+            <table class="crud-table" id="crud-table">
                 <thead>
                     <tr>
                         <th>Fecha</th>
                         <th>Descripcion</th>
                         <th>Acciones</th>
                     </tr>
+                  
                 </thead>
-                <tbody>
+                <tbody id = 'cuerpo_tabla'>
+                    <!-- <td class="fecha"></td>
+                    <td class="descripcion"></td> -->
+
                 </tbody>
             </table>
         </article>
     </section>
-    <div id="crud-template">
-
     </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./js/main.js"></script>
 </body>
  </html>
+

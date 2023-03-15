@@ -1,42 +1,114 @@
-const d = document,
-$table = $('.crud-table')
-,$form = $('.crud-form')
-,$btn = $('.enviar')
-,$titulo = $('.crud-titulo')
-,$template = $('.crud-template').content
+// let d = document
+// let dia = d.querySelector('#fecha').value
+// let descripcion = d.querySelector('#descripcion').value
 
+const d = document
+const $inp_fecha = d.querySelector('#fecha')
+const $inp_descripcion = d.querySelector('#descripcion')
+const $btn = d.querySelector('#enviar')
+const $div = d.querySelector('#cuerpo_tabla')
+const $formulario = d.querySelector('#form')
 
-const getFechas = async () => {
+//GET
+
+const recibeInfo = async () => {
     try {
-        let res = await fetch('http://localhost:4100/fechas'),
-        json = await res.json()
-        
-        if(!res.ok) throw {status: res.status, statusText: res.statusText}
-        
-        let listaFechas = json.data        
-        
-        recorrerFechas(listaFechas)
-        
+        const respuesta = await fetch('http://localhost:4100/fechas', {cache:'no-cache'})
+        if(respuesta.ok){
+            const jsonRespuesta = await respuesta.json()
+            muestraResultados(jsonRespuesta.data)
+        }
+    }catch (error) {
+        console.log('Error: ', error)
+     }   
+}
+
+const muestraResultados = (res) => {
+    let fechas = ''
+    res.forEach(e => {
+        let dia = e.FechaDia.substring(0,10)
+        fechas += 
+        `
+        <li>${dia}</li>
+        <li>${e.FechaDescripcion}</li>
+        <button id="editar" data-id = '${e.FechaID}' >Editar</button>
+        <button id="eliminar" data-id = '${e.FechaID}' >Eliminar</button>
+        ` 
+    });
+    $div.innerHTML = fechas
+}
+
+//POST
+const procesarDatos = () => {
+    const datos = new FormData($formulario)
+    const datosProcesados = Object.fromEntries(datos.entries())
+    $formulario.reset()
+    return datosProcesados
+}
+
+$formulario.addEventListener('submit', procesarDatos)
+
+
+const postData = async () => {
+    const newFecha = procesarDatos()
+    console.log(newFecha)
+    console.log('fechaNew: ', newFecha)
+    try {
+        const respuesta = await fetch('http://localhost:4100/guardarFecha', {
+            method: 'POST'
+            ,headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newFecha)
+        })
+        if(Response.ok){
+            const jsonRespuesta = await respuesta.json()
+            console.log('Se guardo: ', jsonRespuesta)
+
+        }
     } catch (error) {
-        console.log('prblema: ', error)
-        let message = error || 'Ocurrio alguito'
-        
+        console.log('Error: ', error``)
     }
 }
 
-const recorrerFechas = (listas) => {
-    listas.map((i) => {
-        let lista = `<ul id='${i.FechaID}'>
-            <li>${i.FechaDia}</li>
-            <li>${i.FechaDescripcion}</li>
-            <button id="editar">Editar</button>
-            <button id="eliminar">Eliminar</button>
-        </ul>`
-        $('#crud-template').append(lista)
-        console.log(lista)
-        lista = ''
-    })
-    return
+
+$btn.addEventListener ('click', async (event) => {
+    event.preventDefault()
+    await postData()
+    await recibeInfo()  
+})
+
+
+d.addEventListener('DOMContentLoaded', recibeInfo)
+
+const deleteData = async () => {
+    // await recibeInfo()
+    let id_btn = btn_eliminar.dataset.id
+    try {
+        const respuesta = await fetch('http://localhost:4100/eliminarFecha', {
+            method: 'DELETE'
+            ,headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newFecha)
+        })
+        if(Response.ok){
+            const jsonRespuesta = await respuesta.json()
+            console.log('Se elimino: ', jsonRespuesta)
+
+        }
+    } catch (error) {
+        console.log('Error: ', error``)
+    }
 }
 
-d.addEventListener('DOMContentLoaded', getFechas);
+const btn_eliminar = d.querySelector('#eliminar')
+
+btn_eliminar.addEventListener('click', (event) => {
+    event.preventDefault()
+    let id_btn = btn_eliminar.dataset.id
+    console.log(id_btn)
+    deleteData(id_btn)
+})
+
+

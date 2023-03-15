@@ -34,7 +34,7 @@ export class ErrorSignos extends Error{
 
 export class ErrorFechaAntigua extends Error {
     constructor(fecha, num){
-        super(num)
+        super(fecha, num)
 
         this.codigoRes = num
         this.message = 'La fecha no puede ser menor o igual a ' + fecha
