@@ -3,8 +3,10 @@
 
         POST - PUT - GET - DELETE
 
-En el mismo con get mostramos las fechas generadas por un usuario a travez de un formulario, por el cual tambien se editan.
-Mostramos las fechas por medio de un template generado en el archivo HTML
+        Se creo y utilizo un controlador del cual se van distribuyendo las demas tareas. 
+        Tambien cuenta con diferentes validaciones para evitar el almacenamiento de datos erroneos.
+        Se realizo la utilizacion de errores y se creo una clase para manejo de errores personalizados.
+        Se realizo testing con jest, tanto unitario como testing integrado.      
 
     Para mas informacion contacteme al mail: juan.falco21@gmail.com
 
