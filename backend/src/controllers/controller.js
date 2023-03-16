@@ -61,6 +61,7 @@ export const guardarFecha = async (data) => {
         validarVacio(fechaDiaBody, 'el dia')
         validarVacio(fechaDescripcionBody, 'la descripcion')
         validarCadaCaracter(fechaDescripcionBody)
+        //a veces hay problemas con formatFecha a la hora de validar EpocaFecha
         validarEpocaFecha(fechaDiaBody)
         validarTipoString(fechaDescripcionBody)
         validarCaracteres(fechaDescripcionBody)
@@ -94,7 +95,7 @@ export const modificarFecha = async (data) => {
         validarVacio(fechaDescripcionBody, 'la descripcion')
         validarCadaCaracter(fechaDescripcionBody)
         validarTipoString(fechaDescripcionBody)
-        validarTipoNumero(fechaIdBody)
+        // validarTipoNumero(fechaIdBody)
         await validarId(fechaIdBody)
         validarEpocaFecha(fechaDiaBody)
         validarCaracteres(fechaDescripcionBody)
@@ -120,7 +121,7 @@ export const eliminarFecha = async (data) => {
     try { 
         let fechaIdBody = data.FechaID
         validarVacio(fechaIdBody, 'id')
-        validarTipoNumero(fechaIdBody)
+        // validarTipoNumero(fechaIdBody)
         await validarId(fechaIdBody)
         const conexionBDD = await getConection()
         await conexionBDD.request().query(deleteFecha(fechaIdBody))        

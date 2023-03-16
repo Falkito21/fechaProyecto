@@ -87,7 +87,7 @@ export const cortarFecha = (unaFecha) => {
 }
 //Test listo
 export const formatFecha = (fecha) => {
-    let fechaH = moment(new Date(fecha)).format()
+    let fechaH = moment(new Date()).format()
     fechaH = cortarFecha(fechaH)
     return fechaH
 }
