@@ -1,55 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api Fechas</title>
+    <link rel="stylesheet" href="./css/fontFamily.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div class="titulo">
-    <hr>
+    <header id="header">
+        <div id="row-container">
+            <div id="colum-container">
+                <div id="header-container">
+                    <div id="icon">
+                        <img src="./assets/miscellaneous.png" alt="">
+                    </div>
+                    <div id="description">
+                        <h4><span lang="zh-Hans">ハハハ、あなたはそれを信じていました</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="pather-container">
+        <div id="row-container">
+            <div id="colum-container">
+                 <div id="form-container">
+                    <div id="title-container">
+                        <hr id="hr1">
+                        <hr id="hr2">
+                        <h3>Bienvenido a nuestra <span>App</span>.</h3>
+                        <hr id="hr1">
+                        <hr id="hr2">
+                    </div>
+                    <form id="form" class="form">
 
-    <h1>Bienvenido!!</h1>
-    <hr>
-    </div>
-    <div class="contenedor">
-    <section class="crud">
-        <article class="forma">
-            <h2 class="crud-titulo">Ingrese un Fecha</h2>
-            <form class="crud-form" id="form">
-                <label for="fecha">Fecha: <br>
-                <input type="date" id="fecha" name="FechaDia" placeholder="Ingrese una fecha..." >
-                </label>
-                <label for="descripcion">Descripcion: <br>
-                <input id="descripcion" type="text" name="FechaDescripcion" placeholder="Descripcion..." >
-                </label>
-                <input type="hidden" name="FechaID" id="input_hidden" value="">
-                <input type="submit" class="enviar" id="enviar"  value="Enviar">
-            </form>
-        </article>
-        <article>
-            <h2>Ver Fechas</h2>
-            <table class="crud-table" id="crud-table">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Descripcion</th>
-                        <th>Acciones</th>
-                    </tr>
-                  
-                </thead>
-                <tbody id = 'cuerpo_tabla'>
-                    <!-- <td class="fecha"></td>
-                    <td class="descripcion"></td> -->
+                        <label for="fecha"><span>Fecha:</span></label>
+                        <input type="date" id="fecha" name="FechaDia" placeholder="Indica una fecha de feriado">
 
-                </tbody>
-            </table>
-        </article>
+                        <label for="descripcion"><span>Descripcion:</span></label>
+                        <textarea name="FechaDescripcion" id="descripcion" placeholder="Escribe el porque es feriado..." cols="30" rows="5"></textarea>
+                        <input type="hidden" id="hidden" data-id="">
+
+                        <input type="submit" value="Enviar" id="enviar" data-editar="" data-id="" data-fecha="" data-descripcion="">
+                        
+                    </form>
+                 </div>
+                 <div id="date-container">
+                    <div id="row-container">
+                        <div id="colum-container">
+                            <div id="date">
+                                <ul id="list-date"></ul>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                    <template id="template">
+                        <div id="row-container">
+                            <div id="colum-container">
+                                <div id="template-container">
+                                    <li>
+                                        <span id="date-template">fecha</span>
+                                    </li>
+                                    <li>
+                                        <span id="description-template">descripcion</span>
+                                    </li>
+                                    <li id="btn-modificar">
+                                        <button id="editar" data-btn="editar">Editar</button>
+                                        <button id="eliminar" data-btn="eliminar">Eliminar</button>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+            </div>
+        </div>
     </section>
-    </div>
-    <script src="./js/main.js"></script>
+    <footer id="footer">
+        <div id="colum-container">
+            <div id="row-container">
+                <div id="footer-container">
+                                        
+                    <div id="description">
+                        <li><p>- Api realizada para un proyecto en la empresa de JPLions en el cual puse en practica todos mis conocimientos obtenidos en dicha empresa.</p></li>
+                    </div>
+                    <div id="dates">
+                        <li><h4>- @JuanAsensio</h4></li>
+                    </div>
+                    <div id="logo">
+                        <img src="./assets/firma-con-boligrafo.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
- </html>
-
+<script src="./js/main.js"></script>
+<script src="./js/validaciones.js"></script>
+<script src="./js/erroresCustom.js"></script>
+</html>
