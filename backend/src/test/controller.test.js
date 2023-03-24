@@ -1,5 +1,6 @@
 //Funciones del validador
 import { formatFecha, validarVacio } from "#Helpers/validaciones.js"
+import fechaRouter from "#Routes/fechas.routes.js"
 
 //Funciones del controlador
 import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas} from "../controllers/controller.js"
@@ -44,7 +45,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             try {
                 await guardarFecha(fechaConFechaAntigua)
             } catch (error) {
-                expect(error.message)
+                expect(error)
                 .toBe('La fecha no puede ser menor o igual a '+ fecha)
                 expect(error.codigoRes)
                 .toBe(501)
@@ -71,10 +72,15 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
         })
         test('Caso en el cual la fecha esta duplicada', async () => {
             try {
-                await guardarFecha(fechaRepetida)
+                let fechaEnBase = await mostrarFechas()
+                let fechaRepetida = {FechaDia:'2037-05-20',
+                    FechaDescripcion:fechaEnBase[0].FechaDescripcion}
+
+                    await guardarFecha(fechaRepetida)
+                    console.log(fechaRepetida)
             } catch (error) {
                 expect(error.message)
-                .toBe('La fecha: '+ fechaRepetida.FechaDia +' YA existe.')
+                .toBe('La fecha: 2037-05-20 YA existe.')
             }
             //tiene sentido enviar una fecha que esta ok?
             //si es asi como hago para que cada vez que hago un test me cambie la fecha??

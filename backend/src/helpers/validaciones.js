@@ -31,12 +31,12 @@ export const validarTipoString = (datos) => {
     if(typeof datos !== 'string'){
         throw new ErrorTipo('La descripcion', 'texto', 501)
     }else{
-        let verificarTexto = validarCadaCaracter(datos)
+        let verificarTexto = validarNumEnTexto(datos)
         return verificarTexto
     }
 }
 //Test listo
-export const validarCadaCaracter = (texto) => {
+export const validarNumEnTexto = (texto) => {
     const NUMEROS = new RegExp("^([^0-9]*)$")
     let noContNum = NUMEROS.test(texto)
     if(!noContNum) throw new ErrorNumeroEnString(501)
@@ -44,11 +44,12 @@ export const validarCadaCaracter = (texto) => {
 }
 //test listo
 export const validarDuplicado = async (datos) => {
+    let data = cortarFecha(datos)
     const conexionBDD = await getConection()
-    const result = await conexionBDD.request().query(verificarDuplicado(datos))
+    const result = await conexionBDD.request().query(verificarDuplicado(data))
     if(result.recordset[0]){
         //caso de que ya exista la fecha en en la BDD
-        throw new ErrorDuplicado(datos, 501)
+        throw new ErrorDuplicado(data, 501) 
     }else{
         return datos
     } 
@@ -62,7 +63,7 @@ export const validarDobleEspacios = (datos) => {
     if(!cumpleCond) return datos
 }
 //Test listo
-export const validarCaracteres = (datos) => {
+export const validarCaracteresConSignos = (datos) => {
     const LETRAS_INPUT = /^[ a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/;
     //cumple condicion
     let cumple = LETRAS_INPUT.test(datos)
@@ -76,18 +77,17 @@ export const validarEpocaFecha = (datos) => {
     let fechaAct = formatFecha(fechaHoy)
     let dataUser = cortarFecha(datos)
     let esMayor = compararFechas(dataUser, fechaAct)
-    
     if(esMayor != true) throw new ErrorFechaAntigua(fechaAct, 501)
     if(esMayor == true) return datos
 }
 
 export const cortarFecha = (unaFecha) => {
-       let fechaCortada = unaFecha.substring(0,10)
+    let fechaCortada = unaFecha.substring(0, 10)
         return fechaCortada
 }
 //Test listo
 export const formatFecha = (fecha) => {
-    let fechaH = moment(new Date()).format()
+    let fechaH = moment(fecha).format()
     fechaH = cortarFecha(fechaH)
     return fechaH
 }

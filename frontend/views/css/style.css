@@ -111,6 +111,26 @@
     box-shadow:rgba(245, 7, 7, 0.5) 3px 1px 15px 3px;
     transition: .5s;
 }
+#date-container #date table{
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+}
+#date-container #date table tr{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+}
+#list-date{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 #footer{
     display: flex;
     width: 100%;
@@ -150,13 +170,20 @@
     /* justify-content: space-between; */
 
 }
-#template-container li{
+#template-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 8rem;
     height: 5rem;
     list-style: none;
     min-width: 100%;
+}
+#template-container #btn-modificar{
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #btn-modificar{
     display: flex;
@@ -164,9 +191,14 @@
     gap: 1rem;
 }
 #btn-modificar button:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
     border: none;
+    padding: 8px;
     border: .5px solid black;
-    border-radius: 1px 5px;
+    border-radius: 5px;
     color: whitesmoke;
     background-color: rgba(94, 84, 84, 0.336);
     box-shadow:rgba(126, 110, 110, 0.336) 3px 1px 15px 3px;
@@ -175,14 +207,24 @@
 #btn-modificar button:first-child:hover{
     border: .5px solid rgba(245, 221, 7, 0.815);
     color: rgba(0, 0, 0, 0.815);
+    font-size: 14px;
     background-color: whitesmoke;
     box-shadow:rgba(245, 221, 7, 0.815) 3px 1px 15px 3px;
     transition: .5s;
 }
+#btn-modificar button:first-child:hover .material-symbols-outlined{
+    color: rgba(245, 221, 7, 0.815);
+    transition: .5s;
+}
 #btn-modificar button:last-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    padding: 8px;
     border: none;
     border: .5px solid black;
-    border-radius: 1px 5px;
+    border-radius: 5px;
     color: whitesmoke;
     background-color: rgba(94, 84, 84, 0.336);
     box-shadow:rgba(126, 110, 110, 0.336) 3px 1px 15px 3px;
@@ -190,8 +232,32 @@
 }
 #btn-modificar button:last-child:hover{
     border: .5px solid rgba(245, 221, 7, 0.815);
+    font-size: 14px;
     color: rgba(0, 0, 0, 0.815);
     background-color: whitesmoke;
     box-shadow:rgba(27, 245, 7, 0.815) 3px 1px 15px 3px;
     transition: .5s;
+}
+#btn-modificar button:last-child:hover .material-symbols-outlined{
+    color: rgba(27, 245, 7, 0.815);
+    transition: .5s;
+}
+#message-container{
+    color: rgb(255, 0, 0);
+    /* border: 1px solid red; */
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-self: flex-end;
+    width: 100%;
+    height: 2rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#message-container #error-message{
+    padding: 1rem;
+    border: 1px solid red;
+    border-radius: 5px;
 }

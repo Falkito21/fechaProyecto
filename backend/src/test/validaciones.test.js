@@ -1,5 +1,5 @@
 import { mostrarFechas } from '../controllers/controller.js'
-import {compararFechas, formatFecha, validarBody, validarCadaCaracter, validarCaracteres, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
+import {compararFechas, formatFecha, validarBody, validarNumEnTexto, validarCaracteresConSignos, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
 import  { fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
 
 describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
@@ -44,8 +44,8 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificacion de la funcion validarDobleEspacios', () => {
         test('Caso de que no contenga un doble espacio la descripcion', () => {
-                validarDobleEspacios(fechaDefault.FechaDescripcion)
-                expect(validarDobleEspacios(fechaDefault.FechaDescripcion))
+                let dobleEspacios = validarDobleEspacios(fechaDefault.FechaDescripcion)
+                expect(dobleEspacios)
                 .toBe('Primera fecha de testing')
         })
         test('Caso de que la descripcion contenga doble espacio', () => {
@@ -62,13 +62,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion validarCadaCaracter', () => {
         test('Caso de que los caracteres de la descripcion esten todos bien', () => {
-            validarCadaCaracter(fechaDefault.FechaDescripcion)
-            expect(validarCadaCaracter(fechaDefault.FechaDescripcion))
+            let cadaCaracter = validarNumEnTexto(fechaDefault.FechaDescripcion)
+            expect(cadaCaracter)
             .toBe(fechaDefault.FechaDescripcion)
         })
         test('Caso donde los caracteres de la descripcion contiene Numeros', () => {
             try {
-                validarCadaCaracter(FechaDescripcionConNumeros.FechaDescripcion)
+                validarNumEnTexto(FechaDescripcionConNumeros.FechaDescripcion)
             } catch (error) {
                 expect(error.codigoRes)
                 .toBe(501)
@@ -96,13 +96,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion validarCaracteres', () => {
         test('Caso de que la descripcion este correctamente', () => {
-            validarCaracteres(fechaDefault.FechaDescripcion)
-            expect(validarCaracteres(fechaDefault.FechaDescripcion))
+            let signosEnDescript = validarCaracteresConSignos(fechaDefault.FechaDescripcion)
+            expect(signosEnDescript)
             .toBe(fechaDefault.FechaDescripcion)
         })
         test('Caso de que la descripcion contenga signos', () => {
             try {
-                validarCaracteres(fechaDescripcionConSignos)
+                validarCaracteresConSignos(fechaDescripcionConSignos)
             } catch (error) {
                 expect(error.codigoRes)
                 .toBe(501)
@@ -217,6 +217,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         })
         test('Caso de que el ID si exista', async () => {
             let data = await mostrarFechas()
+            console.log('id: ', data)
             let id = data[0].FechaID
             let info =  await validarId(id)
             expect(info)

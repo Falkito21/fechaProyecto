@@ -28,6 +28,9 @@ describe('Testeamos las funciones de SERVICIO', () => {
     describe('Verificamos el servicio guardarFecha', () => {
         test('Caso en dode la fecha esta OK', async () => {
             // let dia = Math.random() * (10 - 1) + 1
+            let mes = Math.floor(Math.random()*30)
+            
+            console.log(mes)
             let dia = new Date().getDate()
             // let diaC = '0' + dia
             let diaC = dia

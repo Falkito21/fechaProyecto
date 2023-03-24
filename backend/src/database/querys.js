@@ -4,7 +4,7 @@ import { validarTipoString, validarVacio } from '#Helpers/validaciones.js'
 export const getFechas = () => {
     try{
         let query = ""
-        query += "SELECT FechaID, FechaDescripcion,FechaDia"
+        query += "SELECT FechaID,FechaDescripcion,FechaDia"
         query += " FROM "
         query += " Fechas"
         return query
@@ -25,6 +25,7 @@ export const getFecha = (id) => {
         query += "'" + id +"'"
         return query
     } catch (err) {
+        
         throw err
     }
 }

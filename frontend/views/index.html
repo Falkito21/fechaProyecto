@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Api Fechas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="./css/fontFamily.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -34,24 +35,45 @@
                         <hr id="hr1">
                         <hr id="hr2">
                     </div>
+                    <ul id="message-container">
+                        
+                    </ul>
                     <form id="form" class="form">
 
                         <label for="fecha"><span>Fecha:</span></label>
-                        <input type="date" id="fecha" name="FechaDia" placeholder="Indica una fecha de feriado">
+                        <input type="date" id="fecha"  name="FechaDia" placeholder="Indica una fecha de feriado">
 
                         <label for="descripcion"><span>Descripcion:</span></label>
-                        <textarea name="FechaDescripcion" id="descripcion" placeholder="Escribe el porque es feriado..." cols="30" rows="5"></textarea>
+                        <textarea name="FechaDescripcion"  id="descripcion" placeholder="Escribe el porque es feriado..." cols="30" rows="5"></textarea>
                         <input type="hidden" id="hidden" data-id="">
 
-                        <input type="submit" value="Enviar" id="enviar" data-editar="" data-id="" data-fecha="" data-descripcion="">
+                        <button id="enviar" data-editar="" data-id="" data-fecha="" data-descripcion="">
+                            Enviar
+                        </button>
                         
                     </form>
+                 </div>
+                 <div class="estado-container">
+                    <div id="row-container">
+                        <div id="colum-container">
+                            <h4><span id="estado-respuesta"></span></h4>
+                        </div>
+                    </div>
                  </div>
                  <div id="date-container">
                     <div id="row-container">
                         <div id="colum-container">
                             <div id="date">
-                                <ul id="list-date"></ul>
+                                <table>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripcion</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    <tr id="list-date">
+
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -59,29 +81,52 @@
                     <template id="template">
                         <div id="row-container">
                             <div id="colum-container">
-                                <div id="template-container">
-                                    <li>
+                                <div id="template-container">   
+                                    <td>
                                         <span id="date-template">fecha</span>
-                                    </li>
-                                    <li>
+                                    </td>
+                                    <td>
                                         <span id="description-template">descripcion</span>
-                                    </li>
-                                    <li id="btn-modificar">
-                                        <button id="editar" data-btn="editar">Editar</button>
-                                        <button id="eliminar" data-btn="eliminar">Eliminar</button>
-                                    </li>
+                                    </td>
+                                    <td>
+                                        <li id="btn-modificar">
+                                            <button id="editar" data-btn="editar"><span class="material-symbols-outlined" id="edit">
+                                                edit
+                                                </span></button>
+                                            <button id="eliminar" data-btn="eliminar"><span id="elim" class="material-symbols-outlined">
+                                                delete
+                                                </span></button>
+                                        </li>
+                                    <td>  
                                 </div>
                             </div>
                         </div>
                     </template>
+                    <template id="message-template">
+                        <div id="row-container">
+                            <div id="colum-container">
+                                <div id="message-container">
+                                    <h5><span id="error-message">error de mensaje</span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template id="estado-template">
+                        <div id="row-container">
+                            <div id="colum-container">
+                                <div id="estado-container">
+                                    <h5><span id="estado-resp">estado 200 0 501</span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
-        </div>
     </section>
     <footer id="footer">
         <div id="colum-container">
             <div id="row-container">
-                <div id="footer-container">
-                                        
+                <div id="footer-container">                    
                     <div id="description">
                         <li><p>- Api realizada para un proyecto en la empresa de JPLions en el cual puse en practica todos mis conocimientos obtenidos en dicha empresa.</p></li>
                     </div>
@@ -96,7 +141,7 @@
         </div>
     </footer>
 </body>
-<script src="./js/main.js"></script>
-<script src="./js/validaciones.js"></script>
 <script src="./js/erroresCustom.js"></script>
+<script src="./js/validaciones.js"></script>
+<script src="./js/main.js"></script>
 </html>

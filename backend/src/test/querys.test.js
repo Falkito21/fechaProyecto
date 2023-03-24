@@ -161,7 +161,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
     describe('Validamos la funcion getFechas', () => {
         test('Unico caso en el cual la query este todo OK', () => {
             expect(getFechas())
-            .toBe('SELECT FechaID, FechaDescripcion,FechaDia FROM  Fechas')
+            .toBe('SELECT FechaID,FechaDescripcion,FechaDia FROM  Fechas')
         })
     })
 })

@@ -3,19 +3,19 @@ export const responderFront = async (res,codigoDeRespuesta,datos) => {
     try {
         switch (codigoDeRespuesta) {
             case 200:
-                res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso OK" , "data" : datos});
+                res.status(codigoDeRespuesta).json({"Estado" : codigoDeRespuesta, "Mensaje" : datos});
                 break;
-            case 400:
-                res.status(codigoDeRespuesta).json({ "mensaje" : "Proceso NO HAY RUTA" , "data" : datos});
-                break;
-            case 501:
-                res.status(codigoDeRespuesta).json({ "Mensaje" : "ERROR CAPTURADO" , "data" : datos});
+                case 400:
+                    res.status(codigoDeRespuesta).json({"Estado" : codigoDeRespuesta, "Mensaje" : datos});
+                    break;
+                case 501:
+                    res.status(codigoDeRespuesta).json({"Estado" : codigoDeRespuesta, "Mensaje": datos});
                 break;
             default:
-                res.status(500).json({ "mensaje" : "ERROR INESPERADO " + datos});
+                res.status(500).json({"Estado" : codigoDeRespuesta, "Mensaje" : "ERROR INESPERADO - " + datos});
                 break;
         }
     } catch (err) {
-        console.log(err)
+        console.log('Error en responder front: ',err)
     }
 }
