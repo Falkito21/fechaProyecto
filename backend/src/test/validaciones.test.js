@@ -1,12 +1,13 @@
 import { mostrarFechas } from '../controllers/controller.js'
 import {compararFechas, formatFecha, validarBody, validarNumEnTexto, validarCaracteresConSignos, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
-import  { fechaDefault, fechaSinDescripcion, fechaSinDia, fechaSinCuerpo, fechaConDescripcionErronea, fechaConDescripcionConDobleEspacios, FechaDescripcionConNumeros, fechaDescripcionConSignos }  from '../test/mock.js'
+
+import { conSignos, contieneNum, correcto, dobleEspacios, noDescripcion, noFecha, soloNum, validarBodyVacio } from './validacionesMock.js'
 
 describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     describe('Verificacion de la funcion validarBody', () => {
         test('Caso en el que no contega nada el body', () => {
             try {
-                validarBody(fechaSinCuerpo)
+                validarBody(validarBodyVacio)
             } catch (error) {
                 expect(error.message)
                 .toBe('El BODY no esta recibiendo informacion')
@@ -15,15 +16,15 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             }
         })
         test('Caso en el que el body contiene datos', () => {
-                validarBody(fechaDefault)
-                expect(fechaDefault.FechaDia).toEqual(fechaDefault.FechaDia)
-                expect(fechaDefault.FechaDescripcion).toEqual('Primera fecha de testing')
+                validarBody(correcto)
+                expect(correcto.FechaDia).toEqual(correcto.FechaDia)
+                expect(correcto.FechaDescripcion).toEqual('Primera fecha de testing')
         })
     })
     describe('Verificacion de la funcion validarVacio', () => {
         test('Caso de que no tenga descripcion',() => {
             try {
-                validarVacio(fechaSinDescripcion.FechaDescripcion, 'Fecha descripcion');
+                validarVacio(noDescripcion.FechaDescripcion, 'Fecha descripcion');
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de Fecha descripcion es incorrecto o esta vacio.')
@@ -33,7 +34,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         })
         test('Caso de que no tenga una fecha', () => {
             try {
-                validarVacio(fechaSinDia.FechaDia, 'fecha dia')
+                validarVacio(noFecha.FechaDia, 'fecha dia')
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de fecha dia es incorrecto o esta vacio.')
@@ -44,13 +45,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificacion de la funcion validarDobleEspacios', () => {
         test('Caso de que no contenga un doble espacio la descripcion', () => {
-                let dobleEspacios = validarDobleEspacios(fechaDefault.FechaDescripcion)
+                let dobleEspacios = validarDobleEspacios(correcto.FechaDescripcion)
                 expect(dobleEspacios)
                 .toBe('Primera fecha de testing')
         })
         test('Caso de que la descripcion contenga doble espacio', () => {
             try {
-                validarDobleEspacios(fechaConDescripcionConDobleEspacios.FechaDescripcion)
+                validarDobleEspacios(dobleEspacios.FechaDescripcion)
             } catch (error) {
                 expect(error.message)
                 .toBe('No se permiten dos o mas espacios en blanco juntos')
@@ -62,13 +63,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion validarCadaCaracter', () => {
         test('Caso de que los caracteres de la descripcion esten todos bien', () => {
-            let cadaCaracter = validarNumEnTexto(fechaDefault.FechaDescripcion)
+            let cadaCaracter = validarNumEnTexto(correcto.FechaDescripcion)
             expect(cadaCaracter)
-            .toBe(fechaDefault.FechaDescripcion)
+            .toBe(correcto.FechaDescripcion)
         })
         test('Caso donde los caracteres de la descripcion contiene Numeros', () => {
             try {
-                validarNumEnTexto(FechaDescripcionConNumeros.FechaDescripcion)
+                validarNumEnTexto(contieneNum.FechaDescripcion)
             } catch (error) {
                 expect(error.codigoRes)
                 .toBe(501)
@@ -79,13 +80,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion validarTipoString', () => {
         test('Caso de que la descripcion sea de tipo String', () => {
-            validarTipoString(fechaDefault.FechaDescripcion)
-            expect(validarTipoString(fechaDefault.FechaDescripcion))
-            .toBe(fechaDefault.FechaDescripcion)
+            validarTipoString(correcto.FechaDescripcion)
+            expect(validarTipoString(correcto.FechaDescripcion))
+            .toBe(correcto.FechaDescripcion)
         })
         test('Caso de que la descripcion no sea de tipo String', () => {
             try {
-                validarTipoString(fechaConDescripcionErronea.FechaDescripcion)
+                validarTipoString(soloNum.FechaDescripcion)
             } catch (error) {
                 expect(error.codigoRes)
                 .toBe(501)
@@ -96,13 +97,13 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     })
     describe('Verificamos la funcion validarCaracteres', () => {
         test('Caso de que la descripcion este correctamente', () => {
-            let signosEnDescript = validarCaracteresConSignos(fechaDefault.FechaDescripcion)
+            let signosEnDescript = validarCaracteresConSignos(correcto.FechaDescripcion)
             expect(signosEnDescript)
-            .toBe(fechaDefault.FechaDescripcion)
+            .toBe(correcto.FechaDescripcion)
         })
         test('Caso de que la descripcion contenga signos', () => {
             try {
-                validarCaracteresConSignos(fechaDescripcionConSignos)
+                validarCaracteresConSignos(conSignos)
             } catch (error) {
                 expect(error.codigoRes)
                 .toBe(501)
@@ -114,7 +115,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     describe('Verificamos la funcion compararfechas', () => {
         test('Caso de que la fecha sea mayor a la fecha de hoy', () => {
                 let fechaHoy = new Date()
-                , fechaUser = fechaDefault.FechaDia
+                , fechaUser = correcto.FechaDia
                 compararFechas(fechaUser, fechaHoy)
                 expect(compararFechas(fechaUser, fechaHoy))
                 .toBe(true)
@@ -145,9 +146,9 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
     describe('Verificamos la funcion validarEpocaFecha', () => {
         test('Caso en el cual la fecha es mayor a la actual', () => {
             try {
-                validarEpocaFecha(fechaDefault.FechaDia)
-                expect(validarEpocaFecha(fechaDefault.FechaDia))
-                .toBe(fechaDefault.FechaDia)
+                validarEpocaFecha(correcto.FechaDia)
+                expect(validarEpocaFecha(correcto.FechaDia))
+                .toBe(correcto.FechaDia)
             } catch (error) {
                 console.log(error)
             }
@@ -156,7 +157,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             let fechaHoy = new Date()
             fechaHoy = fechaHoy.toLocaleDateString()
             let fechaAct = formatFecha(fechaHoy)
-
             try {
                 validarEpocaFecha(fechaAct)
             } catch (error) {
@@ -193,15 +193,15 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             }
         })
         test('Caso de que no exista la misma fecha en la base de datos', async () => {
-            await validarDuplicado(fechaDefault.FechaDia)
-            expect(await validarDuplicado(fechaDefault.FechaDia))
-            .toBe(fechaDefault.FechaDia)
+            await validarDuplicado(correcto.FechaDia)
+            expect(await validarDuplicado(correcto.FechaDia))
+            .toBe(correcto.FechaDia)
         })
     })
     describe('Validamos la funcion validarId', () => {
         test('Caso de que el ID sea undefined',async () => {
             try {
-                await validarId(fechaDefault.FechaId)
+                await validarId(correcto.FechaId)
             } catch (error) {
                 expect(error.message)
                 .toBe('El valor de id en verificarId es incorrecto o esta vacio.')
@@ -217,7 +217,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         })
         test('Caso de que el ID si exista', async () => {
             let data = await mostrarFechas()
-            console.log('id: ', data)
             let id = data[0].FechaID
             let info =  await validarId(id)
             expect(info)

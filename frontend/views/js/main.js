@@ -89,7 +89,7 @@ const pintarFechas = () => {
 };
 /**
  * boton que cumple la funcion de eliminar exitosamente con una sutil recarga de pantalla de todo el DOM completo para optimizar la experiencia de usuario
- * @param {Event} e 
+ * @param {Event} 
  */
 
 const procesarDatos = () => {
@@ -102,6 +102,11 @@ const procesarDatos = () => {
     throw error;
   }
 };
+
+/**
+ * #### Funcion que es el punto de conexion para realizar todas las validaciones necesarias en los campos del front
+ * @param {Event}
+*/
 const validarData = async () => {
   try {
       elementoVacio($descriptionInput.value, "descripcion");
@@ -116,6 +121,7 @@ const validarData = async () => {
     throw error;
   }
 };
+
 const btnGuardar = async (e) => {
   const newFecha = procesarDatos();
   try {

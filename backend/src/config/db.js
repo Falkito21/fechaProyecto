@@ -14,13 +14,17 @@ export const dbConfig = {
     ,trustServerCertificate: true
 }
 
-export async function getConection(){
+/** #### Funcion que realiza la conexion a la base de datos con los valores indicados
+ * - Buscando la manera de que realice un begin transaction y commit si todo sale ok 
+ * @param {Event}
+ */ 
+export const getConection = async () => {
     try{
-        const conection = await sql.connect(dbConfig)
+        const conection = new sql.ConnectionPool(dbConfig)
+        await conection.connect()
         return conection
     }catch(error){
         console.log('Error de conexion: ', error);
-        console.log(error)
     }
 }
 export {sql}

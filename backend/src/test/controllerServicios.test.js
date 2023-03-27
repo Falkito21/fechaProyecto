@@ -27,16 +27,11 @@ describe('Testeamos las funciones de SERVICIO', () => {
     })
     describe('Verificamos el servicio guardarFecha', () => {
         test('Caso en dode la fecha esta OK', async () => {
-            // let dia = Math.random() * (10 - 1) + 1
-            let mes = Math.floor(Math.random()*30)
-            
-            console.log(mes)
+            let mes = Math.floor(Math.random()*30)            
             let dia = new Date().getDate()
-            // let diaC = '0' + dia
             let diaC = dia
              let fechaNew = serviciosGuardarFechaCorr.FechaDia + diaC
              serviciosGuardarFechaCorr.FechaDia = fechaNew
-            //  console.log(fechaNew)
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr)

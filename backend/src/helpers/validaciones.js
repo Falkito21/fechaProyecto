@@ -6,7 +6,6 @@ import moment from 'moment'
 export const validarId = async (datos) => {
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarId(datos))
-
     if(!result.recordset[0]) throw new ErrorId(datos, 501)
     if(result.recordset[0].FechaID == datos) return true
 }
@@ -44,6 +43,7 @@ export const validarNumEnTexto = (texto) => {
 }
 //test listo
 export const validarDuplicado = async (datos) => {
+    
     let data = cortarFecha(datos)
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarDuplicado(data))
