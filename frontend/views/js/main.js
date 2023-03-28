@@ -14,6 +14,9 @@ const estadoTemplate = d.querySelector('#estado-template')
 const estadoContainer = d.querySelector('#estado-respuesta')
 let fechaObjetos = [];
 
+/** #### Funcion que trae la informacion del back 
+ * @param {Event}
+ */ 
 const traeData = async () => {
   try {
     const respuesta = await fetch("http://localhost:4100/fechas", {
@@ -27,6 +30,9 @@ const traeData = async () => {
     throw error;
   }
 };
+/** #### Funcion que almacena los datos del formulario en un objeto
+ * @param {Event}
+ */ 
 const agregarFecha = (res) => {
   res.forEach((e) => {
     const fecha = {
@@ -40,7 +46,6 @@ const agregarFecha = (res) => {
   pintarFechas();
 };
 const pintarEstado = async (mensaje) => {
-  console.log(mensaje)
   try {
     estadoContainer.textContent = ''
     const clone = estadoTemplate.content.cloneNode(true)
@@ -53,6 +58,9 @@ const pintarEstado = async (mensaje) => {
     console.log("Error: ", error);
   }
 }
+/** #### Funcion que pinta el mensaje de error
+ * @param {Event}
+ */ 
 const pintarMensaje = async (error) => {
   try {
     messageContainer.textContent = "";
@@ -67,6 +75,9 @@ const pintarMensaje = async (error) => {
     console.log("Error: ", error);
   }
 };
+/** #### Funcion que pinta las fechas en la pantalla del fron
+ * @param {Event}
+ */ 
 const pintarFechas = () => {
     try {
         fechaObjetos.forEach((e) => {
@@ -81,17 +92,15 @@ const pintarFechas = () => {
 
             fragment.appendChild(clone);
         });
-
         $listFechas.appendChild(fragment);
   } catch (error) {
     throw error;
   }
 };
 /**
- * boton que cumple la funcion de eliminar exitosamente con una sutil recarga de pantalla de todo el DOM completo para optimizar la experiencia de usuario
+ * Funcion que retorna los datos que hay en el formulario
  * @param {Event} 
  */
-
 const procesarDatos = () => {
   try {
     const datos = new FormData($form);
@@ -102,7 +111,6 @@ const procesarDatos = () => {
     throw error;
   }
 };
-
 /**
  * #### Funcion que es el punto de conexion para realizar todas las validaciones necesarias en los campos del front
  * @param {Event}
@@ -121,7 +129,9 @@ const validarData = async () => {
     throw error;
   }
 };
-
+/** #### Funcion que guarda los datos indicados, si es que estan correctos
+ * @param {Event}
+ */ 
 const btnGuardar = async (e) => {
   const newFecha = procesarDatos();
   try {
@@ -135,17 +145,18 @@ const btnGuardar = async (e) => {
     if (respuesta.ok) {
       fechaObjetos = []
       traeData()
-    }
-    
-    else{
+    }else{
       let res = await respuesta.json()
       let errorBack = res.Mensaje
       throw new errorFechaRepetida(errorBack)
       }
-    } catch (error) {
-      throw error;
+  } catch (error) {
+    throw error;
   }
 };
+/** #### Funcion que edita un dato determinado 
+ * @param {Event}
+ */ 
 const btnEditar = async (e) => {
   const fechaModificada = procesarDatos();
   fechaModificada.FechaID = parseInt($hiddenInput.value);
@@ -166,6 +177,9 @@ const btnEditar = async (e) => {
     throw error;
   }
 };
+/** #### Funcion que elimina un dato determinado 
+ * @param {Event}
+ */ 
 const btnEliminar = async (e) => {
   try {
     let fechaEliminar = { FechaID: parseInt(e.target.dataset.id) };
@@ -182,12 +196,14 @@ const btnEliminar = async (e) => {
       
       fechaObjetos = []
       traeData()
-}
+    }
   } catch (error) {
     throw error;
   }
 };
-
+/** #### Funcion que determina en si se va a guardar o a editar un dato
+ * @param {Event}
+ */ 
 const eleccion = async (e) => {
   e.preventDefault();
   try {
@@ -202,16 +218,22 @@ const eleccion = async (e) => {
     await pintarMensaje(error.message);    
   }
 };
-
+/** #### Evento de recarga para que muestra los data
+ * @param {Event}
+ */ 
 d.addEventListener("DOMContentLoaded", traeData);
-
+/** #### Evento click para envia datos
+ * @param {Event}
+ */ 
 d.addEventListener("click", (e) => {
   if(e.target.matches('#enviar')){
     e.preventDefault()
     eleccion(e)
   }
 });
-
+/** #### Evento click para eliminar datos
+ * @param {Event}
+ */ 
 d.addEventListener("click", (e) => {
   if (e.target.matches("#elim")) {
     e.preventDefault()

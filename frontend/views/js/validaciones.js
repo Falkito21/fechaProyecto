@@ -37,10 +37,6 @@ const fechaActual = (fecha) => {
     let fechaAct = new Date()
     if(new Date(fecha) <  fechaAct) throw new errorFechaActual(501)
     return fecha
-
-    
-    
-
 }
 // Evitar doble espacios
 const dobleEspacios = (texto) => {
