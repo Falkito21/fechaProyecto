@@ -3,7 +3,9 @@ import { getConection, sql} from '#Config/db.js'
 import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteresConSignos, validarEpocaFecha, validarBody, validarDobleEspacios, validarNumEnTexto} from '#Helpers/validaciones.js'
 import { deleteFecha, getFechas, postFechas, putFecha, getFecha} from '#Database/querys.js'
 
- 
+/** #### Funcion que muestra las fechas 
+ * @param {Event}
+ */  
 export const servicioMostrarFechas = async (req, res) => {
     try{
         let respuesta = await mostrarFechas()
@@ -12,13 +14,17 @@ export const servicioMostrarFechas = async (req, res) => {
         responderFront(res, 400, error.message)
     }
 }
-
+/** #### Funcion que llama a la funcion mostrar fechas 
+ * @param {Event}
+ */  
 export const mostrarFechas = async () => {
         const conexionBDD = await getConection()
         const result = await conexionBDD.request().query(getFechas())
         return result.recordset
 }
-
+/** #### Funcion que llama a mostrar una fecha 
+ * @param {Event}
+ */  
 export const servicioMostrarFecha = async (req, res) => {
     try {
         validarBody(req.body)
@@ -28,13 +34,16 @@ export const servicioMostrarFecha = async (req, res) => {
         responderFront(res, error.codigoRes, error.message)
     }
 }
-
+/** #### Funcion que muestra una fecha en base al id que le indiques 
+ * @param {Event}
+ */  
 export const mostrarFecha = async (data) => {
     const conexionBDD = await getConection()
     let permisoBDD = new sql.Transaction(conexionBDD)
     try{
         await permisoBDD.begin()
         let fechaIdBody = data.FechaID
+
         await validacionesGenerales(fechaIdBody, false, false)
         
         const result = await conexionBDD.request().query(getFecha(fechaIdBody))
@@ -47,7 +56,9 @@ export const mostrarFecha = async (data) => {
         conexionBDD.close()
     }
 }
-
+/** #### Funcion que llama a guardarFecha
+ * @param {Event}
+ */  
 export const servicioGuardarFecha = async (req, res) => {
     try {
         validarBody(req.body)
@@ -57,19 +68,17 @@ export const servicioGuardarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
-//Test listo
-//modularizar mas - puedo poner el codigo de validaciones en otra funcion y pasar los parametros necesarios para que realice la validaciones en una funcion apara, y lugo llamarla
-//Lo mismo con la conexion a la base de datos y a la peticion/query
+/** #### Funcion que guarda la fecha en base al los datos proporcionados: id - fecha - descripcion 
+ * @param {Event}
+ */  
 export const guardarFecha = async (data) => {
     const conexionBDD = await getConection()
     let permisoBDD = new sql.Transaction(conexionBDD)
     try {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
-        //a veces hay problemas con formatFecha a la hora de validar EpocaFecha
         await permisoBDD.begin()
         await validacionesGenerales(false, fechaDiaBody, fechaDescripcionBody)
-        
         await conexionBDD.request().query(postFechas(fechaDiaBody, fechaDescripcionBody))
         await permisoBDD.commit()
     } catch (error) {
@@ -79,7 +88,9 @@ export const guardarFecha = async (data) => {
         await conexionBDD.close()
     }
 }
-
+/** #### Funcion que llama a la funcion modificarFecha
+ * @param {Event}
+ */  
 export const servicioModificarFecha = async (req, res) => {
     try{
         validarBody(req.body)
@@ -89,7 +100,9 @@ export const servicioModificarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
-
+/** #### Funcion que modifica una fecha en base a los datos proporcionados: id - fecha - descripcion
+ * @param {Event}
+ */  
 export const modificarFecha = async (data) => {
     const conexionBDD = await getConection()
     let permisoBDD = new sql.Transaction(conexionBDD)
@@ -98,11 +111,8 @@ export const modificarFecha = async (data) => {
         let fechaIdBody  = data.FechaID
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
-
-
         await validacionesGenerales(fechaIdBody, fechaDiaBody, fechaDescripcionBody)
-        
-        await conexionBDD.request().query(putFecha(fechaIdBody, fechaDiaBody, fechaDescripcionBody))
+        await conexionBDD.request().query(putFecha(fechaIdBody, fechaDiaBody, fechaDescripcionBody, 'evitarValidacion'))
         await permisoBDD.commit()
     } catch (error) {
         await permisoBDD.rollback()
@@ -111,6 +121,9 @@ export const modificarFecha = async (data) => {
         conexionBDD.close()
     }
 }
+/** #### Funcion que llama a eliminarFecha 
+ * @param {Event}
+ */  
 export const servicioEliminarFecha = async (req, res) => {
     try {
         validarBody(req.body)
@@ -120,7 +133,9 @@ export const servicioEliminarFecha = async (req, res) => {
         tipoRespuesta(res, error)
     }
 }
-
+/** #### Funcion que elimina una fecha en base al id que le indicamos  
+ * @param {Event}
+ */  
 export const eliminarFecha = async (data) => {
     const conexionBDD = await getConection()
     let permisoBDD = new sql.Transaction(conexionBDD)
@@ -137,8 +152,10 @@ export const eliminarFecha = async (data) => {
         conexionBDD.close()
     }
 }
-
-const validacionesGenerales = async(id, fecha, descripcion) => {
+/** #### Funcion que realiza las validaciones necesarias para evitar el almacenamiento de datos erroneos 
+ * @param {Event}
+ */  
+const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = false) => {
     try {
         if (id !== false){
             validarVacio(id, 'id')
@@ -156,12 +173,17 @@ const validacionesGenerales = async(id, fecha, descripcion) => {
         if (fecha !== false){
             validarVacio(fecha, 'el dia')
             validarEpocaFecha(fecha)
-            await validarDuplicado(fecha)
+            if(evitaValidacion){
+                await validarDuplicado(fecha)
+            }
         }
     } catch (error) {
         throw error
     }
 }
+/** #### Funcion envia una respuesta al front  
+ * @param {Event}
+ */  
 export const tipoRespuesta = (respuesta, infoError) => {
     if(infoError.codigoRes === 501){
         responderFront(respuesta, infoError.codigoRes, infoError.message)

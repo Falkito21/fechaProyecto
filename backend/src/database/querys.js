@@ -1,6 +1,7 @@
-import { ErrorQuerys } from '#Helpers/erroresCustom.js'
 import { validarTipoString, validarVacio } from '#Helpers/validaciones.js'
-// Test listo
+/** #### Consulta que trae todas las fechas de la BDD
+ * @param {Event}
+ */  
 export const getFechas = () => {
     try{
         let query = ""
@@ -8,11 +9,13 @@ export const getFechas = () => {
         query += " FROM "
         query += " Fechas"
         return query
-    }catch(err){
-        console.log('error en getFechas: ',err)
+    }catch(error){
+        throw error
     }
 }
-//Test listo
+/** #### Consulta que trae una fecha determinada de la BDD
+ * @param {Event}
+ */  
 export const getFecha = (id) => {
     try {
         validarVacio(id, 'id en getFecha')
@@ -24,37 +27,18 @@ export const getFecha = (id) => {
         query += "FechaID = "
         query += "'" + id +"'"
         return query
-    } catch (err) {
-        
-        throw err
+    } catch (error) {
+        throw error
     }
 }
-// NO se usa
-export const getEncontrar = (fecha) => {
-    try{
-        validarVacio(fecha)
-        let query = ""
-        query += "SELECT FechaDia "
-        query += "FROM "
-        query += "Fechas "
-        query += "WHERE "
-        query += "CONVERT( "
-        query += "varchar, "
-        query += "FechaDia, "
-        query += "112) "
-        query += "= '" + fecha + "'"
-        return query
-    }catch(err){
-        console.log('Error en getSoloFecha de la BDD', err)
-    }
-}
-//Test listo 
+/** #### Consulta que almacena los datos en la BDD
+ * @param {Event}
+ */  
 export const postFechas = (dia, descripcion) => {
     try {
         validarVacio(dia, 'postFechas')
         validarVacio(descripcion, 'postFechas')
         validarTipoString(descripcion, 'postFechas')
-
         let query = ""
         query += "insert into Fechas"
         query += " ("
@@ -66,13 +50,14 @@ export const postFechas = (dia, descripcion) => {
         query += "'" + dia + "', "
         query += "'" + descripcion + "'"
         query += ");"
-
         return query
-    } catch (err) {
-        throw err
+    } catch (error) {
+        throw error
     }
 }
-// Test listo 
+/** #### Consulta que elimina los datos de la BDD
+ * @param {Event}
+ */  
 export const deleteFecha = (idFecha) => { 
     try {
         validarVacio(idFecha, 'id en idFecha')
@@ -82,11 +67,13 @@ export const deleteFecha = (idFecha) => {
         query += "'" + idFecha + "'"
         query += ";"
         return query
-    } catch (err) {
-        throw err
+    } catch (error) {
+        throw error
     }
 }
-//Test listo 
+/** #### Consulta que elimina todas las fechas de la, uso escaso (necesario en el test)
+* @param {Event}
+ */  
 export const deleteFechas = () => {
     try {
         let query = ""
@@ -94,12 +81,14 @@ export const deleteFechas = () => {
         query += "FROM Fechas"
         query += ";"
         return query
-    } catch (err) {
-        console.log('Error en deleteFechas de la DBB: ', err)
+    } catch (error) {
+        throw error
     }
 }
 
-// Test listo 
+/** #### Consulta que modifica los datos de la BDD
+ * @param {Event}
+ */  
 export const putFecha = (id, dia, descripcion) => {
     try {
         validarVacio(id, 'id en putFecha')
@@ -112,13 +101,14 @@ export const putFecha = (id, dia, descripcion) => {
         query += " FechaDia = '" + dia + "', "
         query += "FechaDescripcion = '" + descripcion +  "' "
         query += "WHERE fechaID = '" + id + "';"
-
         return query
-    } catch (err) {
-        throw err
+    } catch (error) {
+        throw error
     }
 }
-//test listo 
+/** #### Consulta si verifica si hay un id determinado en la BDD
+ * @param {Event}
+ */  
 export const verificarId = (id) => {
     try {
         validarVacio(id, 'id en verificarId')
@@ -126,13 +116,14 @@ export const verificarId = (id) => {
         query += "SELECT FechaID "
         query += "FROM Fechas "
         query += "WHERE FechaID = '" + id + "';"
-
         return query
-    } catch (err) {
-        throw err
+    } catch (error) {
+        throw error
     }
 }
-//test listo
+/** #### Consulta que trae un datos, si es que existe en la BDD
+ * @param {Event}
+ */  
 export const verificarDuplicado = (fecha) => {
     try{
         validarVacio(fecha, 'fecha en verificarDuplicado')
@@ -140,9 +131,8 @@ export const verificarDuplicado = (fecha) => {
         query += "SELECT FechaDia "
         query += "FROM Fechas "
         query += "WHERE FechaDia = '" + fecha + "';"
-        
         return query
-    }catch(err){
-        throw err
+    }catch(error){
+        throw error
     }
 }

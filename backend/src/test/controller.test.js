@@ -5,7 +5,6 @@ import fechaRouter from "#Routes/fechas.routes.js"
 //Funciones del controlador
 import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas} from "../controllers/controller.js"
 import { contieneNum, correcto, dobleEspacios, idMal, idString, idVacio, noFecha } from "./controllerMock.js"
-import { fechaModificarDobleEspacios, fechaRepetida } from "./mock.js"
 import { conSignos, fechaMenor, noDescripcion, soloNum } from "./validacionesMock.js"
 
 // Mocks

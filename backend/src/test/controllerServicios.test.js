@@ -4,7 +4,7 @@ import app from "#Config/http.js"
 import {server} from "../index.js"
 const api = supertest(app)
 
-import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './mock.js'
+import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './controllerServiciosMock.js'
 import { mostrarFechas, servicioGuardarFecha } from "../controllers/controller.js"
 
 //! **************************************************
