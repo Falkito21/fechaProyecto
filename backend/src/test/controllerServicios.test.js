@@ -4,7 +4,7 @@ import app from "#Config/http.js"
 import {server} from "../index.js"
 const api = supertest(app)
 
-import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './controllerServiciosMock.js'
+import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosGuardarFechaCorr2, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './controllerServiciosMock.js'
 import { mostrarFechas, servicioGuardarFecha } from "../controllers/controller.js"
 
 //! **************************************************
@@ -34,7 +34,7 @@ describe('Testeamos las funciones de SERVICIO', () => {
              serviciosGuardarFechaCorr.FechaDia = fechaNew
              const res = await api 
              .post('/guardarFecha')
-             .send(serviciosGuardarFechaCorr)
+             .send(serviciosGuardarFechaCorr2)
             expect(res.status)
             .toBe(200)
             

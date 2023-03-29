@@ -161,8 +161,7 @@ const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = fa
             validarVacio(id, 'id')
             validarTipoNumero(id)
             await validarId(id)
-        }
-        
+        }        
         if (descripcion !== false){
             validarDobleEspacios(descripcion)
             validarVacio(descripcion, 'la descripcion')

@@ -107,7 +107,11 @@ export const cortarFecha = (unaFecha) => {
  * @param {Event}
  */
 export const formatFecha = (fecha) => {
-    let fechaH = moment(fecha).format()
+    let fechaH
+    if(fecha.length === 7){
+         fechaH = moment(fecha, 'DD/M/YYYY').format()
+    }
+    fechaH = moment(fecha, 'DD/MM/YYYY').format()
     fechaH = cortarFecha(fechaH)
     return fechaH
 }

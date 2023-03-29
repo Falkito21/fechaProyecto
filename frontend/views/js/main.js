@@ -13,7 +13,6 @@ const messageContainer = d.querySelector("#message-container");
 const estadoTemplate = d.querySelector('#estado-template')
 const estadoContainer = d.querySelector('#estado-respuesta')
 let fechaObjetos = [];
-
 /** #### Funcion que trae la informacion del back 
  * @param {Event}
  */ 

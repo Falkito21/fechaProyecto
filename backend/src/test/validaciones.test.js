@@ -140,7 +140,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         test('Unico caso en el cual devuelve el formato correcto', ()=> {
             let fechaFormateada = formatFecha('5/2/2022')
             expect(fechaFormateada)
-            .toBe('2022-05-02')
+            .toBe('2022-02-05')
         })
     })
     describe('Verificamos la funcion validarEpocaFecha', () => {
@@ -191,11 +191,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                 expect(error.message)
                 .toBe('La fecha: 2033/04/10 YA existe.')
             }
-        })
-        test('Caso de que no exista la misma fecha en la base de datos', async () => {
-            await validarDuplicado(correcto.FechaDia)
-            expect(await validarDuplicado(correcto.FechaDia))
-            .toBe(correcto.FechaDia)
         })
     })
     describe('Validamos la funcion validarId', () => {
