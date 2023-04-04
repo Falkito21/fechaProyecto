@@ -276,6 +276,10 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             const fechaEliminar = {
                 FechaID: info[0].FechaID
             }
+            const fechaEliminar2 = {
+                FechaID: info[1].FechaID
+            }
+            await eliminarFecha(fechaEliminar2)
             await eliminarFecha(fechaEliminar)
             expect(200)
         })

@@ -1,13 +1,15 @@
 import { responderFront} from '#Helpers/helpers.js';
-import { getConection, sql} from '#Config/db.js'
 import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteresConSignos, validarEpocaFecha, validarBody, validarDobleEspacios, validarNumEnTexto} from '#Helpers/validaciones.js'
-import { deleteFecha, getFechas, postFechas, putFecha, getFecha} from '#Database/querys.js'
-
+import { fechaRepositories } from './../repositories/repositories.js';
 /** #### Funcion que muestra las fechas 
  * @param {Event}
  */  
 export const servicioMostrarFechas = async (req, res) => {
     try{
+        const {authorization} = req.headers
+        if(!authorization) {
+            throw error
+        }
         let respuesta = await mostrarFechas()
         responderFront(res, 200, respuesta)
     }catch(error){
@@ -18,8 +20,7 @@ export const servicioMostrarFechas = async (req, res) => {
  * @param {Event}
  */  
 export const mostrarFechas = async () => {
-        const conexionBDD = await getConection()
-        const result = await conexionBDD.request().query(getFechas())
+        const result = await fechaRepositories.traerFechas()
         return result.recordset
 }
 /** #### Funcion que llama a mostrar una fecha 
@@ -38,22 +39,13 @@ export const servicioMostrarFecha = async (req, res) => {
  * @param {Event}
  */  
 export const mostrarFecha = async (data) => {
-    const conexionBDD = await getConection()
-    let permisoBDD = new sql.Transaction(conexionBDD)
     try{
-        await permisoBDD.begin()
         let fechaIdBody = data.FechaID
-
         await validacionesGenerales(fechaIdBody, false, false)
-        
-        const result = await conexionBDD.request().query(getFecha(fechaIdBody))
-        await permisoBDD.commit()
+        const result = await fechaRepositories.traerFecha(fechaIdBody)
         return result.recordset 
     }catch(error){  
-        await permisoBDD.rollback()
         throw error
-    } finally{
-        conexionBDD.close()
     }
 }
 /** #### Funcion que llama a guardarFecha
@@ -72,20 +64,13 @@ export const servicioGuardarFecha = async (req, res) => {
  * @param {Event}
  */  
 export const guardarFecha = async (data) => {
-    const conexionBDD = await getConection()
-    let permisoBDD = new sql.Transaction(conexionBDD)
     try {
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
-        await permisoBDD.begin()
-        await validacionesGenerales(false, fechaDiaBody, fechaDescripcionBody)
-        await conexionBDD.request().query(postFechas(fechaDiaBody, fechaDescripcionBody))
-        await permisoBDD.commit()
+        await validacionesGenerales(false, fechaDiaBody, fechaDescripcionBody, false)
+        await fechaRepositories.guardarFechas(fechaDiaBody, fechaDescripcionBody)
     } catch (error) {
-        await permisoBDD.rollback()
         throw error
-    }finally{
-        await conexionBDD.close()
     }
 }
 /** #### Funcion que llama a la funcion modificarFecha
@@ -104,22 +89,15 @@ export const servicioModificarFecha = async (req, res) => {
  * @param {Event}
  */  
 export const modificarFecha = async (data) => {
-    const conexionBDD = await getConection()
-    let permisoBDD = new sql.Transaction(conexionBDD)
     try {
-        await permisoBDD.begin()
         let fechaIdBody  = data.FechaID
         let fechaDiaBody = data.FechaDia
         let fechaDescripcionBody = data.FechaDescripcion
         await validacionesGenerales(fechaIdBody, fechaDiaBody, fechaDescripcionBody)
-        await conexionBDD.request().query(putFecha(fechaIdBody, fechaDiaBody, fechaDescripcionBody, 'evitarValidacion'))
-        await permisoBDD.commit()
+        await fechaRepositories.modificarFechas(fechaIdBody, fechaDiaBody, fechaDescripcionBody)
     } catch (error) {
-        await permisoBDD.rollback()
         throw error
-    } finally{
-        conexionBDD.close()
-    }
+    } 
 }
 /** #### Funcion que llama a eliminarFecha 
  * @param {Event}
@@ -137,31 +115,24 @@ export const servicioEliminarFecha = async (req, res) => {
  * @param {Event}
  */  
 export const eliminarFecha = async (data) => {
-    const conexionBDD = await getConection()
-    let permisoBDD = new sql.Transaction(conexionBDD)
     try { 
-        await permisoBDD.begin()
         let fechaIdBody = data.FechaID
         await validacionesGenerales(fechaIdBody, false, false)
-        await conexionBDD.request().query(deleteFecha(fechaIdBody))        
-        await permisoBDD.commit()
+        await fechaRepositories.eliminarFecha(fechaIdBody)       
     } catch (error) {
-        await permisoBDD.rollback()
         throw error
-    } finally{
-        conexionBDD.close()
     }
 }
 /** #### Funcion que realiza las validaciones necesarias para evitar el almacenamiento de datos erroneos 
  * @param {Event}
  */  
-const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = false) => {
+const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = true) => {
     try {
         if (id !== false){
             validarVacio(id, 'id')
             validarTipoNumero(id)
             await validarId(id)
-        }        
+        }
         if (descripcion !== false){
             validarDobleEspacios(descripcion)
             validarVacio(descripcion, 'la descripcion')
@@ -172,7 +143,7 @@ const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = fa
         if (fecha !== false){
             validarVacio(fecha, 'el dia')
             validarEpocaFecha(fecha)
-            if(evitaValidacion){
+            if(!evitaValidacion){
                 await validarDuplicado(fecha)
             }
         }

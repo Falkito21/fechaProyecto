@@ -1,5 +1,7 @@
 import express, {Router} from 'express'
 import {servicioMostrarFechas, servicioEliminarFecha, servicioGuardarFecha, servicioModificarFecha, servicioMostrarFecha} from '#Controllers/controller.js'
+import { servicioCrearCuenta, servicioInicioSesion } from './../controllers/controllerSesion.js'
+import {validateToken} from './../controllers/controllerSesion.js'
 
 const fechaRouter = Router()
 fechaRouter.use(express.urlencoded({extended: true}))
@@ -10,7 +12,10 @@ fechaRouter.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');
     next(); 
 })
-fechaRouter.get('/fechas', servicioMostrarFechas)
+
+fechaRouter.post('/inicioSesion', servicioInicioSesion)
+fechaRouter.post('/crearCuenta', servicioCrearCuenta)
+fechaRouter.get('/fechas', validateToken, servicioMostrarFechas)
 fechaRouter.get('/unaFecha', servicioMostrarFecha)
 fechaRouter.post('/guardarFecha', servicioGuardarFecha)
 fechaRouter.put('/modificarFecha', servicioModificarFecha)

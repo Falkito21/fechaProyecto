@@ -101,7 +101,7 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(404)
         })
     })
-    describe('Verificamos el servicio modificarFecha', () => {
+    describe('Verificamos el servicio eliminarFecha', () => {
         test('Caso en el cual esta TODO OK', async() => {
             let datos = await mostrarFechas()
             serviciosEliminarFechaCorr.FechaID = datos[0].FechaID

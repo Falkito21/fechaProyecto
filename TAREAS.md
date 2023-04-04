@@ -19,7 +19,8 @@
 
 a saber: extencion JOI - te ayuda a realizar validaciones
 
-================================================================================
+====================================================================================================================================
+
 Si utilizo servicios externos uso AWAIT en caso contrario (llamar funciones del mismo servicio interno) no utilizo AWAIT  <>
 
 sql servicio externo 
@@ -41,4 +42,24 @@ testear distintas posibilidades
 
 validar mensajes que recibe la funcion 
 
-realizar validacion de fecha para que no sea mayor a 60 anios mas que el anio actual
+==================================================================
+==================================================================
+
+- implementar jwt <> -> en proceso -> adelantado / login e inicio de sesion estalecidos => tengo que buscar la manera de conectar el iniicio de sesion con las fechas// creo que la clave es por el lado del formulario.
+
+- re hacer test's <> -> sin empezar
+
+- realizar validacion de fecha para que no sea mayor a 60 anios mas que el anio actual <> -> sin empezar
+ 
+- crear las pantallas de login y create <> -> sin empezar
+
+- realizar validaciones del back del login y create <> -> sin empezar
+
+- realizar validacions del front del login y create <> -> sin empezar
+
+- crear un repositorio local con git <> -> sin empezar 
+
+- dockerizar <> -> sin empezar 
+
+
+
