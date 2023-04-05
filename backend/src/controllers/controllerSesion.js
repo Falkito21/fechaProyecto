@@ -2,7 +2,6 @@ import { getConection, sql } from '#Config/db.js'
 import { responderFront} from '#Helpers/helpers.js';
 import {crearUsuario, getId, getUsuario, getUsuarios, verificarEmail} from '#Database/usuarioQuerys.js'
 import { validarBody } from '#Helpers/validaciones.js'
-import { tipoRespuesta } from './controller.js'
 import { emailEnUso, emailIncorrecto } from './../errors/usuarioErrors.js';
 import jwt from 'jsonwebtoken'
 

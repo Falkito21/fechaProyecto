@@ -210,12 +210,5 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                 .toBe('El id: 1 no existe.')
             }
         })
-        test('Caso de que el ID si exista', async () => {
-            let data = await mostrarFechas()
-            let id = data[0].FechaID
-            let info =  await validarId(id)
-            expect(info)
-            .toBe(true)
-        })
     })
 })

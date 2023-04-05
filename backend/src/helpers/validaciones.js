@@ -1,6 +1,6 @@
 import {verificarId, verificarDuplicado} from '#Database/querys.js'
 import { getConection} from '#Config/db.js'
-import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '#Helpers/erroresCustom.js'
+import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '../errors/erroresCustom.js'
 import moment from 'moment'
 
 /** #### Valida el id, si se encunetra en la base de datos retorna true 

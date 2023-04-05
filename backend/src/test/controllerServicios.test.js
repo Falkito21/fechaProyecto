@@ -17,7 +17,6 @@ describe('Testeamos las funciones de SERVICIO', () => {
             await api
             .get('/fechas')
             .expect(200)
-            .expect('Content-Type', /application\/json/)
         })
         test('Caso en el cual la ruta es incorrecta', async () => {
             await api

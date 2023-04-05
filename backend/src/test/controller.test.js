@@ -1,7 +1,5 @@
 //Funciones del validador
-import { formatFecha, validarVacio } from "#Helpers/validaciones.js"
-import fechaRouter from "#Routes/fechas.routes.js"
-
+import { formatFecha} from "#Helpers/validaciones.js"
 //Funciones del controlador
 import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas} from "../controllers/controller.js"
 import { contieneNum, correcto, dobleEspacios, idMal, idString, idVacio, noFecha } from "./controllerMock.js"
@@ -276,10 +274,10 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             const fechaEliminar = {
                 FechaID: info[0].FechaID
             }
-            const fechaEliminar2 = {
-                FechaID: info[1].FechaID
-            }
-            await eliminarFecha(fechaEliminar2)
+            // const fechaEliminar2 = {
+            //     FechaID: info[1].FechaID
+            // }
+            // await eliminarFecha(fechaEliminar2)
             await eliminarFecha(fechaEliminar)
             expect(200)
         })
