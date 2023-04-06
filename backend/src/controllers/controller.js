@@ -129,26 +129,44 @@ export const eliminarFecha = async (data) => {
 const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = true) => {
     try {
         if (id !== false){
-            validarVacio(id, 'id')
-            validarTipoNumero(id)
-            await validarId(id)
+            await validaId(id)
         }
         if (descripcion !== false){
-            validarDobleEspacios(descripcion)
-            validarVacio(descripcion, 'la descripcion')
-            validarNumEnTexto(descripcion)
-            validarTipoString(descripcion)
-            validarCaracteresConSignos(descripcion)
+            await validarDescripcion(descripcion)
         }
         if (fecha !== false){
-            validarVacio(fecha, 'el dia')
-            validarEpocaFecha(fecha)
-            if(!evitaValidacion){
-                await validarDuplicado(fecha)
-            }
+            await validarFecha(fecha, evitaValidacion)
         }
     } catch (error) {
         throw error
+    }
+}
+/** #### Funcion que realiza las validaciones necesarias al id
+ * @param {Event}
+ */  
+const validaId = async (id) => {
+    validarVacio(id, 'id')
+    validarTipoNumero(id)
+    await validarId(id)
+}
+/** #### Funcion que realiza las validaciones necesarias a la descripcion
+ * @param {Event}
+ */  
+const validarDescripcion = async (descripcion) => {
+    validarDobleEspacios(descripcion)
+    validarVacio(descripcion, 'la descripcion')
+    validarNumEnTexto(descripcion)
+    validarTipoString(descripcion)
+    validarCaracteresConSignos(descripcion)
+}
+/** #### Funcion que realiza las validaciones necesarias a la fecha
+ * @param {Event}
+ */  
+const validarFecha = async (fecha, evitaValidacion = true) => {
+    validarVacio(fecha, 'el dia')
+    validarEpocaFecha(fecha)
+    if(!evitaValidacion){
+        await validarDuplicado(fecha)
     }
 }
 /** #### Funcion envia una respuesta al front  

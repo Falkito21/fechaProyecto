@@ -23,4 +23,24 @@ export const getConection = async () => {
         throw error
     }
 }
+/** #### Funcion que realiza la ejecucion de las querys
+ * - utilizando el transaction, begin, commit y rollback
+ * @param {Event}
+ */ 
+export const ejecutarQuery = async (query) => {
+    const conexionBDD = await getConection()
+    let permisoBDD = new sql.Transaction(conexionBDD)
+    try {
+        await permisoBDD.begin()
+        let result = await conexionBDD.request().query(query)
+        await permisoBDD.commit()
+        return result
+    } catch (error) {
+        await permisoBDD.rollback()
+        throw error
+    } finally {
+        conexionBDD.close()
+    }
+}
+
 export {sql}

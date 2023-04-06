@@ -44,11 +44,10 @@ export const getId = (email, pass) => {
     try {
         let query = ""
         query += "SELECT id from Usuarios WHERE email = "
-        query += "'" + email +"' AND password = " 
-        query += "'" + pass + "';"
+        query += "'" + email +"';"
         return query
     } catch (error) {
-        
+        throw error
     }
 }
 export const getUsuarios = () => {

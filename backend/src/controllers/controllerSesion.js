@@ -4,6 +4,7 @@ import {crearUsuario, getId, getUsuario, getUsuarios, verificarEmail} from '#Dat
 import { validarBody } from '#Helpers/validaciones.js'
 import { emailEnUso, emailIncorrecto } from './../errors/usuarioErrors.js';
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs';
 
 export const servicioCrearCuenta = async(req, res) => {
     try{
@@ -21,14 +22,16 @@ export const crearCuenta = async(req, res) => {
         await permisoBDD.begin()
         // verificacion si se encuentra el mail en la base de datos
         const result = await conexionBDD.request().query(verificarEmail(email))
-
+        console.log(result)
         if(result.recordset[0]){
             throw new emailEnUso(501)
         }
+        const saltos = await bcrypt.genSalt(10)
+        const pwd = await bcrypt.hash(password, saltos)
         // verificacion general de si los usuario escribieron correctamente el mail y la contrasenia 
-        await conexionBDD.request().query(crearUsuario(email, password))
+        await conexionBDD.request().query(crearUsuario(email, pwd))
 
-        const obtenerId = await conexionBDD.request().query(getId(email, password))
+        const obtenerId = await conexionBDD.request().query(getId(email, pwd))
         let id = obtenerId.recordset[0].id
         const user = {id: id}
         const accessToken = generateAccessToken(user)
@@ -59,11 +62,16 @@ export const servicioInicioSesion = async(req, res) => {
 export const inicioSesion = async(req, res) => {
     const {email, password} = req.body
     const conexionBDD = await getConection()
-    const result = await conexionBDD.request().query(getId(email, password))
+    const hash = '$2a$10$0hRiDkj0jy8rW5e5k5J5OuEMvBL8ZjW6.ZOU2HLILJU6xvTX8jwTu';
+    const pwdIgual = bcrypt.compare(password, hash)
+
     
     try{
-        if(!result.recordset[0]){
-            throw new emailIncorrecto(501)
+        if(pwdIgual) {
+            var result = await conexionBDD.request().query(getId(email))
+            if(!result.recordset[0]){
+                throw new emailIncorrecto(501)
+            }
         }    
 
         let id = result.recordset[0].id
