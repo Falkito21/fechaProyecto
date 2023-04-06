@@ -1,5 +1,5 @@
 //Funciones del validador
-import { formatFecha} from "#Helpers/validaciones.js"
+import { formatFecha} from "./../validations/validaciones.js"
 //Funciones del controlador
 import {eliminarFecha, guardarFecha, modificarFecha, mostrarFecha, mostrarFechas} from "../controllers/controller.js"
 import { contieneNum, correcto, dobleEspacios, idMal, idString, idVacio, noFecha } from "./controllerMock.js"

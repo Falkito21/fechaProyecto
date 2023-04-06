@@ -1,6 +1,6 @@
 import { responderFront} from '#Helpers/helpers.js';
-import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteresConSignos, validarEpocaFecha, validarBody, validarDobleEspacios, validarNumEnTexto} from '#Helpers/validaciones.js'
-import { fechaRepositories } from './../repositories/repositories.js';
+import {validarId, validarVacio, validarTipoNumero, validarTipoString, validarDuplicado, validarCaracteresConSignos, validarEpocaFecha, validarBody, validarDobleEspacios, validarNumEnTexto} from './../validations/validaciones.js'
+import { fechaRepositories } from '../helpers/repositories.js';
 /** #### Funcion que muestra las fechas 
  * @param {Event}
  */  
@@ -90,11 +90,9 @@ export const servicioModificarFecha = async (req, res) => {
  */  
 export const modificarFecha = async (data) => {
     try {
-        let fechaIdBody  = data.FechaID
-        let fechaDiaBody = data.FechaDia
-        let fechaDescripcionBody = data.FechaDescripcion
-        await validacionesGenerales(fechaIdBody, fechaDiaBody, fechaDescripcionBody)
-        await fechaRepositories.modificarFechas(fechaIdBody, fechaDiaBody, fechaDescripcionBody)
+        const {FechaID, FechaDia, FechaDescripcion} = data
+        await validacionesGenerales(FechaID, FechaDia, FechaDescripcion)
+        await fechaRepositories.modificarFechas(FechaID, FechaDia, FechaDescripcion)
     } catch (error) {
         throw error
     } 

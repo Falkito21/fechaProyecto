@@ -47,11 +47,9 @@ validar mensajes que recibe la funcion
 
 - implementar jwt <> -> en proceso -> adelantado / login e inicio de sesion estalecidos => tengo que buscar la manera de conectar el iniicio de sesion con las fechas// creo que la clave es por el lado del formulario.
 
-- re hacer test's <> -> sin empezar
-
-- realizar validacion de fecha para que no sea mayor a 60 anios mas que el anio actual <> -> sin empezar
+- re hacer test's <> -> No es necesario 
  
-- crear las pantallas de login y create <> -> sin empezar
+- crear las pantallas de login y create <> -> listo / A medias
 
 - realizar validaciones del back del login y create <> -> sin empezar
 

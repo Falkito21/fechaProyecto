@@ -1,6 +1,5 @@
 import { guardarFecha, mostrarFechas } from '../controllers/controller.js'
-import {compararFechas, formatFecha, validarBody, validarNumEnTexto, validarCaracteresConSignos, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Helpers/validaciones.js'
-
+import {compararFechas, formatFecha, validarBody, validarNumEnTexto, validarCaracteresConSignos, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from './../validations/validaciones.js'
 import { conSignos, contieneNum, correcto, dobleEspacios, noDescripcion, noFecha, soloNum, validarBodyVacio } from './validacionesMock.js'
 
 describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {

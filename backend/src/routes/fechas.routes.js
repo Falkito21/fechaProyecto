@@ -1,7 +1,7 @@
 import express, {Router} from 'express'
 import {servicioMostrarFechas, servicioEliminarFecha, servicioGuardarFecha, servicioModificarFecha, servicioMostrarFecha} from '#Controllers/controller.js'
 import { servicioCrearCuenta, servicioInicioSesion } from './../controllers/controllerSesion.js'
-import {validateToken} from './../controllers/controllerSesion.js'
+import {validateToken} from './../validations/loginCreate.js'
 
 const fechaRouter = Router()
 fechaRouter.use(express.urlencoded({extended: true}))

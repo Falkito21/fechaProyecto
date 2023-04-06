@@ -1,4 +1,4 @@
-import { validarTipoString, validarVacio } from '#Helpers/validaciones.js'
+import { validarTipoString, validarVacio } from './../validations/validaciones.js'
 /** #### Consulta que trae todas las fechas de la BDD
  * @param {Event}
  */  
