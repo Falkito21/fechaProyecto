@@ -42,7 +42,8 @@ export const crearCuenta = async(req, res) => {
 export const servicioInicioSesion = async(req, res) => {
     try{
         const {email, password} = req.body
-        if(!email || !password) return res.sendStatus(400)  
+        console.log('email', email)
+        if(!email || !password) return res.sendStatus(400) 
         const accessToken = await inicioSesion(req, res)
         res.header('authorization', accessToken).json({
             message: 'Usuario Autenticado'

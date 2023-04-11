@@ -60,4 +60,3 @@ validar mensajes que recibe la funcion
 - dockerizar <> -> sin empezar 
 
 
-

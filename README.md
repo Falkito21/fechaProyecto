@@ -11,3 +11,4 @@
     Para mas informacion contacteme al mail: juan.falco21@gmail.com
 
     
+- Tener en cuenta que a la hora de realizar el test, la base de datos del test tiene que estar vacia.

@@ -49,13 +49,20 @@ export const desencryptPass = async(password) => {
 //validador de token's  
 export const validateToken = (req, res, next) => {
     const accessToken = req.headers['authorization'] || req.query.accessToken
-    if(!accessToken) res.send('Access denied')
-    //verificamos el token que recibimos 
-    jwt.verify(accessToken, process.env.TOKEN_SECRET, (err, user) => {
-        if(err) {
-            res.send('Access denied, token expired or incorrect')
-        }else{
-            next()
+    console.log(accessToken)
+    try {
+        if(!accessToken || accessToken === undefined) {
+            res.send('Access denied')
         }
-    })
+        //verificamos el token que recibimos 
+        jwt.verify(accessToken, process.env.TOKEN_SECRET, (err, user) => {
+            if(err) {
+                res.send('Access denied, token expired or incorrect')
+            }else{
+                next()
+            }
+        })
+    } catch (error) {
+        throw error
+    }
 }

@@ -1,34 +1,42 @@
-const d = document;
+const $listFechas = d.querySelector("#list-date");
 const $form = d.querySelector("#form");
 const $dateInput = d.querySelector("#fecha");
 const $descriptionInput = d.querySelector("#descripcion");
 const $sendInput = d.querySelector("#enviar");
 const $hiddenInput = d.querySelector("#hidden");
-const $listFechas = d.querySelector("#list-date");
 const template = d.querySelector("#template");
 const templateMensaje = d.querySelector("#message-template");
-const fragment = d.createDocumentFragment();
 const menssageTemplate = d.querySelector("#message-template");
 const messageContainer = d.querySelector("#message-container");
-const estadoTemplate = d.querySelector('#estado-template')
-const estadoContainer = d.querySelector('#estado-respuesta')
+const estadoTemplate = d.querySelector('#estado-template');
+const estadoContainer = d.querySelector('#estado-respuesta');
+const fragment = d.createDocumentFragment();
 let fechaObjetos = [];
 /** #### Funcion que trae la informacion del back 
  * @param {Event}
  */ 
-const traeData = async () => {
+const traeData = async (token) => {
   try {
     const respuesta = await fetch("http://localhost:4100/fechas", {
-      cache: "no-cache",
+      headers: {
+        cache: "no-cache",
+        "Authorization": token,
+        "Content-Type" : "application/json"
+      }
     });
+    console.log('estamos en traeData: ', respuesta)
     if (respuesta.ok) {
       const jsonRespuesta = await respuesta.json();
       agregarFecha(jsonRespuesta.Mensaje);
     }
+    console.log('jsonRespuesta: ', respuesta)
+
   } catch (error) {
+    console.log('error: ', error)
     throw error;
   }
 };
+
 /** #### Funcion que almacena los datos del formulario en un objeto
  * @param {Event}
  */ 
@@ -39,7 +47,6 @@ const agregarFecha = (res) => {
       fecha: e.FechaDia.substring(0, 10),
       descripcion: e.FechaDescripcion,
     };
-  
     fechaObjetos.push(fecha);
   });
   pintarFechas();
@@ -79,6 +86,7 @@ const pintarMensaje = async (error) => {
  */ 
 const pintarFechas = () => {
     try {
+      console.log('entro en pintarFecha')
         fechaObjetos.forEach((e) => {
             $listFechas.textContent = "";
             const clone = template.content.cloneNode(true);
@@ -88,7 +96,7 @@ const pintarFechas = () => {
             clone.querySelector("#edit").dataset.fecha = e.fecha;
             clone.querySelector("#edit").dataset.descripcion = e.descripcion;
             clone.querySelector("#elim").dataset.id = e.id;
-
+            
             fragment.appendChild(clone);
         });
         $listFechas.appendChild(fragment);
@@ -220,7 +228,7 @@ const eleccion = async (e) => {
 /** #### Evento de recarga para que muestra los data
  * @param {Event}
  */ 
-d.addEventListener("DOMContentLoaded", traeData);
+// d.addEventListener("DOMContentLoaded", traeData());
 /** #### Evento click para envia datos
  * @param {Event}
  */ 
