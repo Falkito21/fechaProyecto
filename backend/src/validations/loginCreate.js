@@ -49,7 +49,6 @@ export const desencryptPass = async(password) => {
 //validador de token's  
 export const validateToken = (req, res, next) => {
     const accessToken = req.headers['authorization'] || req.query.accessToken
-    console.log(accessToken)
     try {
         if(!accessToken || accessToken === undefined) {
             res.send('Access denied')

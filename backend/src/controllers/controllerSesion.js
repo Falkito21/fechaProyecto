@@ -42,13 +42,13 @@ export const crearCuenta = async(req, res) => {
 export const servicioInicioSesion = async(req, res) => {
     try{
         const {email, password} = req.body
-        console.log('email', email)
         if(!email || !password) return res.sendStatus(400) 
         const accessToken = await inicioSesion(req, res)
         res.header('authorization', accessToken).json({
             message: 'Usuario Autenticado'
             ,token: accessToken
         })
+        console.log(accessToken)
     } catch (error) {
         responderFront(res, error.codigoRes, error.message)
     }
@@ -56,7 +56,8 @@ export const servicioInicioSesion = async(req, res) => {
 export const inicioSesion = async(req, res) => {
     const {email, password} = req.body
     try{
-        const Igual = desencryptPass(password)
+        const Igual = await desencryptPass(password)
+        console.log('61 - Igual: ',Igual)
         let result = await loginCreateRepositorio.obtenerId(email, password)
         if(Igual) {
             if(!result.recordset[0]){

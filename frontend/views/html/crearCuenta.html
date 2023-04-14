@@ -7,10 +7,16 @@
     <title>Crear Cuenta</title>
 </head>
 <body>
-     <form action="./../index.html">
-        <input type="email" >
-        <input type="password" name="" id="">
-        <input type="submit" value="Crear Cuenta">
+    <form id="formInicio" class="formInic">
+        <label for="user">Mail de usuario: </label>
+        <input id = "user" name="email" type="email" >
+        <label for="pwd">Password: </label>
+        <input id = "pwd" name= "password" type="password">
+        <button type="submit" id="enviarCrear"> Enviar </button>
      </form>
 </body>
+<script src="./../js/createMain.js"></script>
+<script src="./validations/validaciones.js"></script>
+<script src="./helpers/peticiones.js"></script>
+
 </html>

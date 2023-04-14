@@ -6,8 +6,17 @@ const app = express()
 app.use(express.static(path.join(process.cwd(), 'views')))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.get('/', (req, res) => {
+app.get('/',  (req, res) => {
     res.sendFile(path.join(process.cwd(),'views' ,'inicio.html'))
+})
+app.get('/fechas',  (req, res) => {
+    res.sendFile(path.join(process.cwd(),'views/html' ,'index.html'))
+})
+app.get('/sessionUser',  (req, res) => {
+    res.sendFile(path.join(process.cwd(),'views' ,'inicio.html'))
+})
+app.get('/createUser',  (req, res) => {
+    res.sendFile(path.join(process.cwd(),'views/html' ,'crearCuenta.html'))
 })
 app.get('*', (req, res) => {
     const {method, url} = req

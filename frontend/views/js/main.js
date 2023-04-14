@@ -1,3 +1,7 @@
+const d = document;
+const $formInicio = d.querySelector("#formInicio")
+const $userInput = d.querySelector('#user')
+const $passInput = d.querySelector('#pwd')
 const $listFechas = d.querySelector("#list-date");
 const $form = d.querySelector("#form");
 const $dateInput = d.querySelector("#fecha");
@@ -12,30 +16,6 @@ const estadoTemplate = d.querySelector('#estado-template');
 const estadoContainer = d.querySelector('#estado-respuesta');
 const fragment = d.createDocumentFragment();
 let fechaObjetos = [];
-/** #### Funcion que trae la informacion del back 
- * @param {Event}
- */ 
-const traeData = async (token) => {
-  try {
-    const respuesta = await fetch("http://localhost:4100/fechas", {
-      headers: {
-        cache: "no-cache",
-        "Authorization": token,
-        "Content-Type" : "application/json"
-      }
-    });
-    console.log('estamos en traeData: ', respuesta)
-    if (respuesta.ok) {
-      const jsonRespuesta = await respuesta.json();
-      agregarFecha(jsonRespuesta.Mensaje);
-    }
-    console.log('jsonRespuesta: ', respuesta)
-
-  } catch (error) {
-    console.log('error: ', error)
-    throw error;
-  }
-};
 
 /** #### Funcion que almacena los datos del formulario en un objeto
  * @param {Event}
@@ -86,7 +66,6 @@ const pintarMensaje = async (error) => {
  */ 
 const pintarFechas = () => {
     try {
-      console.log('entro en pintarFecha')
         fechaObjetos.forEach((e) => {
             $listFechas.textContent = "";
             const clone = template.content.cloneNode(true);
@@ -96,7 +75,6 @@ const pintarFechas = () => {
             clone.querySelector("#edit").dataset.fecha = e.fecha;
             clone.querySelector("#edit").dataset.descripcion = e.descripcion;
             clone.querySelector("#elim").dataset.id = e.id;
-            
             fragment.appendChild(clone);
         });
         $listFechas.appendChild(fragment);
@@ -136,78 +114,8 @@ const validarData = async () => {
     throw error;
   }
 };
-/** #### Funcion que guarda los datos indicados, si es que estan correctos
- * @param {Event}
- */ 
-const btnGuardar = async (e) => {
-  const newFecha = procesarDatos();
-  try {
-    const respuesta = await fetch("http://localhost:4100/guardarFecha", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newFecha),
-    });
-    if (respuesta.ok) {
-      fechaObjetos = []
-      traeData()
-    }else{
-      let res = await respuesta.json()
-      let errorBack = res.Mensaje
-      throw new errorFechaRepetida(errorBack)
-      }
-  } catch (error) {
-    throw error;
-  }
-};
-/** #### Funcion que edita un dato determinado 
- * @param {Event}
- */ 
-const btnEditar = async (e) => {
-  const fechaModificada = procesarDatos();
-  fechaModificada.FechaID = parseInt($hiddenInput.value);
-  try {
-    const respuesta = await fetch("http://localhost:4100/modificarFecha", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fechaModificada),
-    });
-    if (respuesta.ok) {
-      //Arreglar problema de recargar fechas
-      fechaObjetos = []
-      traeData()
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-/** #### Funcion que elimina un dato determinado 
- * @param {Event}
- */ 
-const btnEliminar = async (e) => {
-  try {
-    let fechaEliminar = { FechaID: parseInt(e.target.dataset.id) };
-    const respuesta = await fetch("http://localhost:4100/eliminarFecha", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fechaEliminar),
-    });
-    if (respuesta.ok) {
-      $listFechas.innerHTML = ''
-      $listFechas.textContent = ''
-      
-      fechaObjetos = []
-      traeData()
-    }
-  } catch (error) {
-    throw error;
-  }
-};
+
+
 /** #### Funcion que determina en si se va a guardar o a editar un dato
  * @param {Event}
  */ 
@@ -228,7 +136,7 @@ const eleccion = async (e) => {
 /** #### Evento de recarga para que muestra los data
  * @param {Event}
  */ 
-// d.addEventListener("DOMContentLoaded", traeData());
+d.addEventListener("DOMContentLoaded", traeData());
 /** #### Evento click para envia datos
  * @param {Event}
  */ 
@@ -253,3 +161,4 @@ d.addEventListener("click", (e) => {
     $hiddenInput.value = e.target.dataset.id;
   }
 });
+

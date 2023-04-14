@@ -88,13 +88,19 @@ export const validarCaracteresConSignos = (datos) => {
  * @param {Event}
  */
 export const validarEpocaFecha = (datos) => {
-    let fechaActualidad = new Date()
-    let fechaHoy = fechaActualidad.toLocaleDateString()
-    let fechaAct = formatFecha(fechaHoy)
+    let fechaActual = generarFechaActual()
+    let fechaActualConvert = convertirFechaLocaleDateString(fechaActual)
+    let fechaActualFormat = formatFecha(fechaActualConvert)
     let dataUser = cortarFecha(datos)
-    let esMayor = compararFechas(dataUser, fechaAct)
+    let esMayor = compararFechas(dataUser, fechaActualFormat)
     if(esMayor != true) throw new ErrorFechaAntigua(fechaAct, 501)
     if(esMayor == true) return datos
+}
+const generarFechaActual = () => {
+    return new Date()
+}
+const convertirFechaLocaleDateString = (fecha) => {
+    return fecha.toLocaleDateString()
 }
 /** #### Funcion que corta despues de los diez elementos una fecha
  * @param {Event}
@@ -107,11 +113,8 @@ export const cortarFecha = (unaFecha) => {
  * @param {Event}
  */
 export const formatFecha = (fecha) => {
-    let fechaH
-    if(fecha.length === 7){
-         fechaH = moment(fecha, 'DD/M/YYYY').format()
-    }
-    fechaH = moment(fecha, 'DD/MM/YYYY').format()
+    let fechaMoment = moment(fecha)
+    let fechaH = fechaMoment.format()
     fechaH = cortarFecha(fechaH)
     return fechaH
 }
