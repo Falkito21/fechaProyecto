@@ -5,12 +5,25 @@ export const crearUsuario = (email, pass) => {
         query += "("
         query += " email, "
         query += "password"
-        query += ")"
+        query += ") "
         query += "VALUES "
         query += "("
         query += "'" + email + "', "
         query += "'" + pass + "'"
         query += ");"
+        console.log('14 - query : ', query)
+        return query
+    } catch (error) {
+        throw error
+    }
+}
+
+export const traerPassUser = (email) => {
+    try {
+        let query = ""
+        query += "SELECT password "
+        query += "FROM Usuarios "
+        query += "WHERE email = '" + email + "';"
         return query
     } catch (error) {
         throw error

@@ -15,7 +15,7 @@ export const responderFront = async (res,codigoDeRespuesta,datos) => {
                 res.status(codigoDeRespuesta).json({"Estado" : codigoDeRespuesta, "Mensaje": datos});
             break;
             default:
-                res.status(500).json({"Estado" : codigoDeRespuesta, "Mensaje - " : "ERROR INESPERADO - " + datos});
+                res.status(500).json({"Estado" : codigoDeRespuesta, "Mensaje" : "ERROR INESPERADO - " + datos});
             break;
         }
     } catch (error) {

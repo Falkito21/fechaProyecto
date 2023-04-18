@@ -10,7 +10,6 @@ const $sendInput = d.querySelector("#enviar");
 const $hiddenInput = d.querySelector("#hidden");
 const template = d.querySelector("#template");
 const templateMensaje = d.querySelector("#message-template");
-const menssageTemplate = d.querySelector("#message-template");
 const messageContainer = d.querySelector("#message-container");
 const estadoTemplate = d.querySelector('#estado-template');
 const estadoContainer = d.querySelector('#estado-respuesta');
@@ -44,23 +43,7 @@ const pintarEstado = async (mensaje) => {
     console.log("Error: ", error);
   }
 }
-/** #### Funcion que pinta el mensaje de error
- * @param {Event}
- */ 
-const pintarMensaje = async (error) => {
-  try {
-    messageContainer.textContent = "";
-    const clone = templateMensaje.content.cloneNode(true);
-    clone.querySelector("#error-message").textContent = error;
-    fragment.appendChild(clone);
-    messageContainer.appendChild(fragment);
-    setTimeout(() => {
-        messageContainer.textContent = "";
-    }, 4000);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+
 /** #### Funcion que pinta las fechas en la pantalla del fron
  * @param {Event}
  */ 
@@ -130,7 +113,7 @@ const eleccion = async (e) => {
       await btnGuardar(e);
     }
   } catch (error) {
-    await pintarMensaje(error.message);    
+    await pintarMensaje(messageContainer, templateMensaje, "#error-message", error.message);    
   }
 };
 /** #### Evento de recarga para que muestra los data

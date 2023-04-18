@@ -8,6 +8,8 @@ export const getFechas = () => {
         query += "SELECT FechaID,FechaDescripcion,FechaDia"
         query += " FROM "
         query += " Fechas"
+        query += " ORDER BY"
+        query += " FechaDia ASC"
         return query
     }catch(error){
         throw error

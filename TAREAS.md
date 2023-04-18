@@ -45,18 +45,38 @@ validar mensajes que recibe la funcion
 ==================================================================
 ==================================================================
 
-- implementar jwt <> -> en proceso -> adelantado / login e inicio de sesion estalecidos => tengo que buscar la manera de conectar el iniicio de sesion con las fechas// creo que la clave es por el lado del formulario.
-
-- re hacer test's <> -> No es necesario 
+- implementar jwt <> ->  listo
  
-- crear las pantallas de login y create <> -> listo / A medias
+- crear las pantallas de login y create <> -> listo 
 
-- realizar validaciones del back del login y create <> -> sin empezar
+- realizar validaciones del token en back del login y create <> -> listo
 
-- realizar validacions del front del login y create <> -> sin empezar
+- realizar validacions del token en front del login y create <> -> listo
 
+==================================================================
+==================================================================
+
+- validaciones en inicio - front -> &
+- errores en inicio - front -> &
+- funcion pintar mensajes - front  -> &
+- validaciones en create - front -> 
+- errores en create - front -> &
+- funcion pintar mensajes create - front ->  &
+- validaciones en inicio - back -> &
+- validaciones en create - back -> &
+- errores en inicio - back -> &
+- errores en create - back -> &
+- solucionar problema con el guardado de la contrasenia -> &
+
+- crear test de inicio -> 
+- crear test de create -> 
+
+==================================================================
+==================================================================
 - crear un repositorio local con git <> -> sin empezar 
+- dockerizar <> -> sin empezar
 
-- dockerizar <> -> sin empezar 
+
+
 
 

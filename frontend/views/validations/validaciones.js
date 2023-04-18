@@ -1,8 +1,6 @@
 // Caracteres Minimos
 const caracteresMinimos = (texto) => {
-    if(texto.length < 8){
-        throw new errorCaracteresMin(501)
-    }
+    if(texto.length < 8) throw new errorCaracteresMin(501)
     if(texto.lenght > 4) return texto
 }
 // Caracteres Maximos
@@ -19,9 +17,7 @@ const elementoVacio = (datos, ubicacion) =>{
 const numerosEnDescripcion = (texto) => {
     const NUMEROS = new RegExp("^([^0-9]*)$")
     let noContNum = NUMEROS.test(texto)
-    if(!noContNum){
-        throw new errorNumerosEnDescripcion(501)
-    } 
+    if(!noContNum) throw new errorNumerosEnDescripcion(501)
     if(noContNum) return texto
 }
 // Descripcion con signos 

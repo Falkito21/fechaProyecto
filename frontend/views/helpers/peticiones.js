@@ -7,11 +7,39 @@ const iniciarSesion = async (credenciales) => {
             },
             body: JSON.stringify(credenciales)
         })
-        const datos = await respuesta.json()
-        let token = datos.token 
-         //buscar session local storage 
-        window.sessionStorage.setItem("Authorization", token);   
+        if(respuesta.ok){
+          const datos = await respuesta.json()
+          let token = datos.token 
+           //buscar session local storage 
+          window.sessionStorage.setItem("Authorization", token);  
+        } else{
+          let res = await respuesta.json()
+          let errorBack = res.Mensaje
+          throw new incorrecto(errorBack)
+        }
         //Buscar ruta absoluta y ruta relativa
+    } catch (error) {
+      console.log('16 - error: ', error)
+        throw error
+    }
+  }
+  const crearCuenta = async (credenciales) => {
+    try {
+        const respuesta = await fetch('http://localhost:4100/crearCuenta', {
+        method: 'POST'
+        ,headers: {
+            'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify(credenciales)
+    })
+    // desde el if al catch hay codigo repetido -> modificar para usar una misma funcion en los casos que uso el mismo codigo
+      if(respuesta.ok){
+        const datos = await respuesta.json()
+        let token = datos.token
+        window.sessionStorage.setItem("Authorization", token)
+      } else{
+          throw new enUso(501)
+      }
     } catch (error) {
         throw error
     }
@@ -117,7 +145,6 @@ const btnEliminar = async (e) => {
       throw error;
     }
   };
-
   // const peticionFetch = async (data, url) => {
 //   const respuesta = await fetch(url, {
 //     headers: {

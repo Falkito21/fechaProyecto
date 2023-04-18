@@ -113,10 +113,10 @@ export const cortarFecha = (unaFecha) => {
  * @param {Event}
  */
 export const formatFecha = (fecha) => {
-    let fechaMoment = moment(fecha)
-    let fechaH = fechaMoment.format()
-    fechaH = cortarFecha(fechaH)
-    return fechaH
+    let formatosFecha =  ['DD/MM/AAAA', 'D/MM/AAAA', 'DD/M/AAAA']
+    let fechaFormat = moment(fecha, formatosFecha).format()
+    let fechaOk = cortarFecha(fechaFormat)
+    return fechaOk
 }
 /** #### Compara si la fecha es anterior o igual a la fecha actual
  * @param {Event}

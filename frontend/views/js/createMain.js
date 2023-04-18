@@ -2,12 +2,14 @@ const d = document
 const $formInicio = d.querySelector("#formInicio")
 const $userInput = d.querySelector('#user')
 const $passInput = d.querySelector('#pwd')
+const $createTemplate = d.querySelector('#create-template-mensaje')
+const $contentMsjCreate = d.querySelector('#mensaje-container-create')
+const fragment = d.createDocumentFragment()
 
 const procesarData = async() => {
     try {
         const datos = new FormData($formInicio)
         const datosProcesados = Object.fromEntries(datos.entries())
-        $formInicio.reset()
         return datosProcesados
     } catch (error) {
         console.log(error)
@@ -15,32 +17,27 @@ const procesarData = async() => {
     }
   }
 
-  const crearCuenta = async (credenciales) => {
-    try {
-        const respuesta = await fetch('http://localhost:4100/crearCuenta', {
-        method: 'POST'
-        ,headers: {
-            'Content-Type': 'application/json',
-        }, 
-        body: JSON.stringify(credenciales)
-    })
-        const datos = await respuesta.json()
-        let token = datos.token
-        window.sessionStorage.setItem("Authorization", token)
-    } catch (error) {
-        throw error
-    }
-  }
+ 
   const verificarUser = async (e) => {
     e.preventDefault()
     try {
         const user = await procesarData()
+        await verificarDatos(user)
         await crearCuenta(user)
+        $formInicio.reset()
         window.location.replace('/fechas')
+    } catch (error) {
+        pintarMensaje($contentMsjCreate, $createTemplate, "#error-message-create", error.message)
+    }
+  }
+  const verificarDatos = async (datosUser) => {
+    try {
+        const {email, password} = datosUser
+        await emailValidate(email)
+        await passwordValidate(password)
     } catch (error) {
         throw error
     }
-    
   }
   d.addEventListener("click", async (e) => {
     if(e.target.matches("#enviarCrear")){

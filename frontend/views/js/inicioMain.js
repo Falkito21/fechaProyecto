@@ -2,6 +2,9 @@ const d = document
 const $formInicio = d.querySelector("#formInicio")
 const $userInput = d.querySelector('#user')
 const $passInput = d.querySelector('#pwd')
+const $inicioTemplate = d.querySelector('#inicio-template-mensaje')
+const $contentMsjInicio = d.querySelector('#mensaje-container-inicio')
+const fragment = d.createDocumentFragment();
 
 const procesarData = async() => {
     try {
@@ -15,12 +18,13 @@ const procesarData = async() => {
   }
     const verificarUser = async(e) => {
     e.preventDefault()
-    const user = await procesarData()
     try {
+        const user = await procesarData()
+        await validarData(user)
         await iniciarSesion(user)
         window.location.replace('/fechas')
     } catch (error) {
-        throw error
+        pintarMensaje($contentMsjInicio, $inicioTemplate, "#error-message-inicio", error.message)
     }
   }
   
@@ -30,6 +34,16 @@ const procesarData = async() => {
         await verificarUser(e)
     }
   })
+
+  const validarData = async (dataUser) => {
+    try {
+        const {email} = dataUser
+        await emailValidate(email)
+        return dataUser
+    } catch (error) {
+        throw error
+    }
+  }
   
   
   

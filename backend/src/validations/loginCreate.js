@@ -1,3 +1,4 @@
+import { loginCreateRepositorio } from "#Helpers/loginCreateRepositories.js";
 import { formatoEmailIncorrecto, formatoPassIncorrecto } from "./../errors/usuarioErrors.js"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
@@ -5,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 export const validarGmail = async (gmail) => {
     //No supere los límites permitidos (256 caracteres para la dirección completa y 64 caracteres 
-    const regex = /^(?=.{1,256})(?=.{1,64}@)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})$/
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     let cumple = regex.test(gmail)
     if(!cumple) throw new formatoEmailIncorrecto(501)
     if(cumple) return gmail
@@ -28,6 +29,19 @@ export const validarPass = async (pwd) => {
         throw error
     }
 }
+export const validarSiExiste = async (dato, infoPass) => {
+    //si la pwd es true y el datos trae info
+    try {
+        if(infoPass) {
+            if(!dato.recordset[0]){
+                throw new emailIncorrecto(501)
+            }
+        }  
+    } catch (error) {
+        throw error
+    } 
+}
+
 export const encriptPass = async (password) => {
     const saltos = await bcrypt.genSalt(10)
     const pwd = await bcrypt.hash(password, saltos)
@@ -39,9 +53,10 @@ export const generateAccessToken = (user) => {
     return jwt.sign(user, process.env.TOKEN_SECRET, {expiresIn: '6m'})
 }
 
-export const desencryptPass = async(password) => { 
-    let hash = process.env.HASH_DESENCRYPT
-    let pwdIgual = bcrypt.compare(password, hash)
+export const desencryptPass = async(email, password) => { 
+    let data = await loginCreateRepositorio.traerPwd(email)
+    let pwdBDD = data.recordset[0].password
+    let pwdIgual = await bcrypt.compare(password, pwdBDD)
     return pwdIgual
 }
 

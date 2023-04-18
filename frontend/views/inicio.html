@@ -17,9 +17,23 @@
         <input id = "pwd" name= "password" type="password">
         <button type="submit" id="enviarInicio"> Enviar </button>
      </form>
-     <a href="./html/crearCuenta.html">Crear Cuenta</a>
+     <div id="mensaje-container-inicio"></div>
+     <a href="/createUser">Crear Cuenta</a>
+
+     <template id="inicio-template-mensaje">
+        <div id="row-container">
+            <div id="colum-container">
+                <div id="message-container">
+                    <h5><span id="error-message-inicio">error de mensaje</span></h5>
+                </div>
+            </div>
+        </div>
+     </template>
 </body>
-<script src="./validations/validaciones.js"></script>
 <script src="./js/inicioMain.js"></script>
+<script src="./validations/InicioValidations.js"></script>
 <script src="./helpers/peticiones.js"></script>
+<script src="./errors/inicioErrors.js"></script>
+<script src="./../errors/erroresCustom.js"></script>
+<script src="./helpers/helpers.js"></script>
 </html>

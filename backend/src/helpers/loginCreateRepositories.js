@@ -1,10 +1,18 @@
 import { ejecutarQuery } from "#Config/db.js"
-import { crearUsuario, getId, verificarEmail } from "#Database/usuarioQuerys.js"
+import { crearUsuario, getId, verificarEmail, traerPassUser } from "#Database/usuarioQuerys.js"
 
 export class loginCreateRepositorio{
     static checkMail = async (mail) => {
         try {
             let result = await ejecutarQuery(verificarEmail(mail))
+            return result
+        } catch (error) {
+            throw error
+        }
+    }
+    static traerPwd = async (email) => {
+        try {
+            let result = await ejecutarQuery(traerPassUser(email))
             return result
         } catch (error) {
             throw error
