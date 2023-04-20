@@ -6,10 +6,7 @@ const api = supertest(app)
 
 import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosGuardarFechaCorr2, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './controllerServiciosMock.js'
 import { mostrarFechas } from "../controllers/controller.js"
-
-//! **************************************************
-//! * CORRER DOS VECES PARA VER SI FUNCIONA TODO OK  *
-//! **************************************************
+import { datosVacio } from "./controllerSesion.mock.js"
 
 describe('Testeamos las funciones de SERVICIO', () => {
     describe('Verificamos el servicio servicioMostrarFechas', () => {
@@ -26,11 +23,6 @@ describe('Testeamos las funciones de SERVICIO', () => {
     })
     describe('Verificamos el servicio guardarFecha', () => {
         test('Caso en dode la fecha esta OK', async () => {
-            let mes = Math.floor(Math.random()*30)            
-            let dia = new Date().getDate()
-            let diaC = dia
-             let fechaNew = serviciosGuardarFechaCorr.FechaDia + diaC
-             serviciosGuardarFechaCorr.FechaDia = fechaNew
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr2)
@@ -43,7 +35,7 @@ describe('Testeamos las funciones de SERVICIO', () => {
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr)
             expect(res.status)
-            .toBe(501)
+            .toBe(500)
         })
         test('Caso en donde la ruta es incorrecta', async () => {
             const res = await api
@@ -119,8 +111,23 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(501)
         })
     })
+
+    describe('Se verifica el servicio servicioCrearCuenta', () => {
+        test('Caso que no contiene body', async()  => {
+            try {
+                await api 
+                .get('/')
+                .send(datosVacio)
+            } catch (error) {
+                expecto('jlfasfd')
+            }
+
+        })
+    })
+
     afterAll(() => {
         sql.close()
         server.close()
     })
+
 })

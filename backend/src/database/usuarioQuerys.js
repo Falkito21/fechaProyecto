@@ -11,7 +11,6 @@ export const crearUsuario = (email, pass) => {
         query += "'" + email + "', "
         query += "'" + pass + "'"
         query += ");"
-        console.log('14 - query : ', query)
         return query
     } catch (error) {
         throw error

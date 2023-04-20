@@ -26,8 +26,6 @@ export const crearCuenta = async(req, res) => {
             throw new emailEnUso(501)
         }
         let pwd = await encriptPass(password)
-                
-        // verificacion general de si los usuario escribieron correctamente el mail y la contrasenia 
         await loginCreateRepositorio.insertarUsuario(email, pwd)
         const obtenerId = await loginCreateRepositorio.obtenerId(email, pwd)
         let id = obtenerId.recordset[0].id

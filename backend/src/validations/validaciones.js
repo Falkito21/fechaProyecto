@@ -1,7 +1,7 @@
 import {verificarId, verificarDuplicado} from '#Database/querys.js'
 import { getConection} from '#Config/db.js'
 import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '../errors/erroresCustom.js'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 /** #### Valida el id, si se encunetra en la base de datos retorna true 
  * @param {Event}
@@ -93,7 +93,7 @@ export const validarEpocaFecha = (datos) => {
     let fechaActualFormat = formatFecha(fechaActualConvert)
     let dataUser = cortarFecha(datos)
     let esMayor = compararFechas(dataUser, fechaActualFormat)
-    if(esMayor != true) throw new ErrorFechaAntigua(fechaAct, 501)
+    if(esMayor != true) throw new ErrorFechaAntigua(fechaActualFormat, 501)
     if(esMayor == true) return datos
 }
 const generarFechaActual = () => {
@@ -113,8 +113,7 @@ export const cortarFecha = (unaFecha) => {
  * @param {Event}
  */
 export const formatFecha = (fecha) => {
-    let formatosFecha =  ['DD/MM/AAAA', 'D/MM/AAAA', 'DD/M/AAAA']
-    let fechaFormat = moment(fecha, formatosFecha).format()
+    let fechaFormat = dayjs(fecha).format('YYYY/MM/DD')
     let fechaOk = cortarFecha(fechaFormat)
     return fechaOk
 }
@@ -122,7 +121,8 @@ export const formatFecha = (fecha) => {
  * @param {Event}
  */
 export const compararFechas = (fechaUsuario, fechaHoy) => {
-    let fechaValida = moment(new Date(fechaUsuario)).isAfter(new Date(fechaHoy))
+    let fechaUserFormat = formatFecha(fechaUsuario)
+    let fechaValida = dayjs(fechaUserFormat).isAfter(dayjs(fechaHoy))
     return fechaValida   
 }
 /** #### Valida si el cuerpo que resiven los servicios contienen elementos y sus valores 
