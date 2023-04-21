@@ -4,6 +4,24 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 
 
+export const crearDatosUser = async(email, password) => {
+    let resultId = await loginCreateRepositorio.obtenerId(email, password)
+    if(!resultId.recordset[0]){
+        throw new emailIncorrecto(501)
+    }
+    let id = resultId.recordset[0].id
+    let user
+    return user = {id: id}
+}
+
+
+export const crearToken = async (res, tokenUser) => {
+    return res.header('authorization', tokenUser).json({
+        message: 'Usuario  Creado y autenticado'
+        ,token: tokenUser
+    })
+}
+
 export const validarGmail = async (gmail) => {
     console.log('loginCreate - validarGmail')
     try {
@@ -27,18 +45,7 @@ export const validarPass = async (pwd) => {
         throw error
     }
 }
-export const validarSiExiste = async (dato, infoPass) => {
-    console.log('loginCreate - validarSiExiste')
-    try {
-        if(infoPass) {
-            if(!dato.recordset[0]){
-                throw new emailIncorrecto(501)
-            }
-        }  
-    } catch (error) {
-        throw error
-    } 
-}
+
 
 export const encriptPass = async (password) => {
     console.log('loginCreate - encriptPass')

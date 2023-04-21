@@ -3,16 +3,14 @@ import { responderFront} from '#Helpers/helpers.js';
 import { validarBody } from './../validations/validaciones.js'
 import { emailEnUso, emailIncorrecto } from './../errors/usuarioErrors.js';
 import { loginCreateRepositorio } from '#Helpers/loginCreateRepositories.js';
-import { desencryptPass, encriptPass, generateAccessToken, validarSiExiste, validarGmail} from './../validations/loginCreate.js';
+import { desencryptPass, encriptPass, generateAccessToken, validarGmail, crearToken, crearDatosUser} from './../validations/loginCreate.js';
 
 export const servicioCrearCuenta = async(req, res) => {
     try{
+        console.log('10 - req.body', req)
         validarBody(req.body)
         const accessToken = await crearCuenta(req, res)
-        res.header('authorization', accessToken).json({
-            message: 'Usuario  Creado y autenticado'
-            ,token: accessToken
-        })
+        await crearToken(res, accessToken)
     } catch(error) { 
         responderFront(res, error.codigoRes, error.message)
     }
@@ -27,9 +25,7 @@ export const crearCuenta = async(req, res) => {
         }
         let pwd = await encriptPass(password)
         await loginCreateRepositorio.insertarUsuario(email, pwd)
-        const obtenerId = await loginCreateRepositorio.obtenerId(email, pwd)
-        let id = obtenerId.recordset[0].id
-        const user = {id: id}
+        let user = await crearDatosUser(email, pwd)
         return generateAccessToken(user)
     }catch(error){
         throw error
@@ -41,10 +37,7 @@ export const servicioInicioSesion = async(req, res) => {
         validarBody(req.body)
         const {email, password} = req.body
         const accessToken = await inicioSesion(email, password)
-        res.header('authorization', accessToken).json({
-            message: 'Usuario Autenticado'
-            ,token: accessToken
-        })
+        await crearToken(res, accessToken)
     } catch (error) {
         responderFront(res, error.codigoRes, error.message)
     }
@@ -54,10 +47,7 @@ export const inicioSesion = async(emailUser, passwordUser) => {
         await validarGmail(emailUser) 
         const igual = await desencryptPass(emailUser, passwordUser)
         if(!igual) throw new emailIncorrecto(501)
-        let result = await loginCreateRepositorio.obtenerId(emailUser, passwordUser)
-        await validarSiExiste(result, igual)
-        let id = result.recordset[0].id
-        const user = {id : id}
+        let user = await crearDatosUser(emailUser, passwordUser)
         return generateAccessToken(user)
     } catch(error) {
         throw error

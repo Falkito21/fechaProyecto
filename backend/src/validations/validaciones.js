@@ -129,7 +129,8 @@ export const compararFechas = (fechaUsuario, fechaHoy) => {
  * @param {Event}
  */
 export const validarBody = (info) => {
-    if(Object.keys(info).length === 0){
+    console.log('info: ', info)
+    if(Object.keys(info).length === 0 ||info === undefined){
         throw new ErrorBody(501)
     }
     return info
