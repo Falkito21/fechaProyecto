@@ -161,10 +161,14 @@ const validarDescripcion = async (descripcion) => {
  * @param {Event}
  */  
 const validarFecha = async (fecha, evitaValidacion = true) => {
-    validarVacio(fecha, 'el dia')
-    validarEpocaFecha(fecha)
-    if(!evitaValidacion){
-        await validarDuplicado(fecha)
+    try {
+        validarVacio(fecha, 'el dia')
+        validarEpocaFecha(fecha)
+        if(!evitaValidacion){
+            await validarDuplicado(fecha)
+        }
+    } catch (error) {
+        throw error
     }
 }
 /** #### Funcion envia una respuesta al front  

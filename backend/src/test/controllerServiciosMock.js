@@ -12,7 +12,7 @@ export const serviciosMostrarFechaIdMal = {
     ,FechaDescripcion: 'Fecha diferente 2 pero ok'
 }
 export const serviciosGuardarFechaCorr = { 
-    FechaDia: "2037-05-213"
+    FechaDia: "2037-05-"
     ,FechaDescripcion: "Fecha AGREGADA por test"
 }
 export const serviciosGuardarFechaCorr2 = { 

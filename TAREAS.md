@@ -46,8 +46,13 @@ validar mensajes que recibe la funcion
 
 - En compararFechas esta el problema
 
-- crear test de inicio -> 
-- crear test de create -> 
+- crear test de create -> <>
+- crear funcion que elimine cuenta -> sin empezar 
+- crear test de inicio -> a mitad
+
+- crear btn para cerrar sesion 
+- guardar token en bdd
+- funcion que actualice el token si ya tiene uno en bdd
 ==================================================================
 =================================================================
 - crear un repositorio local con git <> -> sin empezar 

@@ -2,6 +2,7 @@ import { loginCreateRepositorio } from "#Helpers/loginCreateRepositories.js";
 import { formatoEmailIncorrecto, formatoPassIncorrecto } from "./../errors/usuarioErrors.js"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
+import { validarVacio } from "./validaciones.js";
 
 
 export const crearDatosUser = async(email, password) => {
@@ -23,7 +24,6 @@ export const crearToken = async (res, tokenUser) => {
 }
 
 export const validarGmail = async (gmail) => {
-    console.log('loginCreate - validarGmail')
     try {
         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         let cumple = regex.test(gmail)
@@ -35,12 +35,13 @@ export const validarGmail = async (gmail) => {
 }
 
 export const validarPass = async (pwd) => { 
-    console.log('loginCreate - validarPass')
     try{
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    let cumple = regex.test(pwd)
-    if(!cumple) throw new formatoPassIncorrecto(501)
-    if(cumple) return pwd
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        let cumple = regex.test(pwd)
+        if(!cumple){
+            throw new formatoPassIncorrecto(501)
+        } 
+        if(cumple) return pwd
     } catch(error) {
         throw error
     }
@@ -48,7 +49,6 @@ export const validarPass = async (pwd) => {
 
 
 export const encriptPass = async (password) => {
-    console.log('loginCreate - encriptPass')
     try {
         const saltos = await bcrypt.genSalt(10)
         const pwd = await bcrypt.hash(password, saltos)
@@ -60,7 +60,6 @@ export const encriptPass = async (password) => {
 
 //generador de token's
 export const generateAccessToken = (user) => {
-    console.log('loginCreate - generateAccessToken')
     try {
         return jwt.sign(user, process.env.TOKEN_SECRET, {expiresIn: '24h'})
     } catch (error) {
@@ -69,7 +68,6 @@ export const generateAccessToken = (user) => {
 }
 
 export const desencryptPass = async(email, password) => { 
-    console.log('loginCreate - desencryptPass')
     try {
         let data = await loginCreateRepositorio.traerPwd(email)
         let pwdBDD = data.recordset[0].password
@@ -83,7 +81,6 @@ export const desencryptPass = async(email, password) => {
 
 //validador de token's  
 export const validateToken = (req, res, next) => {
-    console.log('loginCreate - validateToken')
     const accessToken = req.headers['authorization'] || req.query.accessToken
     try {
         if(!accessToken || accessToken === undefined) {
@@ -97,6 +94,17 @@ export const validateToken = (req, res, next) => {
                 next()
             }
         })
+    } catch (error) {
+        throw error
+    }
+}
+
+export const validacionesGenericas = async (emailUser, passwordUser) => {
+    try {
+        await validarVacio(emailUser, 'email')
+        await validarVacio(passwordUser, 'password')
+        await validarGmail(emailUser)
+        await validarPass(passwordUser)
     } catch (error) {
         throw error
     }

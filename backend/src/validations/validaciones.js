@@ -3,6 +3,7 @@ import { getConection} from '#Config/db.js'
 import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios} from '../errors/erroresCustom.js'
 import dayjs from 'dayjs'
 
+
 /** #### Valida el id, si se encunetra en la base de datos retorna true 
  * @param {Event}
  */  
@@ -56,7 +57,7 @@ export const validarNumEnTexto = (texto) => {
  * @param {Event}
  */
 export const validarDuplicado = async (datos) => {
-    let data = cortarFecha(datos)
+    let data = formatFecha(datos)
     const conexionBDD = await getConection()
     const result = await conexionBDD.request().query(verificarDuplicado(data))
     if(result.recordset[0]){
@@ -88,49 +89,39 @@ export const validarCaracteresConSignos = (datos) => {
  * @param {Event}
  */
 export const validarEpocaFecha = (datos) => {
-    let fechaActual = generarFechaActual()
-    let fechaActualConvert = convertirFechaLocaleDateString(fechaActual)
-    let fechaActualFormat = formatFecha(fechaActualConvert)
-    let dataUser = cortarFecha(datos)
+    let fechaActual = new Date()
+    let fechaActualFormat = formatFecha(fechaActual)
+    let dataUser = formatFecha(datos)
     let esMayor = compararFechas(dataUser, fechaActualFormat)
     if(esMayor != true) throw new ErrorFechaAntigua(fechaActualFormat, 501)
     if(esMayor == true) return datos
 }
-const generarFechaActual = () => {
-    return new Date()
-}
-const convertirFechaLocaleDateString = (fecha) => {
-    return fecha.toLocaleDateString()
-}
+
 /** #### Funcion que corta despues de los diez elementos una fecha
  * @param {Event}
  */
-export const cortarFecha = (unaFecha) => {
-    let fechaCortada = unaFecha.substring(0, 10)
-        return fechaCortada
-}
+
 /** #### Formatea la fecha a un formato mas adecuado 
  * @param {Event}
  */
 export const formatFecha = (fecha) => {
     let fechaFormat = dayjs(fecha).format('YYYY/MM/DD')
-    let fechaOk = cortarFecha(fechaFormat)
-    return fechaOk
+    return fechaFormat
 }
+
 /** #### Compara si la fecha es anterior o igual a la fecha actual
  * @param {Event}
  */
 export const compararFechas = (fechaUsuario, fechaHoy) => {
-    let fechaUserFormat = formatFecha(fechaUsuario)
-    let fechaValida = dayjs(fechaUserFormat).isAfter(dayjs(fechaHoy))
+    let fechaValida = dayjs(fechaUsuario).isAfter(dayjs(fechaHoy))
     return fechaValida   
 }
+
 /** #### Valida si el cuerpo que resiven los servicios contienen elementos y sus valores 
  * @param {Event}
  */
 export const validarBody = (info) => {
-    console.log('info: ', info)
-    if(Object.keys(info).length === 0 ||info === undefined){
+    if(Object.keys(info).length === 0){
         throw new ErrorBody(501)
     }
     return info

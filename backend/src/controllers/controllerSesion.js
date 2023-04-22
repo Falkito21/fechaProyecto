@@ -1,13 +1,12 @@
 import { getConection, sql } from '#Config/db.js'
 import { responderFront} from '#Helpers/helpers.js';
-import { validarBody } from './../validations/validaciones.js'
+import { validarBody, validarVacio } from './../validations/validaciones.js'
 import { emailEnUso, emailIncorrecto } from './../errors/usuarioErrors.js';
 import { loginCreateRepositorio } from '#Helpers/loginCreateRepositories.js';
-import { desencryptPass, encriptPass, generateAccessToken, validarGmail, crearToken, crearDatosUser} from './../validations/loginCreate.js';
+import { desencryptPass, encriptPass, generateAccessToken, validarGmail, crearToken, crearDatosUser, validarPass, validacionesGenericas} from './../validations/loginCreate.js';
 
 export const servicioCrearCuenta = async(req, res) => {
     try{
-        console.log('10 - req.body', req)
         validarBody(req.body)
         const accessToken = await crearCuenta(req, res)
         await crearToken(res, accessToken)
@@ -18,6 +17,7 @@ export const servicioCrearCuenta = async(req, res) => {
 export const crearCuenta = async(req, res) => {
     const {email, password} = req.body
     try{
+        await validacionesGenericas(email, password)
         // verificacion si se encuentra el mail en la base de datos
         const result = await loginCreateRepositorio.checkMail(email)
         if(result.recordset[0]){
@@ -44,7 +44,7 @@ export const servicioInicioSesion = async(req, res) => {
 }
 export const inicioSesion = async(emailUser, passwordUser) => {
     try{
-        await validarGmail(emailUser) 
+         await validacionesGenericas(emailUser, passwordUser)
         const igual = await desencryptPass(emailUser, passwordUser)
         if(!igual) throw new emailIncorrecto(501)
         let user = await crearDatosUser(emailUser, passwordUser)

@@ -154,7 +154,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         })
         test('Caso en el cual la fecha es igual a la actual', () => {
             let fechaHoy = new Date()
-            fechaHoy = fechaHoy.toLocaleDateString()
             let fechaAct = formatFecha(fechaHoy)
             try {
                 validarEpocaFecha(fechaAct)
@@ -167,7 +166,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
         })
         test('Caso en el cual la fecha es menor a la actual', () => {
             let fechaHoy = new Date()
-            fechaHoy = fechaHoy.toLocaleDateString()
             let fechaAct = formatFecha(fechaHoy)
             let fechaUser = '2020-12-01'
             try {

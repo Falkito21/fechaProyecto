@@ -41,7 +41,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
                 .toBe(501)            }
         })
         test('Caso en el cual la fecha es menor a la fecha del dia actual', async() => {
-            let fecha = formatFecha(new Date().toLocaleString())
+            let fecha = formatFecha(new Date())
             try {
                 await guardarFecha(fechaMenor)
             } catch (error) {
@@ -75,11 +75,12 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             expect(200)
         })
         test('Caso en el cual la fecha esta duplicada', async () => {
+            let fecha = formatFecha(correcto.FechaDia)
             try {
                     await guardarFecha(correcto)
             } catch (error) {
                 expect(error.message)
-                .toBe('La fecha: '+ correcto.FechaDia + ' YA existe.')
+                .toBe('La fecha: '+ fecha + ' YA existe.')
             }
             //tiene sentido enviar una fecha que esta ok?
             //si es asi como hago para que cada vez que hago un test me cambie la fecha??
@@ -221,7 +222,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
                 }
             })
             test('Caso en el el cual la fecha es antigua', async () => {
-                let fechaAct = new Date().toLocaleDateString()
+                let fechaAct = new Date()
                 let fechaHoy = formatFecha(fechaAct)
                 const info = await mostrarFechas()
                 correcto['FechaID'] = info[0].FechaID
