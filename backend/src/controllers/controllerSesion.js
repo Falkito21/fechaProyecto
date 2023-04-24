@@ -3,7 +3,7 @@ import { responderFront} from '#Helpers/helpers.js';
 import { validarBody, validarVacio } from './../validations/validaciones.js'
 import { emailEnUso, emailIncorrecto } from './../errors/usuarioErrors.js';
 import { loginCreateRepositorio } from '#Helpers/loginCreateRepositories.js';
-import { desencryptPass, encriptPass, generateAccessToken, validarGmail, crearToken, crearDatosUser, validarPass, validacionesGenericas} from './../validations/loginCreate.js';
+import { desencryptPass, encriptPass, generateAccessToken, validarGmail, crearToken, crearDatosUser, validarPass, validacionesGenericas, validacionesId} from './../validations/loginCreate.js';
 
 export const servicioCrearCuenta = async(req, res) => {
     try{
@@ -14,11 +14,10 @@ export const servicioCrearCuenta = async(req, res) => {
         responderFront(res, error.codigoRes, error.message)
     }
 }
-export const crearCuenta = async(req, res) => {
+const crearCuenta = async(req, res) => {
     const {email, password} = req.body
     try{
         await validacionesGenericas(email, password)
-        // verificacion si se encuentra el mail en la base de datos
         const result = await loginCreateRepositorio.checkMail(email)
         if(result.recordset[0]){
             throw new emailEnUso(501)
@@ -42,7 +41,7 @@ export const servicioInicioSesion = async(req, res) => {
         responderFront(res, error.codigoRes, error.message)
     }
 }
-export const inicioSesion = async(emailUser, passwordUser) => {
+const inicioSesion = async(emailUser, passwordUser) => {
     try{
          await validacionesGenericas(emailUser, passwordUser)
         const igual = await desencryptPass(emailUser, passwordUser)
@@ -53,3 +52,23 @@ export const inicioSesion = async(emailUser, passwordUser) => {
         throw error
     }
 }
+
+export const servicioEliminarCuenta = async(req, res) => {
+    try {
+        validarBody(req.body)
+        const {id} = req.body
+        await eliminarCuenta(id)
+        responderFront(res, 200, 'Usuario Eliminado Correctamente')
+    } catch (error) {
+        responderFront(res, error.codigoRes, error.message)
+    }
+}
+const eliminarCuenta = async(idUser) => {
+    try {
+        await validacionesId(idUser)
+        await loginCreateRepositorio.eliminarCuenta(idUser)
+    } catch (error) {
+        throw error
+    }
+}
+

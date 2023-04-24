@@ -1,19 +1,17 @@
 import { ejecutarQuery } from "#Config/db.js"
-import { crearUsuario, getId, verificarEmail, traerPassUser } from "#Database/usuarioQuerys.js"
+import { crearUsuario, getId, verificarEmail, traerPassUser, deleteUsuario, verificarIdUser } from "#Database/usuarioQuerys.js"
 
 export class loginCreateRepositorio{
     static checkMail = async (mail) => {
         try {
-            let result = await ejecutarQuery(verificarEmail(mail))
-            return result
+            return await ejecutarQuery(verificarEmail(mail))
         } catch (error) {
             throw error
         }
     }
     static traerPwd = async (email) => {
         try {
-            let result = await ejecutarQuery(traerPassUser(email))
-            return result
+            return await ejecutarQuery(traerPassUser(email))
         } catch (error) {
             throw error
         }
@@ -27,10 +25,23 @@ export class loginCreateRepositorio{
     }
     static obtenerId = async (email, password) => {
         try {
-            let result = await ejecutarQuery(getId(email, password))
-            return result 
+            return await ejecutarQuery(getId(email, password))
         } catch (error) {
             throw error 
+        }
+    }
+    static eliminarCuenta = async (id) =>  {
+        try {
+            return await ejecutarQuery(deleteUsuario(id))
+        } catch (error) {
+            throw  error
+        }
+    }
+    static traerIdUser = async (id) => {
+        try {
+            return await ejecutarQuery(verificarIdUser(id)) 
+        } catch (error) {
+            throw error
         }
     }
 }

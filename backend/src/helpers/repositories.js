@@ -1,5 +1,6 @@
 import { ejecutarQuery } from '#Config/db.js'
-import { deleteFecha, getFecha, getFechas, postFechas, putFecha } from '#Database/querys.js'
+import { verificarDuplicado } from '#Database/querys.js'
+import { deleteFecha, getFecha, getFechas, postFechas, putFecha, verificarId } from '#Database/querys.js'
 import { verificarEmail } from '#Database/usuarioQuerys.js'
 
 export class fechaRepositories{
@@ -38,6 +39,20 @@ export class fechaRepositories{
             await ejecutarQuery(deleteFecha(id))
         } catch (error) {
             throw error
+        }
+    }
+    static traerIdFecha = async(id) => {
+        try {
+            return await ejecutarQuery(verificarId(id))
+        } catch (error) {
+            throw error
+        }
+    }
+    static verificarDuplicado = async(fecha) => {
+        try {
+            return await ejecutarQuery(verificarDuplicado(fecha))
+        } catch (error) {
+            
         }
     }
     

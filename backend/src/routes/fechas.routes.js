@@ -1,6 +1,6 @@
 import express, {Router} from 'express'
 import {servicioMostrarFechas, servicioEliminarFecha, servicioGuardarFecha, servicioModificarFecha, servicioMostrarFecha} from '#Controllers/controller.js'
-import { servicioCrearCuenta, servicioInicioSesion } from './../controllers/controllerSesion.js'
+import { servicioCrearCuenta, servicioEliminarCuenta, servicioInicioSesion } from './../controllers/controllerSesion.js'
 import {validateToken} from './../validations/loginCreate.js'
 
 const fechaRouter = Router()
@@ -15,6 +15,7 @@ fechaRouter.use((req,res,next)=>{
 
 fechaRouter.post('/inicioSesion', servicioInicioSesion)
 fechaRouter.post('/crearCuenta', servicioCrearCuenta)
+fechaRouter.delete('/eliminarCuenta', servicioEliminarCuenta)
 fechaRouter.get('/fechas', validateToken, servicioMostrarFechas)
 fechaRouter.get('/unaFecha', servicioMostrarFecha)
 fechaRouter.post('/guardarFecha', servicioGuardarFecha)

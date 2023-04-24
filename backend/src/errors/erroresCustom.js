@@ -75,9 +75,17 @@ export class ErrorDobleEspacios extends Error{
         this.message = 'No se permiten dos o mas espacios en blanco juntos'
     }
 }
-export class ErrorQuerys extends Error{
-    constructor(lugar){
-        super(lugar)
-        this.message = 'La query ' + lugar + ' tiene problema con los datos que resive o la misma consulta'
+export class ErrorFechaFormat extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al formatear la fecha.'
+    }
+}
+export class ErrorCompararFechas extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al comparar fechas.'
     }
 }

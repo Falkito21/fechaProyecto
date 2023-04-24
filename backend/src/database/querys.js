@@ -1,3 +1,4 @@
+import { errorQuerys } from './../errors/erroresQuery.js'
 import { validarTipoString, validarVacio } from './../validations/validaciones.js'
 /** #### Consulta que trae todas las fechas de la BDD
  * @param {Event}
@@ -12,7 +13,7 @@ export const getFechas = () => {
         query += " FechaDia ASC"
         return query
     }catch(error){
-        throw error
+        throw new errorQuerys('getFechas', 501)
     }
 }
 /** #### Consulta que trae una fecha determinada de la BDD
@@ -30,7 +31,7 @@ export const getFecha = (id) => {
         query += "'" + id +"'"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('getFecha', 501)
     }
 }
 /** #### Consulta que almacena los datos en la BDD
@@ -54,7 +55,7 @@ export const postFechas = (dia, descripcion) => {
         query += ");"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('postFechas', 501)
     }
 }
 /** #### Consulta que elimina los datos de la BDD
@@ -70,7 +71,7 @@ export const deleteFecha = (idFecha) => {
         query += ";"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('deleteFecha', 501)
     }
 }
 /** #### Consulta que elimina todas las fechas de la, uso escaso (necesario en el test)
@@ -84,7 +85,7 @@ export const deleteFechas = () => {
         query += ";"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('deleteFechas', 501)
     }
 }
 
@@ -105,7 +106,7 @@ export const putFecha = (id, dia, descripcion) => {
         query += "WHERE fechaID = '" + id + "';"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('putFecha', 501)
     }
 }
 /** #### Consulta si verifica si hay un id determinado en la BDD
@@ -120,7 +121,7 @@ export const verificarId = (id) => {
         query += "WHERE FechaID = '" + id + "';"
         return query
     } catch (error) {
-        throw error
+        throw new errorQuerys('verificarId', 501)
     }
 }
 /** #### Consulta que trae un datos, si es que existe en la BDD
@@ -135,6 +136,6 @@ export const verificarDuplicado = (fecha) => {
         query += "WHERE FechaDia = '" + fecha + "';"
         return query
     }catch(error){
-        throw error
+        throw new errorQuerys('verificarDuplicado', 501)
     }
 }

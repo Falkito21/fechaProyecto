@@ -33,3 +33,31 @@ export class formatoPassIncorrecto extends Error{
         this.message = 'La contraseña debe contar con los siguientes requisitos: 8 caracteres de longitud.\n Al menos una letra mayúscula\n Al menos una letra minúscula \nAl menos un número \nUn carácter especial'
     }
 }
+export class crearToken extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al crear el token.'
+    }
+}
+export class encriptarPassword extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al encriptar la password.'
+    }
+}
+export class generarAccesoAlToken extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al generar el acceso al token.'
+    }
+}
+export class validarToken extends Error{
+    constructor(num){
+        super(num)
+        this.codigoRes = num
+        this.message = 'Error al validar el token.'
+    }
+}

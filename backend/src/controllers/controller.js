@@ -20,8 +20,12 @@ export const servicioMostrarFechas = async (req, res) => {
  * @param {Event}
  */  
 export const mostrarFechas = async () => {
+    try {
         const result = await fechaRepositories.traerFechas()
         return result.recordset
+    } catch (error) {
+        throw error
+    }
 }
 /** #### Funcion que llama a mostrar una fecha 
  * @param {Event}
@@ -143,19 +147,27 @@ const validacionesGenerales = async(id, fecha, descripcion, evitaValidacion = tr
  * @param {Event}
  */  
 const validaId = async (id) => {
-    validarVacio(id, 'id')
-    validarTipoNumero(id)
-    await validarId(id)
+    try {
+        validarVacio(id, 'id')
+        validarTipoNumero(id)
+        await validarId(id)
+    } catch (error) {
+        throw error
+    }
 }
 /** #### Funcion que realiza las validaciones necesarias a la descripcion
  * @param {Event}
  */  
 const validarDescripcion = async (descripcion) => {
-    validarDobleEspacios(descripcion)
-    validarVacio(descripcion, 'la descripcion')
-    validarNumEnTexto(descripcion)
-    validarTipoString(descripcion)
-    validarCaracteresConSignos(descripcion)
+    try {
+        validarDobleEspacios(descripcion)
+        validarVacio(descripcion, 'la descripcion')
+        validarNumEnTexto(descripcion)
+        validarTipoString(descripcion)
+        validarCaracteresConSignos(descripcion)
+    } catch (error) {
+        throw error
+    }
 }
 /** #### Funcion que realiza las validaciones necesarias a la fecha
  * @param {Event}
@@ -175,9 +187,13 @@ const validarFecha = async (fecha, evitaValidacion = true) => {
  * @param {Event}
  */  
 export const tipoRespuesta = (respuesta, infoError) => {
-    if(infoError.codigoRes === 501){
-        responderFront(respuesta, infoError.codigoRes, infoError.message)
-    }else{
-        responderFront(respuesta, 500, infoError)
+    try {
+        if(infoError.codigoRes === 501){
+            responderFront(respuesta, infoError.codigoRes, infoError.message)
+        }else{
+            responderFront(respuesta, 500, infoError)
+        }
+    } catch (error) {
+        throw error
     }
 }
