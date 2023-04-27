@@ -2,29 +2,29 @@ import { loginCreateRepositorio } from "#Helpers/loginCreateRepositories.js";
 import { encriptarPassword, formatoEmailIncorrecto, formatoPassIncorrecto, validarToken } from "./../errors/usuarioErrors.js"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
-import { validarId, validarVacio } from "./validaciones.js";
-import { verificarIdUser } from "#Database/usuarioQuerys.js";
-import { getConection} from '#Config/db.js'
+import { validarVacio } from "./validaciones.js";
 import { ErrorId } from "./../errors/erroresCustom.js";
 
-export const crearDatosUser = async(email, password) => {
+export const crearDatosUser = async(email) => {
     try {
-        let resultId = await loginCreateRepositorio.obtenerId(email, password)
-        if(!resultId.recordset[0]){
+        let result = await loginCreateRepositorio.traerUser(email)
+        if(!result.recordset[0]){
             throw new emailIncorrecto(501)
         }
-        let id = resultId.recordset[0].id
-        let user
-        return user = {id: id}
+        return result.recordset[0]
     } catch (error) {
         throw error
     }
 }
-export const crearToken = async (res, tokenUser) => {
+export const crearToken = async (res, tokenUser, payload) => {
     try {
-        return res.header('authorization', tokenUser).json({
+        return res.header('authorization', tokenUser)
+        .header('X-Custom-Header', payload.dataUser.id)
+        .header('email', payload.dataUser.email)
+        .json({
             message: 'Usuario  Creado y autenticado'
             ,token: tokenUser
+            ,payload: payload
         })
     } catch (error) {
         throw new crearToken(501)
@@ -63,7 +63,7 @@ export const encriptPass = async (password) => {
 }
 export const generateAccessToken = (user) => {
     try {
-        return jwt.sign(user, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+        return jwt.sign({dataUser: user}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
     } catch (error) {
         throw new generateAccessToken(501)
     }
@@ -84,7 +84,6 @@ export const validateToken = (req, res, next) => {
         if(!accessToken || accessToken === undefined) {
             res.send('Access denied')
         }
-        //verificamos el token que recibimos 
         jwt.verify(accessToken, process.env.TOKEN_SECRET, (err, user) => {
             if(err) {
                 res.send('Access denied, token expired or incorrect')

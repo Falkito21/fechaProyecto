@@ -4,6 +4,7 @@ const $userInput = d.querySelector('#user')
 const $passInput = d.querySelector('#pwd')
 const $inicioTemplate = d.querySelector('#inicio-template-mensaje')
 const $contentMsjInicio = d.querySelector('#mensaje-container-inicio')
+const $btnEliminarUser = d.querySelector('#btn-eliminar-cuenta')
 const fragment = d.createDocumentFragment();
 
 const procesarData = async() => {
@@ -21,7 +22,7 @@ const procesarData = async() => {
     try {
         const user = await procesarData()
         await validarData(user)
-        await iniciarSesion(user)
+         await iniciarSesion(user)
         window.location.replace('/fechas')
     } catch (error) {
         pintarMensaje($contentMsjInicio, $inicioTemplate, "#error-message-inicio", error.message)

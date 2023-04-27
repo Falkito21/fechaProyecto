@@ -79,7 +79,7 @@ export const validarNumEnTexto = (texto) => {
 export const validarDuplicado = async (datos) => {
     try {
         let data = formatFecha(datos)
-        const result = fechaRepositories.verificarDuplicado(datos)
+        const result = await fechaRepositories.verificarDuplicado(datos)
         if(result.recordset[0]){
             throw new ErrorDuplicado(data, 501) 
         }else{

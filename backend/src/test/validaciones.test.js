@@ -183,6 +183,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             try {
                 await validarDuplicado('2033/04/10')
             } catch (error) {
+                console.log(error)
                 expect(error.codigoRes)
                 .toBe(501)
                 expect(error.message)

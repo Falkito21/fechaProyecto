@@ -51,11 +51,20 @@ validar mensajes que recibe la funcion
 
 - crear funcion que elimine cuenta -> <> 
 - mejorar los errores, crear mas errores personalizados -> <> 
+- crear btn para eliminar cuenta -> <>
 
-- crear btn para cerrar sesion 
+- 
+
+- crear funcionalidad en el front de eliminar -> en proceso
+ 
+
+- crear clase/funcion que haga un manejo general de los errores, indicando cada error en cada parte -> en proceso //controlador de errors
+
 - guardar token en bdd
+
 - funcion que actualice el token si ya tiene uno en bdd
 ==================================================================
 =================================================================
-- crear un repositorio local con git <> -> sin empezar 
+- crear un repositorio local con gitea <> -> sin empezar 
 - dockerizar <> -> sin empezar
+  

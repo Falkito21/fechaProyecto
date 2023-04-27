@@ -13,12 +13,10 @@ const templateMensaje = d.querySelector("#message-template");
 const messageContainer = d.querySelector("#message-container");
 const estadoTemplate = d.querySelector('#estado-template');
 const estadoContainer = d.querySelector('#estado-respuesta');
+const $btnEliminarUser = d.querySelector('#btn-eliminar-cuenta')
 const fragment = d.createDocumentFragment();
 let fechaObjetos = [];
 
-/** #### Funcion que almacena los datos del formulario en un objeto
- * @param {Event}
- */ 
 const agregarFecha = (res) => {
   res.forEach((e) => {
     const fecha = {
@@ -44,9 +42,7 @@ const pintarEstado = async (mensaje) => {
   }
 }
 
-/** #### Funcion que pinta las fechas en la pantalla del fron
- * @param {Event}
- */ 
+
 const pintarFechas = () => {
     try {
         fechaObjetos.forEach((e) => {
@@ -65,10 +61,7 @@ const pintarFechas = () => {
     throw error;
   }
 };
-/**
- * Funcion que retorna los datos que hay en el formulario
- * @param {Event} 
- */
+
 const procesarDatos = () => {
   try {
     const datos = new FormData($form);
@@ -79,10 +72,7 @@ const procesarDatos = () => {
     throw error;
   }
 };
-/**
- * #### Funcion que es el punto de conexion para realizar todas las validaciones necesarias en los campos del front
- * @param {Event}
-*/
+
 const validarData = async () => {
   try {
       elementoVacio($descriptionInput.value, "descripcion");
@@ -98,10 +88,6 @@ const validarData = async () => {
   }
 };
 
-
-/** #### Funcion que determina en si se va a guardar o a editar un dato
- * @param {Event}
- */ 
 const eleccion = async (e) => {
   e.preventDefault();
   try {
@@ -116,27 +102,30 @@ const eleccion = async (e) => {
     await pintarMensaje(messageContainer, templateMensaje, "#error-message", error.message);    
   }
 };
-/** #### Evento de recarga para que muestra los data
- * @param {Event}
- */ 
+ 
 d.addEventListener("DOMContentLoaded", traeData());
-/** #### Evento click para envia datos
- * @param {Event}
- */ 
+ 
 d.addEventListener("click", (e) => {
   if(e.target.matches('#enviar')){
     e.preventDefault()
     eleccion(e)
   }
 });
-/** #### Evento click para eliminar datos
- * @param {Event}
- */ 
+
 d.addEventListener("click", (e) => {
   if (e.target.matches("#elim")) {
     e.preventDefault()
     btnEliminar(e);
   }
+  d.addEventListener("click", (e) => {
+    if(e.target.matches('#btn-eliminar-cuenta')){
+      e.preventDefault()
+      let acepta = window.confirm('Seguro que quiere eliminar el usuario?')
+      if(acepta){
+        btnEliminarUser(e)
+      }
+    }
+  })
   if (e.target.matches("#edit")) {
     $dateInput.value = e.target.dataset.fecha;
     $descriptionInput.value = e.target.dataset.descripcion;
@@ -145,3 +134,7 @@ d.addEventListener("click", (e) => {
   }
 });
 
+const pintarDatosUser = async(data) => {
+      console.log('pintarDatosUser - data: ', data)
+        $btnEliminarUser.dataset.id = data 
+}

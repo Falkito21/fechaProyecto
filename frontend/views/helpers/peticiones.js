@@ -1,28 +1,23 @@
-const iniciarSesion = async (credenciales) => {
-    try {
-        const respuesta = await fetch('http://localhost:4100/inicioSesion',{
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credenciales)
-        })
-        if(respuesta.ok){
-          const datos = await respuesta.json()
-          let token = datos.token 
-           //buscar session local storage 
-          window.sessionStorage.setItem("Authorization", token);  
-        } else{
-          let res = await respuesta.json()
-          let errorBack = res.Mensaje
-          throw new incorrecto(errorBack)
-        }
-        //Buscar ruta absoluta y ruta relativa
-    } catch (error) {
-      console.log('16 - error: ', error)
-        throw error
+
+const traerUser = async(credenciales) => {
+  try {
+    const respuesta = await fetch('http://localhost:4100/traerUser', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify(credenciales)
+    })
+    if(respuesta.ok){
+      const jsonRespuesta = await respuesta.json()
+      return jsonRespuesta
     }
+  } catch (error) {
+    throw error
   }
+}
+
+
   const crearCuenta = async (credenciales) => {
     try {
         const respuesta = await fetch('http://localhost:4100/crearCuenta', {
@@ -32,11 +27,17 @@ const iniciarSesion = async (credenciales) => {
         }, 
         body: JSON.stringify(credenciales)
     })
-    // desde el if al catch hay codigo repetido -> modificar para usar una misma funcion en los casos que uso el mismo codigo
+
+    //! desde el if al catch hay codigo repetido -> modificar para usar una misma funcion en los casos que uso el mismo codigo
+    
       if(respuesta.ok){
         const datos = await respuesta.json()
         let token = datos.token
-        window.sessionStorage.setItem("Authorization", token)
+        let payload = datos.payload.dataUser.id
+        let email = datos.payload.dataUser.email
+        window.sessionStorage.setItem("Authorization", token);
+        window.sessionStorage.setItem("X-Custom-Header", payload)
+        window.sessionStorage.setItem('email', email)
       } else{
           throw new enUso(501)
       }
@@ -45,23 +46,51 @@ const iniciarSesion = async (credenciales) => {
     }
   }
 
-  /** #### Funcion que trae la informacion del back 
- * @param {Event}
- */ 
+  const iniciarSesion = async (credenciales) => {
+    try {
+        const respuesta = await fetch('http://localhost:4100/inicioSesion',{
+            method:'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credenciales)
+        })
+        if(respuesta.ok){
+          const datos = await respuesta.json()
+          let token = datos.token 
+          let payload = datos.payload.dataUser.id
+          let email = datos.payload.dataUser.email
+          window.sessionStorage.setItem("Authorization", token);
+          window.sessionStorage.setItem("X-Custom-Header", payload)
+          window.sessionStorage.setItem('email', email)
+        } else{
+          let res = await respuesta.json()
+          let errorBack = res.Mensaje
+          throw new incorrecto(errorBack)
+        }
+    } catch (error) {
+        throw error
+    }
+  }
+  
   const traeData = async () => {
     try {
-      //guardar token en base de datos y validar tiempo 
       let token = window.sessionStorage.getItem("Authorization");
+      let payload = window.sessionStorage.getItem("X-Custom-Header")
+      let email = window.sessionStorage.getItem('email')
       const respuesta = await fetch("http://localhost:4100/fechas", {
         headers: {
           'Authorization': token,
+          'Payload': payload,
+          'email': email,
           "Content-Type" : "application/json"
         }
       });
-      //hacer archivo de servicios 
-      //
       if (respuesta.ok) {
+        console.log('traerData - peticiones - respuesta: ', respuesta)
         const jsonRespuesta = await respuesta.json();
+        console.log('traeData - peticiones - payload: ', payload)
+        await pintarDatosUser(payload)
         agregarFecha(jsonRespuesta.Mensaje);
       }
     } catch (error) {
@@ -69,10 +98,6 @@ const iniciarSesion = async (credenciales) => {
     }
   };
 
-
-  /** #### Funcion que guarda los datos indicados, si es que estan correctos
- * @param {Event}
- */ 
 const btnGuardar = async (e) => {
     const newFecha = procesarDatos();
     try {
@@ -96,9 +121,7 @@ const btnGuardar = async (e) => {
     }
   };
 
-  /** #### Funcion que edita un dato determinado 
- * @param {Event}
- */ 
+
 const btnEditar = async (e) => {
     const fechaModificada = procesarDatos();
     fechaModificada.FechaID = parseInt($hiddenInput.value);
@@ -119,11 +142,7 @@ const btnEditar = async (e) => {
       throw error;
     }
   };
-
-  
-/** #### Funcion que elimina un dato determinado 
- * @param {Event}
- */ 
+ 
 const btnEliminar = async (e) => {
     try {
       let fechaEliminar = { FechaID: parseInt(e.target.dataset.id) };
@@ -145,10 +164,22 @@ const btnEliminar = async (e) => {
       throw error;
     }
   };
-  // const peticionFetch = async (data, url) => {
-//   const respuesta = await fetch(url, {
-//     headers: {
-      
-//     }
-//   })
-// }
+
+  const btnEliminarUser = async(e) => {
+    try {
+      let userEliminar = {id: parseInt(e.target.dataset.id)}
+      console.log('peticiones - btnEliminarUser: ', userEliminar)
+      const respuesta = await fetch("http://localhost:4100/eliminarCuenta",{
+        method: 'DELETE'
+        ,headers:{
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(userEliminar)
+      })
+      if(respuesta.ok){
+        window.location.replace('/')
+      }
+    } catch (error) {
+      throw error
+    }
+  }

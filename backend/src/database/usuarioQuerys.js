@@ -19,7 +19,6 @@ export const crearUsuario = (email, pass) => {
         throw new errorQuerys('crearUsuario', 501)
     }
 }
-
 export const traerPassUser = (email) => {
     try {
         let query = ""
@@ -31,7 +30,6 @@ export const traerPassUser = (email) => {
         throw new errorQuerys('traerPassUser', 501)
     }
 }
-
 export const verificarEmail = (email) => {
     try {
         let query = ""
@@ -41,18 +39,6 @@ export const verificarEmail = (email) => {
         return query
     } catch (error) {
         throw new errorQuerys('verificarEmail', 501)
-    }
-}
-
-export const getUsuario = (email, pass) => {
-    try {
-        let query = ""
-        query += "select FROM Usuarios WHERE email = "
-        query += "'" + email +"' AND password = " 
-        query += "'" + pass + "';"
-        return query
-    } catch (error) {
-        throw new errorQuerys('getUsuario', 501)
     }
 }
 export const getId = (email) => {
@@ -65,16 +51,17 @@ export const getId = (email) => {
         throw new errorQuerys('getId', 501)
     }
 }
-export const getUsuarios = () => {
+export const getUsuario = (email) => {
     try {
         let query = ""
-        query += 'SELECT gmail, pass from Usuarios'
+        query += "SELECT id, email " 
+        query += "FROM Usuarios "
+        query += "WHERE email = '" + email +"';"
         return query
     } catch (error) {
         throw new errorQuerys('getUsuarios', 501)
     }
 }
-
 export const deleteUsuario = (id) => {
     try {
         let query = ""
@@ -85,7 +72,6 @@ export const deleteUsuario = (id) => {
         throw new errorQuerys('deleteUsuario', 501)
     }
 }
-
 /** #### Consulta si verifica si hay un id determinado en la BDD
  * @param {Event}
  */  

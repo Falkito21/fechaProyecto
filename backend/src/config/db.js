@@ -17,8 +17,8 @@ export const dbConfig = {
 export const getConection = async () => {
     try{
         const conection = new sql.ConnectionPool(dbConfig)
-        await conection.connect()
-        return conection
+        let listo = await conection.connect()
+        return listo
     }catch(error){
         throw error
     }

@@ -1,4 +1,5 @@
 const emailValidate = async (userEmail) => {
+    console.log('emailValidate - inicioValidations - userEmail: ', userEmail)
     const FORMAT_EMAIL = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     let esCorrecto = FORMAT_EMAIL.test(userEmail)
     if(!esCorrecto) throw new emailError(501)
