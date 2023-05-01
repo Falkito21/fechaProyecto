@@ -149,7 +149,7 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
                 expect(validarEpocaFecha(correcto.FechaDia))
                 .toBe(correcto.FechaDia)
             } catch (error) {
-                console.log(error)
+                throw error
             }
         })
         test('Caso en el cual la fecha es igual a la actual', () => {
@@ -183,7 +183,6 @@ describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
             try {
                 await validarDuplicado('2033/04/10')
             } catch (error) {
-                console.log(error)
                 expect(error.codigoRes)
                 .toBe(501)
                 expect(error.message)

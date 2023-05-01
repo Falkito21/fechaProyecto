@@ -49,7 +49,7 @@ export class loginCreateRepositorio{
         try {
             return await ejecutarQuery(getUsuario(email))
         } catch (error) {
-            
+            throw error
         }
     }
 }

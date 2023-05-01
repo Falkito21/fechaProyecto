@@ -127,3 +127,11 @@ export const validarIdUser = async (datos) => {
         throw error
     }
 }
+
+export const traerUserIdPorMail = async(datos) => {
+    try {
+        return await loginCreateRepositorio.obtenerId(datos)
+    } catch (error) {
+        throw error
+    }
+}

@@ -20,9 +20,7 @@ const crearCuenta = async(req, res) => {
     try{
         await validacionesGenericas(email, password)
         const result = await loginCreateRepositorio.checkMail(email)
-        console.log('crearCuenta-controllerSesion - result: ', result)
         if(result.recordset[0]){
-            console.log('entra')
             throw new emailEnUso(501)
         }
         let pwd = await encriptPass(password)
@@ -40,7 +38,7 @@ export const servicioInicioSesion = async(req, res, next) => {
         const {email, password} = req.body
         const accessToken = await inicioSesion(email, password)
         const payload = jwt_decode(accessToken)
-        let token = await crearToken(res, accessToken, payload)
+        await crearToken(res, accessToken, payload)
         next()
     } catch (error) {
         responderFront(res, error.codigoRes, error.message)
@@ -59,7 +57,6 @@ const inicioSesion = async(emailUser, passwordUser) => {
 }
 
 export const servicioTraerUser = async(req, res) => {
-    console.log(req.body)
     const {email} = req.body
     try {
         return await traerUser(email)

@@ -14,6 +14,8 @@ const messageContainer = d.querySelector("#message-container");
 const estadoTemplate = d.querySelector('#estado-template');
 const estadoContainer = d.querySelector('#estado-respuesta');
 const $btnEliminarUser = d.querySelector('#btn-eliminar-cuenta')
+const $nombreUserContainer = d.querySelector('#nombre-user-container')
+const $templateNombreUser = d.querySelector('#nombre-usuario')
 const fragment = d.createDocumentFragment();
 let fechaObjetos = [];
 
@@ -38,11 +40,21 @@ const pintarEstado = async (mensaje) => {
       estadoContainer.textContent = "";
   }, 4000);
   } catch (error) {
-    console.log("Error: ", error);
+    throw error
   }
 }
 
-
+const agregarNombreUser = async(nombreUser) => {
+  try {
+    $nombreUserContainer.textContent = ""
+    const clone = $templateNombreUser.content.cloneNode(true) 
+    clone.querySelector("#mostrar-nombre-usuario").textContent = nombreUser
+    fragment.appendChild(clone)
+    $nombreUserContainer.appendChild(fragment)
+  }catch(error){
+    throw error
+  }
+}
 const pintarFechas = () => {
     try {
         fechaObjetos.forEach((e) => {
@@ -135,6 +147,5 @@ d.addEventListener("click", (e) => {
 });
 
 const pintarDatosUser = async(data) => {
-      console.log('pintarDatosUser - data: ', data)
         $btnEliminarUser.dataset.id = data 
 }

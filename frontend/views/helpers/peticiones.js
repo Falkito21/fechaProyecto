@@ -87,10 +87,9 @@ const traerUser = async(credenciales) => {
         }
       });
       if (respuesta.ok) {
-        console.log('traerData - peticiones - respuesta: ', respuesta)
         const jsonRespuesta = await respuesta.json();
-        console.log('traeData - peticiones - payload: ', payload)
         await pintarDatosUser(payload)
+        await agregarNombreUser(email)
         agregarFecha(jsonRespuesta.Mensaje);
       }
     } catch (error) {
@@ -168,7 +167,6 @@ const btnEliminar = async (e) => {
   const btnEliminarUser = async(e) => {
     try {
       let userEliminar = {id: parseInt(e.target.dataset.id)}
-      console.log('peticiones - btnEliminarUser: ', userEliminar)
       const respuesta = await fetch("http://localhost:4100/eliminarCuenta",{
         method: 'DELETE'
         ,headers:{
