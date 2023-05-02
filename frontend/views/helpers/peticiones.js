@@ -1,13 +1,7 @@
 
 const traerUser = async(credenciales) => {
   try {
-    const respuesta = await fetch('http://localhost:4100/traerUser', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify(credenciales)
-    })
+    let respuesta = await peticionFetch('traerUser', 'POST', credenciales)
     if(respuesta.ok){
       const jsonRespuesta = await respuesta.json()
       return jsonRespuesta
@@ -16,28 +10,16 @@ const traerUser = async(credenciales) => {
     throw error
   }
 }
-
-
-  const crearCuenta = async (credenciales) => {
+const crearCuenta = async (credenciales) => {
     try {
-        const respuesta = await fetch('http://localhost:4100/crearCuenta', {
-        method: 'POST'
-        ,headers: {
-            'Content-Type': 'application/json',
-        }, 
-        body: JSON.stringify(credenciales)
-    })
-
+        let respuesta = await peticionFetch('crearCuenta', 'POST', credenciales)
     //! desde el if al catch hay codigo repetido -> modificar para usar una misma funcion en los casos que uso el mismo codigo
-    
       if(respuesta.ok){
         const datos = await respuesta.json()
         let token = datos.token
         let payload = datos.payload.dataUser.id
         let email = datos.payload.dataUser.email
-        window.sessionStorage.setItem("Authorization", token);
-        window.sessionStorage.setItem("X-Custom-Header", payload)
-        window.sessionStorage.setItem('email', email)
+        await settearItem(token, payload, email)
       } else{
           throw new enUso(501)
       }
@@ -45,24 +27,15 @@ const traerUser = async(credenciales) => {
         throw error
     }
   }
-
-  const iniciarSesion = async (credenciales) => {
+const iniciarSesion = async (credenciales) => {
     try {
-        const respuesta = await fetch('http://localhost:4100/inicioSesion',{
-            method:'POST', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credenciales)
-        })
+      let respuesta = await peticionFetch('inicioSesion', 'POST', credenciales)
         if(respuesta.ok){
           const datos = await respuesta.json()
           let token = datos.token 
           let payload = datos.payload.dataUser.id
           let email = datos.payload.dataUser.email
-          window.sessionStorage.setItem("Authorization", token);
-          window.sessionStorage.setItem("X-Custom-Header", payload)
-          window.sessionStorage.setItem('email', email)
+          await settearItem(token, payload, email)
         } else{
           let res = await respuesta.json()
           let errorBack = res.Mensaje
@@ -100,13 +73,7 @@ const traerUser = async(credenciales) => {
 const btnGuardar = async (e) => {
     const newFecha = procesarDatos();
     try {
-      const respuesta = await fetch("http://localhost:4100/guardarFecha", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newFecha),
-      });
+      let respuesta = await peticionFetch('guardarFecha', 'POST', newFecha)
       if (respuesta.ok) {
         fechaObjetos = []
         traeData()
@@ -125,15 +92,8 @@ const btnEditar = async (e) => {
     const fechaModificada = procesarDatos();
     fechaModificada.FechaID = parseInt($hiddenInput.value);
     try {
-      const respuesta = await fetch("http://localhost:4100/modificarFecha", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fechaModificada),
-      });
+      let respuesta = await peticionFetch('modificarFecha', 'PUT', fechaModificada)
       if (respuesta.ok) {
-        //Arreglar problema de recargar fechas
         fechaObjetos = []
         traeData()
       }
@@ -145,17 +105,10 @@ const btnEditar = async (e) => {
 const btnEliminar = async (e) => {
     try {
       let fechaEliminar = { FechaID: parseInt(e.target.dataset.id) };
-      const respuesta = await fetch("http://localhost:4100/eliminarFecha", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fechaEliminar),
-      });
+      let respuesta = await peticionFetch('eliminarFecha', 'DELETE', fechaEliminar)
       if (respuesta.ok) {
         $listFechas.innerHTML = ''
         $listFechas.textContent = ''
-        
         fechaObjetos = []
         traeData()
       }
@@ -167,13 +120,7 @@ const btnEliminar = async (e) => {
   const btnEliminarUser = async(e) => {
     try {
       let userEliminar = {id: parseInt(e.target.dataset.id)}
-      const respuesta = await fetch("http://localhost:4100/eliminarCuenta",{
-        method: 'DELETE'
-        ,headers:{
-          "Content-Type": "application/json"
-        }, 
-        body: JSON.stringify(userEliminar)
-      })
+      let respuesta = await peticionFetch('eliminarCuenta', 'DELETE', userEliminar)
       if(respuesta.ok){
         window.location.replace('/')
       }

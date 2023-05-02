@@ -21,9 +21,9 @@ contemple el error 501 sino 500  <>
 Desencapsulamiento de funciones <>
 Test Unitario(busacar)  <>
 testeo para node (buscar) - <>
-hacer todas las pruebas con el testing (despues de buscar) -> mantener la bdd limpia 
-testear distintas posibilidades
-validar mensajes que recibe la funcion 
+hacer todas las pruebas con el testing (despues de buscar) -> mantener la bdd limpia -> <>
+testear distintas posibilidades -> <>
+validar mensajes que recibe la funcion -> <> 
 ==================================================================
 ==================================================================
 - implementar jwt <> ->  listo
@@ -43,26 +43,16 @@ validar mensajes que recibe la funcion
 - errores en inicio - back -> <>
 - errores en create - back -> <>
 - solucionar problema con el guardado de la contrasenia -> <>
-
-- En compararFechas esta el problema
-
 - crear test de create -> <>
 - crear test de inicio -> <>
-
 - crear funcion que elimine cuenta -> <> 
 - mejorar los errores, crear mas errores personalizados -> <> 
 - crear btn para eliminar cuenta -> <>
-
-- 
-
-- crear funcionalidad en el front de eliminar -> en proceso
+- crear funcionalidad en el front de eliminar -> <>
  
 
 - crear clase/funcion que haga un manejo general de los errores, indicando cada error en cada parte -> en proceso //controlador de errors
-
-- guardar token en bdd
-
-- funcion que actualice el token si ya tiene uno en bdd
+- guardar token en bdd 
 ==================================================================
 =================================================================
 - crear un repositorio local con gitea <> -> sin empezar 
