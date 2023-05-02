@@ -1,7 +1,6 @@
 import { ejecutarQuery } from '#Config/db.js'
 import { verificarDuplicado } from '#Database/querys.js'
 import { deleteFecha, getFecha, getFechas, postFechas, putFecha, verificarId } from '#Database/querys.js'
-import { verificarEmail } from '#Database/usuarioQuerys.js'
 
 export class fechaRepositories{
     static traerFechas = async() => {
@@ -24,7 +23,7 @@ export class fechaRepositories{
         try {
             await ejecutarQuery(postFechas(dia,descripcion))
         } catch (error) {
-            await permisoBDD.rollback()
+            throw error
         } 
     }
     static modificarFechas = async (id, dia, descripcion) => {
@@ -52,7 +51,7 @@ export class fechaRepositories{
         try {
             return await ejecutarQuery(verificarDuplicado(fecha))
         } catch (error) {
-            
+            throw error 
         }
     }
     

@@ -12,6 +12,6 @@
             cajaMensaje.textContent = "";
       }, 4000);
     } catch (error) {
-      console.log("Error: ", error);
+       throw error
     }
   };

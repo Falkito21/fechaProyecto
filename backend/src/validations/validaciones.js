@@ -1,5 +1,3 @@
-import {verificarId, verificarDuplicado} from '#Database/querys.js'
-import { getConection} from '#Config/db.js'
 import {ErrorDuplicado, ErrorElementoVacio, ErrorTipo, ErrorFechaAntigua, ErrorSignos, ErrorBody, ErrorNumeroEnString, ErrorId, ErrorDobleEspacios, ErrorFechaFormat, ErrorCompararFechas} from '../errors/erroresCustom.js'
 import dayjs from 'dayjs'
 import { fechaRepositories } from '#Helpers/repositories.js'
@@ -31,6 +29,7 @@ export const validarVacio = (datos, tipo) => {
         throw error
     }
 }
+
 /** #### Funcion que valida si el id es de tipo numerico
  * @param {Event}
  */  

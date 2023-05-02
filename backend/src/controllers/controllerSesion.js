@@ -20,9 +20,7 @@ const crearCuenta = async(req, res) => {
     try{
         await validacionesGenericas(email, password)
         const result = await loginCreateRepositorio.checkMail(email)
-        if(result.recordset[0]){
-            throw new emailEnUso(501)
-        }
+        if(result.recordset[0]) throw new emailEnUso(501)
         let pwd = await encriptPass(password)
         await loginCreateRepositorio.insertarUsuario(email, pwd)
         let user = await crearDatosUser(email)

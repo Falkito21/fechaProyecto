@@ -8,9 +8,7 @@ import { ErrorId } from "./../errors/erroresCustom.js";
 export const crearDatosUser = async(email) => {
     try {
         let result = await loginCreateRepositorio.traerUser(email)
-        if(!result.recordset[0]){
-            throw new emailIncorrecto(501)
-        }
+        if(!result.recordset[0]) throw new emailIncorrecto(501)
         return result.recordset[0]
     } catch (error) {
         throw error
@@ -44,9 +42,7 @@ export const validarPass = async (pwd) => {
     try{
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
         let cumple = regex.test(pwd)
-        if(!cumple){
-            throw new formatoPassIncorrecto(501)
-        } 
+        if(!cumple) throw new formatoPassIncorrecto(501) 
         if(cumple) return pwd
     } catch(error) {
         throw error
@@ -81,9 +77,7 @@ export const desencryptPass = async(email, password) => {
 export const validateToken = (req, res, next) => {
     const accessToken = req.headers['authorization'] || req.query.accessToken
     try {
-        if(!accessToken || accessToken === undefined) {
-            res.send('Access denied')
-        }
+        if(!accessToken || accessToken === undefined) res.send('Access denied')
         jwt.verify(accessToken, process.env.TOKEN_SECRET, (err, user) => {
             if(err) {
                 res.send('Access denied, token expired or incorrect')

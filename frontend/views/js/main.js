@@ -70,7 +70,7 @@ const pintarFechas = () => {
         });
         $listFechas.appendChild(fragment);
   } catch (error) {
-    throw error;
+      throw error;
   }
 };
 
@@ -81,7 +81,7 @@ const procesarDatos = () => {
     $form.reset();
     return datosProcesados;
   } catch (error) {
-    throw error;
+      throw error;
   }
 };
 
@@ -96,7 +96,7 @@ const validarData = async () => {
     descripcionConSignos($descriptionInput.value);
     dobleEspacios($descriptionInput.value);
   } catch (error) {
-    throw error;
+      throw error;
   }
 };
 

@@ -12,12 +12,10 @@ const procesarData = async() => {
         const datosProcesados = Object.fromEntries(datos.entries())
         return datosProcesados
     } catch (error) {
-        console.log(error)
         throw error
     }
   }
 
- 
   const verificarUser = async (e) => {
     e.preventDefault()
     try {
