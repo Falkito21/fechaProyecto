@@ -52,4 +52,11 @@ export class loginCreateRepositorio{
             throw error
         }
     }
+    static insertarUserCompleto = async(id, token) => {
+        try {
+            return await ejecutarQuery(modificarUser(id, token))
+        } catch (error) {
+            throw error
+        }
+    }
 }

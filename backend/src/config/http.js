@@ -2,7 +2,7 @@
  import {config} from 'dotenv'
  import cors from 'cors'
  import fechaRouter from '#Routes/fechas.routes.js'
-
+console.error("res")
  config()
  const app = express()
  app.set('port', process.env.PORT)

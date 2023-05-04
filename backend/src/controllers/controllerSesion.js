@@ -11,6 +11,7 @@ export const servicioCrearCuenta = async(req, res) => {
         const accessToken = await crearCuenta(req, res)
         const payload = jwt_decode(accessToken)
         await crearToken(res, accessToken, payload)
+        
     } catch(error) { 
         responderFront(res, error.codigoRes, error.message)
     }
@@ -24,7 +25,7 @@ const crearCuenta = async(req, res) => {
         let pwd = await encriptPass(password)
         await loginCreateRepositorio.insertarUsuario(email, pwd)
         let user = await crearDatosUser(email)
-        return generateAccessToken(user)
+        return await generateAccessToken(user)
     }catch(error){
         throw error
     }

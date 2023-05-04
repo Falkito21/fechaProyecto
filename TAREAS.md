@@ -49,10 +49,9 @@ validar mensajes que recibe la funcion -> <>
 - mejorar los errores, crear mas errores personalizados -> <> 
 - crear btn para eliminar cuenta -> <>
 - crear funcionalidad en el front de eliminar -> <>
- 
+- eliminar token del sessionStorage -> <>
 
 - crear clase/funcion que haga un manejo general de los errores, indicando cada error en cada parte -> en proceso //controlador de errors
-- guardar token en bdd 
 ==================================================================
 =================================================================
 - crear un repositorio local con gitea <> -> sin empezar 

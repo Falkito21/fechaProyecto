@@ -40,7 +40,7 @@ export const validarGmail = async (gmail) => {
 }
 export const validarPass = async (pwd) => { 
     try{
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/
         let cumple = regex.test(pwd)
         if(!cumple) throw new formatoPassIncorrecto(501) 
         if(cumple) return pwd
@@ -57,9 +57,11 @@ export const encriptPass = async (password) => {
         throw new encriptarPassword(501)
     }
 }
-export const generateAccessToken = (user) => {
+export const generateAccessToken = async(user) => {
     try {
-        return jwt.sign({dataUser: user}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+        let tokenUser =  jwt.sign({dataUser: user}, process.env.TOKEN_SECRET, {expiresIn: '2h'})
+        // await loginCreateRepositorio.insertarUserCompleto(user.id, tokenUser)
+        return tokenUser 
     } catch (error) {
         throw new generateAccessToken(501)
     }

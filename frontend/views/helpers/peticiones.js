@@ -66,7 +66,7 @@ const iniciarSesion = async (credenciales) => {
         agregarFecha(jsonRespuesta.Mensaje);
       }
     } catch (error) {
-      throw error;
+      window.location.replace('/')
     }
   };
 
@@ -122,6 +122,7 @@ const btnEliminar = async (e) => {
       let userEliminar = {id: parseInt(e.target.dataset.id)}
       let respuesta = await peticionFetch('eliminarCuenta', 'DELETE', userEliminar)
       if(respuesta.ok){
+        window.sessionStorage.removeItem('Authorization')
         window.location.replace('/')
       }
     } catch (error) {

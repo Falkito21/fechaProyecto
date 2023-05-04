@@ -87,3 +87,16 @@ export const verificarIdUser = (id) => {
         throw new errorQuerys('verificarIdUser', 501)
     }
 }
+export const modificarUser = (idUser, tokenUser) => {
+    try {
+        let query = ""
+        query += "UPDATE Usuarios "
+        query += "SET "
+        query += "c " 
+        query += "('" + idUser + "', '" + tokenUser + "')"
+        console.log(query)
+        return query
+    } catch (error) {
+        throw error
+    }
+}
