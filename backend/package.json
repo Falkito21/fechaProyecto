@@ -4,14 +4,14 @@
   "type": "module",
   "description": "Plantilla base para los proyectos que quiera desarrollar.",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "NODE_ENV=env nodemon src/index.js",
     "start": "node src/index.js",
     "lint": "eslint src/**/*.js --fix",
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "postinstall": "npm run prepare",
     "test": "jest --verbose  --detectOpenHandles",
-    "test:watch": "cross-env DB_DATABASE=testFechaStore npm run test -- --watch"
+    "test:watch": "NODE_ENV=test npm run test -- --watch"
   },
   "author": "Juan Falco (https://portafolio-juan-falco.netlify.app/)",
   "license": "MIT",
@@ -47,14 +47,15 @@
     "supertest": "^6.3.3"
   },
   "imports": {
-    "#Errors/*": "./src/errors/*",
     "#Lib/*": "./src/lib/*",
     "#Config/*": "./src/config/*",
     "#Controllers/*": "./src/controllers/*",
     "#Routes/*": "./src/routes/*",
     "#Dto/*": "./src/dto/*",
     "#Database/*": "./src/database/*",
-    "#Helpers/*": "./src/helpers/*"
+    "#Helpers/*": "./src/helpers/*",
+    "#Errors/*": "./src/errors/*",
+    "#Validations/*": "./src/validations/*"
   },
   "lint-staged": {
     "*.js": "eslint --fix",

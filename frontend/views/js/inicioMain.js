@@ -17,7 +17,7 @@ const procesarData = async() => {
         throw error
     }
   }
-    const verificarUser = async(e) => {
+    const verificarUserInicio = async(e) => {
     e.preventDefault()
     try {
         const user = await procesarData()
@@ -32,7 +32,7 @@ const procesarData = async() => {
   d.addEventListener("click", async (e) => {
     if(e.target.matches("#enviarInicio")){
         e.preventDefault()
-        await verificarUser(e)
+        await verificarUserInicio(e)
     }
   })
 

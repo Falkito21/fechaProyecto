@@ -66,6 +66,7 @@ const iniciarSesion = async (credenciales) => {
         agregarFecha(jsonRespuesta.Mensaje);
       }
     } catch (error) {
+      console.log(error)
       window.location.replace('/')
     }
   };

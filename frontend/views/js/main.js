@@ -1,4 +1,4 @@
-const d = document;
+const d =  document;
 const $formInicio = d.querySelector("#formInicio")
 const $userInput = d.querySelector('#user')
 const $passInput = d.querySelector('#pwd')
@@ -16,9 +16,12 @@ const estadoContainer = d.querySelector('#estado-respuesta');
 const $btnEliminarUser = d.querySelector('#btn-eliminar-cuenta')
 const $nombreUserContainer = d.querySelector('#nombre-user-container')
 const $templateNombreUser = d.querySelector('#nombre-usuario')
+const $btnEliminar = d.querySelector('#eliminar')
+const $btnEdit = d.querySelector('#editar')
+const $mensajeDescripcionBtn = d.querySelector('#mensaje-descripcion-btn')
+const templateMensajeDescripcionBtn = d.querySelector('#template-descripcion-btn')
 const fragment = d.createDocumentFragment();
 let fechaObjetos = [];
-
 const agregarFecha = (res) => {
   res.forEach((e) => {
     const fecha = {
@@ -61,7 +64,7 @@ const pintarFechas = () => {
             $listFechas.textContent = "";
             const clone = template.content.cloneNode(true);
             clone.querySelector("#date-template").textContent = e.fecha;
-            clone.querySelector("#description-template").textContent = e.descripcion;
+            clone.querySelector("#description-template").textContent = e.descripcion
             clone.querySelector("#edit").dataset.id = e.id;
             clone.querySelector("#edit").dataset.fecha = e.fecha;
             clone.querySelector("#edit").dataset.descripcion = e.descripcion;
@@ -69,11 +72,29 @@ const pintarFechas = () => {
             fragment.appendChild(clone);
         });
         $listFechas.appendChild(fragment);
+        agregarDescripcionBtn()
   } catch (error) {
       throw error;
   }
 };
 
+const agregarDescripcionBtn = () => {
+  try {
+    const $listBtn = d.querySelectorAll('button')
+  for (let i  = 0; i  < $listBtn.length; i ++) {
+    $listBtn[i].setAttribute('title', descButt[$listBtn[i].id])
+  } 
+  } catch (error) {
+    throw error
+  }
+}
+// ENUM => OBJECT.FREEZE
+let descButt = {
+    'eliminar': 'eliminar fecha',
+    'editar': 'Editar fecha',
+    'enviar': 'Guardar Fecha',
+    'btn-eliminar-cuenta': 'Eliminar Cuenta'
+}
 const procesarDatos = () => {
   try {
     const datos = new FormData($form);
@@ -149,3 +170,34 @@ d.addEventListener("click", (e) => {
 const pintarDatosUser = async(data) => {
         $btnEliminarUser.dataset.id = data 
 }
+
+// let objListaDescripcion = {
+//   "editar": "editar la fecha"
+//   ,"eliminar" : "eliminar la fecha"
+//   , "enviar" : "guradar fecha"
+//   ,"btn-eliminar-cuenta": "eliminar tu cuenta"
+// }
+
+// d.addEventListener("mouseover",(e) => {
+//   let claves = Object.keys(objListaDescripcion)
+//   try {
+//     for (let i = 0; i < claves.length; i++) {
+//       if(claves[i] === e.target.id){
+//         let elemento = d.querySelectorAll("#"+e.target.id)
+//         elemento.forEach((e) => {
+//           e.setAttribute("title", objListaDescripcion[claves[i]])
+
+//         })
+//         }
+//       }
+//   } catch (error) {
+//     throw error
+//   }
+//   }
+// )
+
+        // $mensajeDescripcionBtn.textContent = ''
+        // const clone = templateMensajeDescripcionBtn.content.cloneNode(true)
+        // clone.querySelector("#mostrar-descripcion-mensaje").textContent = objListaDescripcion[claves[i]]
+        // fragment.appendChild(clone)
+        // $mensajeDescripcionBtn.appendChild(fragment)

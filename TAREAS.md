@@ -51,9 +51,11 @@ validar mensajes que recibe la funcion -> <>
 - crear funcionalidad en el front de eliminar -> <>
 - eliminar token del sessionStorage -> <>
 
+- Aplicar triggers de validacion en la base de datos para probar 
+
 - crear clase/funcion que haga un manejo general de los errores, indicando cada error en cada parte -> en proceso //controlador de errors
 ==================================================================
-=================================================================
+==================================================================
 - crear un repositorio local con gitea <> -> sin empezar 
-- dockerizar <> -> sin empezar
+- dockerizar <> -> sin empezar 
   

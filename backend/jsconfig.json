@@ -10,7 +10,8 @@
             "#Routes/*": ["./src/routes/*"],
             "#Dto/*": ["./src/dto/*"],
             "#Database/*": ["./src/database/*"],
-            "#Helpers/*": ["./src/helpers/*"]
+            "#Helpers/*": ["./src/helpers/*"],
+            "#Errors/*": ["./src/errors/*"]
         }
     }
 }

@@ -1,4 +1,9 @@
 const d = document
+const $ = (tag) => {
+    return document.querySelector(tag)
+}
+
+const formularioInicio = $("formInicio")
 const $formInicio = d.querySelector("#formInicio")
 const $userInput = d.querySelector('#user')
 const $passInput = d.querySelector('#pwd')

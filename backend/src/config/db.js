@@ -2,7 +2,7 @@ import sql from 'mssql'
 import {config} from 'dotenv'
 
 config()
-const {DB_USER,DB_USER_DATABASE ,DB_PWD,DB_SERVER, DB_DATABASE, DB_USER_TEST,DB_PWD_TEST ,DB_SERVER_TEST, DB_DATABASE_TEST} = process.env;
+const {DB_USER, DB_PWD,DB_SERVER, DB_DATABASE, DB_DATABASE_TEST} = process.env;
 export const dbConfig = {
     user: DB_USER
     ,password: DB_PWD
@@ -10,36 +10,38 @@ export const dbConfig = {
     ,database: DB_DATABASE 
     ,trustServerCertificate: true
 }
-/** #### Funcion que realiza la conexion a la base de datos con los valores indicados
- * - Buscando la manera de que realice un begin transaction y commit si todo sale ok 
- * @param {Event}
- */ 
+export const dbConfigTest = {
+    user: DB_USER
+    ,password: DB_PWD
+    ,server: DB_SERVER
+    ,database: DB_DATABASE_TEST 
+    ,trustServerCertificate: true
+}
 export const getConection = async () => {
     try{
-        const conection = new sql.ConnectionPool(dbConfig)
-        let listo = await conection.connect()
-        return listo
+        console.log('node_env: ', NODE_ENV)
+        const conection = null 
+        if(NODE_ENV === 'test') conection = new sql.ConnectionPool(dbConfigTest)
+        if(NODE_ENV === 'dev') conection = new sql.ConnectionPool(dbConfig)
+        let SuccessfullyConection = await conection.connect()
+        return SuccessfullyConection
     }catch(error){
         throw error
     }
 }
-/** #### Funcion que realiza la ejecucion de las querys
- * - utilizando el transaction, begin, commit y rollback
- * @param {Event}
- */ 
-export const ejecutarQuery = async (query) => {
-    const conexionBDD = await getConection()
-    let permisoBDD = new sql.Transaction(conexionBDD)
+export const executeQuery = async (query) => {
+    const connectionBDD = await getConection()
+    let permissionBDD = new sql.Transaction(connectionBDD)
     try {
-        await permisoBDD.begin()
-        let result = await conexionBDD.request().query(query)
-        await permisoBDD.commit()
-        return result
+        await permissionBDD.begin()
+        let queryListDates = await connectionBDD.request().query(query)
+        await permissionBDD.commit()
+        return queryListDates
     } catch (error) {
-        await permisoBDD.rollback()
+        await permissionBDD.rollback()
         throw error
     } finally {
-        conexionBDD.close()
+        connectionBDD.close()
     }
 }
 

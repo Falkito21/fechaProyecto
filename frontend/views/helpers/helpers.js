@@ -24,13 +24,19 @@
 
   const peticionFetch = async (url, metodo, data) => {
     try {
-      return await fetch('http://localhost:4100/'+url, { 
+      console.log('url: ', url)
+      console.log('metodo: ', metodo)
+      console.log('data: ', data)
+
+      const res =  await fetch('http://localhost:4100/'+url, { 
         method: metodo,
         headers: {
           'Content-Type': 'application/json'
         }, 
         body: JSON.stringify(data)
       })
+      console.log('respuesta peticionFetch - helpers: ', res)
+      return res
     } catch (error) {
       throw error
     }

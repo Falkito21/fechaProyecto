@@ -1,5 +1,5 @@
 import { verificarDuplicado, verificarId, putFecha, deleteFechas, deleteFecha, postFechas, getFecha, getFechas } from "#Database/querys.js"
-import { correcto } from "./validacionesMock.js"
+import { correcto } from "./validationsMock.js"
 describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
     describe('Verificamos la funcion verificarDuplicado', () => {
         test('Caso en el que ya existe una fecha', () => {
