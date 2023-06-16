@@ -1,7 +1,7 @@
 export const responseType = (response, infoError) => {
     try {
-        if(infoError.responseCode === 501){
-            responseFront(response, infoError.responseCode, infoError.message)
+        if(infoError.statusCode === 501){
+            responseFront(response, infoError.statusCode, infoError.message)
         }else{
             responseFront(response, 500, infoError)
         }
@@ -9,20 +9,20 @@ export const responseType = (response, infoError) => {
         throw error
     }
 }
-export const responseFront = async (res,responseCode,data) => {
+export const responseFront = async (res,statusCode,data) => {
     try {
-        switch (responseCode) {
+        switch (statusCode) {
             case 200:
-                res.status(responseCode).json({"Status" : responseCode, "Menssage" : data});
+                res.status(statusCode).json({"Status" : statusCode, "Menssage" : data});
             break;
             case 400:
-                res.status(responseCode).json({"Status" : responseCode, "Menssage" : data});
+                res.status(statusCode).json({"Status" : statusCode, "Menssage" : data});
             break;
             case 501:
-                res.status(responseCode).json({"Status" : responseCode, "Menssage": data});
+                res.status(statusCode).json({"Status" : statusCode, "Menssage": data});
             break;
             default:
-                res.status(500).json({"Status" : responseCode, "Menssage" : "Unexpected Error - " + data});
+                res.status(500).json({"Status" : statusCode, "Menssage" : "Unexpected Error - " + data});
             break;
         }
     } catch (error) {

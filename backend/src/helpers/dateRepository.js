@@ -5,7 +5,7 @@ import { dateRemoveQuery, datesGetQuery, dateGetQuery, dateSaveQuery, dateModify
 export class dateRepository{
     static getDates = async() => {
         try {
-            let responseListQueryDates = await executeQuery(dateGetQuery())
+            let responseListQueryDates = await executeQuery(datesGetQuery())
             return responseListQueryDates
         } catch (error) {
             throw error
@@ -13,7 +13,7 @@ export class dateRepository{
     }
     static getDate = async(id) => {
         try {
-            let responseQueryDate = await executeQuery(datesGetQuery(id))
+            let responseQueryDate = await executeQuery(dateGetQuery(id))
             return responseQueryDate
         } catch (error) {
             throw error

@@ -1,7 +1,7 @@
 
 import dayjs from 'dayjs'
 import { dateRepository } from '#Helpers/dateRepository.js'
-import { compareDatesError, doubleSpacesError, emptyElementError, formatDateError, idError, oldDateError, signsError, typeError } from '#Errors/dateErrors.js'
+import { bodyError, compareDatesError, doubleSpacesError, duplicateError, emptyElementError, formatDateError, idError, numInTextError, oldDateError, signsError, typeError } from '#Errors/dateErrors.js'
 
 import { countRepository } from "#Helpers/countRepository.js";
 import { createTokenError, encryptPasswordError, generateAccessTokenError, incorrectEmailFormatError, incorrectPasswordFormatError } from "#Errors/userErrors.js"
@@ -29,7 +29,7 @@ export const emptyValidate = (data, type) => {
 }
 export const typeNumValidate = (data) => {
     try {
-        if(typeof data !== 'number') throw new typeError('El id', 'numero', 501)
+        if(typeof data !== 'number') throw new typeError('The id', 'number', 501)
         return data
     } catch (error) {
         throw error
@@ -37,7 +37,7 @@ export const typeNumValidate = (data) => {
 } 
 export const typeStringValidate = (data) => {
     try {
-        if(typeof data !== 'string') throw new typeError('La descripcion', 'texto', 501)
+        if(typeof data !== 'string') throw new typeError('description', 'text', 501)
         return numberTextValidate(data)
     } catch (error) {
         throw error
@@ -46,18 +46,18 @@ export const typeStringValidate = (data) => {
 export const numberTextValidate = (text) => {
     try {
         const NUMBERS = new RegExp("^([^0-9]*)$")
-        let ContainNumbers = NUMBERS.test(text)
-        if(!ContainNumbers) return text
-        throw new ErrorNumeroEnString(501)
+        let NotContainNumbers = NUMBERS.test(text)
+        if(NotContainNumbers) return text
+        throw new numInTextError(501)
     } catch (error) {
         throw error
     }
 }
-export const duplicateValidate = async (data) => {
+export const duplicateValidate = async(data) => {
     try {
-        let data = formatDate(data)
-        const result = await dateRepository.verificarDuplicado(data)
-        if(result.recordset[0]) throw new ErrorDuplicado(data, 501) 
+        data = formatDate(data)
+        const result = await dateRepository.duplicateCheck(data)
+        if(result.recordset[0]) throw new duplicateError(data, 501) 
         return data
     } catch (error) {
         throw error 
@@ -88,7 +88,7 @@ export const eraDateValidate = (data) => {
         let currentDate = new Date()
         let currentDateFormat = formatDate(currentDate)
         let dataUser = formatDate(data)
-        let older = compareDates(dataUser, currentDateFormat)
+        let older = dateCompare(dataUser, currentDateFormat)
         if(!older) throw new oldDateError(currentDateFormat, 501)
          return data
     } catch (error) {
@@ -113,7 +113,7 @@ export const dateCompare = (dateUser, todayDate) => {
 }
 export const bodyValidate = (info) => {
     try {
-        if(Object.keys(info).length === 0) throw new ErrorBody(501)
+        if(Object.keys(info).length === 0) throw new bodyError(501)
         return info
     } catch (error) {
         throw error
@@ -147,7 +147,7 @@ const dateIdValidations = async (id) => {
 const dateDescriptionValidations = async (description) => {
     try {
         doubleSpacesValidate(description)
-        emptyValidate(description, 'la description')
+        emptyValidate(description, 'description')
         numberTextValidate(description)
         typeStringValidate(description)
         textSignsValidate(description)
@@ -157,7 +157,7 @@ const dateDescriptionValidations = async (description) => {
 }  
 const dateValidations = async (date, avoidValidation) => {
     try {
-        emptyValidate(date, 'el dia')
+        emptyValidate(date, 'date')
         eraDateValidate(date)
         if(!avoidValidation){
             await duplicateValidate(date)

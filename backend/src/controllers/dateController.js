@@ -12,7 +12,7 @@ export const displayDatesService = async (req, res) => {
         let responseListDates  = await displayDates()
         responseFront(res, 200, responseListDates)
     }catch(error){
-        responseFront(res, 400, error.message)
+        responseType(res, error)
     }
 }  
 export const displayDates = async () => {
@@ -29,7 +29,7 @@ export const displayDateService = async (req, res) => {
         let responseDate = await displayDate(req.body)
         responseFront(res, 200, responseDate)
     } catch (error) {
-        responseFront(res, error.responseCode, error.message)
+        responseType(res, error)
     }
 }  
 export const displayDate = async (data) => {
@@ -67,7 +67,7 @@ export const modifyDateService = async (req, res) => {
         await modifyDate(req.body)
         responseFront(res, 200, 'Successfully modify')
     }catch (error){
-        typeResponse(res, error)
+        responseType(res, error)
     }
 }  
 export const modifyDate = async (data) => {

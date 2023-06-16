@@ -1,92 +1,90 @@
 import { formatDate} from "#Validations/customGeneralValidations.js"
 import {removeDate, saveDate, modifyDate, displayDate, displayDates} from "#Controllers/dateController.js"
-import { contieneNum, correcto, dobleEspacios, idMal, idString, idVacio, noFecha } from "./dateController.Mock.js"
+import { contieneNum, correcto, doubleSpaces, idMal, idString, idVacio, noFecha } from "./datesController.Mock.js"
 import { conSignos, fechaMenor, noDescripcion, soloNum } from "./validationsMock.js"
 
 // Mocks
 
 
-describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
+describe('Date Controller', () => {
     
-    describe('Verificamos la funcion saveDate', () => {
-        test('Caso en el cual la descripcion tiene doble espacios', async() => {
+    describe('saveDate', () => {
+        test('Description has double spaces', async() => {
             try {
-                await saveDate(dobleEspacios)
+                await saveDate(doubleSpaces)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('No se permiten dos o mas espacios en blanco juntos')
+                .toBe('Two or more consecutive blank spaces are not allowed.')
             }
         })
-        test('Caso en el cual el dia esta mal o vacia', async() => {
+        test('Day is wrong or empty', async() => {
             try {
                 await saveDate(noFecha)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de el dia es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of date is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual la descripcion esta mal o vacia', async() => {
+        test('Description is wrong or empty', async() => {
             try {
                 await saveDate(noDescripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de la descripcion es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of description is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)            }
         })
-        test('Caso en el cual la fecha es menor a la fecha del dia actual', async() => {
-            let fecha = formatFecha(new Date())
+        test('Date is less or equal to current date', async() => {
+            let fecha = formatDate(new Date())
             try {
                 await saveDate(fechaMenor)
             } catch (error) {
                 expect(error.message)
-                .toBe('La fecha no puede ser menor o igual a '+ fecha)
-                expect(error.codigoRes)
+                .toBe('The date can not be less or equal to '+ fecha + '.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual la descripcion no es de tipo texto', async () => {
+        test('Description is not type text', async () => {
             try {
                 await saveDate(soloNum)
             } catch (error) {
                 expect(error.message)
-                .toBe('El texto de la descripcion no debe contener numeros')
-                expect(error.codigoRes)
+                .toBe('The description text must not contain numbers.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual la descripcion contiene signos', async () => {
+        test('Description has signs', async () => {
             try {
                 await saveDate(conSignos)
             } catch (error) {
                 expect(error.message)
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual esta todo OK', async() => {
+        test('Everything its OK', async() => {
             await saveDate(correcto)
             expect(200)
         })
-        test('Caso en el cual la fecha esta duplicada', async () => {
-            let fecha = formatFecha(correcto.FechaDia)
+        test('Duplicate date', async () => {
+            let fecha = formatDate(correcto.FechaDia)
             try {
                     await saveDate(correcto)
             } catch (error) {
                 expect(error.message)
-                .toBe('La fecha: '+ fecha + ' YA existe.')
+                .toBe('The date: '+ fecha + ' already exists.')
             }
-            //tiene sentido enviar una fecha que esta ok?
-            //si es asi como hago para que cada vez que hago un test me cambie la fecha??
         })
        
     })
-    describe('Verificamos la funcion displayDates', () => {
-        test('Unico caso en el cual trae los datos', async () => {
+    describe('Display dates', () => {
+        test('Get the dates', async () => {
             let data = await displayDates()
             let obj = data[0]
             expect(obj)
@@ -103,39 +101,38 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
             .toBeDefined()
         })
     })
-    describe('Verificamos la funcion displayDate', () => {
-        test('Caso en el que el ID esta vacio', async () => {
+    describe('Display Date', () => {
+        test('Id is empty', async () => {
                 try {
                     await displayDate(idVacio)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El valor de id es incorrecto o esta vacio.')
-                    expect(error.codigoRes)
+                    .toBe('The value of id is incorrect or is empty.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el ID no es de tipo numerico', async () => {
+            test('Id is not numeric', async () => {
                 try {
                     await displayDate(idString)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El id no es de tipo numero.')
-                    expect(error.codigoRes)
+                    .toBe('The id is not of number type.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el ID no exista', async () => {
-                // let id = displayDateIdNoExist.FechaID
+            test('ID doesnt exist', async () => {
                 try {
                     await displayDate(idMal)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El id: ' + idMal.FechaID + ' no existe.')
-                    expect(error.codigoRes)
+                    .toBe('The id: '+ idMal.FechaID + ' doesnt exist.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el ID si existe', async () => {
+            test('ID exist', async () => {
                 let info = await displayDates()
 
                 let fechaId = info[0]
@@ -146,56 +143,56 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
                 .toBe(fechaId.FechaDescripcion)
             })
     })
-    describe('Verificamos la funcion modifyDate', () => {
-            test('Caso en el cual la descripcion de la fecha contenga doble espacios', async () => {
+    describe('Modify date', () => {
+            test('Description has double spaces', async () => {
                 const dataBase = await displayDates()
                     correcto['FechaID'] = dataBase[0].FechaID
-                    correcto.FechaDescripcion = dobleEspacios.FechaDescripcion
+                    correcto.FechaDescripcion = doubleSpaces.FechaDescripcion
                 try {
                     await modifyDate(correcto) 
                 } catch (error) {
                     expect(error.message)
-                    .toBe('No se permiten dos o mas espacios en blanco juntos')
-                    expect(error.codigoRes)
+                    .toBe('Two or more consecutive blank spaces are not allowed.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el dia esta vacio', async () => {
+            test('Day is empty', async () => {
                 const info = await displayDates()
                 noFecha['FechaID'] = info[0].FechaID
                 try {
                     await modifyDate(noFecha)  
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El valor de el dia es incorrecto o esta vacio.')
-                    expect(error.codigoRes)
+                    .toBe('The value of date is incorrect or is empty.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual la descripcion esta vacia', async () => {
+            test('Description is empty', async () => {
                 const info = await displayDates()
                 noDescripcion['FechaID'] = info[0].FechaID
                 try {
                     await modifyDate(noDescripcion)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El valor de la descripcion es incorrecto o esta vacio.')
-                    expect(error.codigoRes)
+                    .toBe('The value of description is incorrect or is empty.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el ID no es numerico', async () => {
+            test('Id is not a number', async () => {
                 correcto['FechaID'] = '432'
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El id no es de tipo numero.')
-                    expect(error.codigoRes)
+                    .toBe('The id is not of number type.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual la descripcion contiene numeros', async () => {
+            test('Descripcion has numbers', async () => {
                 const info = await displayDates()
                 correcto['FechaID'] = info[0].FechaID
                 correcto.FechaDescripcion = contieneNum.FechaDescripcion
@@ -203,25 +200,25 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
                     await modifyDate(correcto)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El texto de la descripcion no debe contener numeros')
-                    expect(error.codigoRes)
+                    .toBe('The description text must not contain numbers.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el cual el ID no exista', async () => {
+            test('Id doesnt exist', async () => {
                 correcto['FechaID'] = 2
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('El id: ' + correcto.FechaID + ' no existe.')
-                    expect(error.codigoRes)
+                    .toBe('The id: ' + correcto.FechaID + ' doesnt exist.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }
             })
-            test('Caso en el el cual la fecha es antigua', async () => {
+            test('Old date', async () => {
                 let fechaAct = new Date()
-                let fechaHoy = formatFecha(fechaAct)
+                let fechaHoy = formatDate(fechaAct)
                 const info = await displayDates()
                 correcto['FechaID'] = info[0].FechaID
                 correcto.FechaDia = fechaMenor.FechaDia
@@ -230,45 +227,45 @@ describe('Testeo del FUNCIONAMIENTO de las funciones del CONTROLLER', () => {
                     await modifyDate(correcto)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('La fecha no puede ser menor o igual a ' + fechaHoy)
-                    expect(error.codigoRes)
+                    .toBe('The date can not be less or equal to ' + fechaHoy + '.')
+                    expect(error.statusCode)
                     .toBe(501)
                 }                    
             })
     })
-    describe('Verificamos la funcion removeDate', () => {
-        test('Caso en el cual el ID esta vacio', async () => {
+    describe('Remove date', () => {
+        test('Id is empty', async () => {
             try {
                 await removeDate(idVacio)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of id is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }                       
         })
-        test('Caso de que el ID no sea numerico', async () =>{
+        test('Id is not a number', async () =>{
             try {
                 await removeDate(idString)
             } catch (error) {
                 expect(error.message)
-                .toBe('El id no es de tipo numero.')
-                expect(error.codigoRes)
+                .toBe('The id is not of number type.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual el ID es incorrecto', async () => {
+        test('Wrong id', async () => {
             let id = idMal.FechaID
             try {
                 await removeDate(idMal)
             } catch (error) {
                 expect(error.message)
-                .toBe('El id: ' + id + ' no existe.')
-                expect(error.codigoRes)
+                .toBe('The id: '+ id + ' doesnt exist.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el cual es ID esta OK', async () => {
+        test('Id is OK', async () => {
             const info = await displayDates()
             const fechaEliminar = {
                 FechaID: info[0].FechaID

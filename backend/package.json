@@ -4,14 +4,14 @@
   "type": "module",
   "description": "Plantilla base para los proyectos que quiera desarrollar.",
   "scripts": {
-    "dev": "NODE_ENV=env nodemon src/index.js",
+    "dev": "set NODE_ENV=env && nodemon src/index.js",
     "start": "node src/index.js",
     "lint": "eslint src/**/*.js --fix",
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "postinstall": "npm run prepare",
     "test": "jest --verbose  --detectOpenHandles",
-    "test:watch": "NODE_ENV=test npm run test -- --watch"
+    "test:watch": "set NODE_ENV=test && npm run test -- --watch"
   },
   "author": "Juan Falco (https://portafolio-juan-falco.netlify.app/)",
   "license": "MIT",
