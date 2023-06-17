@@ -17,7 +17,7 @@ export const datesGetQuery = () => {
 
 export const dateGetQuery = (id) => {
     try {
-        emptyValidate(id, 'id en getFecha')
+        emptyValidate(id, 'dateGetQuery')
         let query = ""
         query += "SELECT FechaID, FechaDescripcion,FechaDia "
         query += "FROM "
@@ -33,9 +33,9 @@ export const dateGetQuery = (id) => {
 
 export const dateSaveQuery = (day, description) => {
     try {
-        emptyValidate(day, 'postFechas')
-        emptyValidate(description, 'postFechas')
-        typeStringValidate(description, 'postFechas')
+        emptyValidate(day, 'dateSaveQuery')
+        emptyValidate(description, 'dateSaveQuery')
+        typeStringValidate(description, 'dateSaveQuery')
         let query = ""
         query += "insert into Fechas"
         query += " ("
@@ -55,7 +55,7 @@ export const dateSaveQuery = (day, description) => {
 
 export const dateRemoveQuery = (idDate) => {
     try {
-        emptyValidate(idDate, 'id en idFecha')
+        emptyValidate(idDate, 'dateRemoveQuery')
         let query = ""
         query += "delete from Fechas"
         query += " where FechaID = "
@@ -74,16 +74,16 @@ export const datesRemoveQuery = () => {
         query += ";"
         return query
     } catch (error) {
-        throw new queryError('deleteFechas', 501)
+        throw new queryError('datesRemoveQuery', 501)
     }
 }
 
 
 export const dateModifyQuery = (id, day, description) => {
     try {
-        emptyValidate(id, 'id en putFecha')
-        emptyValidate(day, 'dia en putFecha')
-        emptyValidate(description, 'descripcion en putFecha')
+        emptyValidate(id, 'id')
+        emptyValidate(day, 'date')
+        emptyValidate(description, 'description')
         typeStringValidate(description)
         let query = ""
         query += "UPDATE Fechas"
@@ -99,7 +99,7 @@ export const dateModifyQuery = (id, day, description) => {
 
 export const idCheckQuery = (id) => {
     try {
-        emptyValidate(id, 'id en verificarId')
+        emptyValidate(id, 'id')
         let query = ""
         query += "SELECT FechaID "
         query += "FROM Fechas "
@@ -112,7 +112,7 @@ export const idCheckQuery = (id) => {
 
 export const duplicateCheckQuery = (date) => {
     try {
-        emptyValidate(date, 'fecha en verificarDuplicado')
+        emptyValidate(date, 'date')
         let query = ""
         query += "SELECT FechaDia "
         query += "FROM Fechas "

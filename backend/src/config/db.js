@@ -19,14 +19,17 @@ export const dbConfigTest = {
 }
 export const getConection = async () => {
     try{
-        const conection = null 
-        if(NODE_ENV === 'test') conection = new sql.ConnectionPool(dbConfigTest)
-        if(NODE_ENV === 'dev') conection = new sql.ConnectionPool(dbConfig)
+        let conection = new sql.ConnectionPool(selectTypeConection())
+        if(conection === null) throw new Error('problemas para conectar a la bdd')
         let SuccessfullyConection = await conection.connect()
         return SuccessfullyConection
     }catch(error){
         throw error
     }
+}
+const selectTypeConection = () => {
+    if(NODE_ENV === 'test') return dbConfigTest
+    return dbConfig
 }
 export const executeQuery = async (query) => {
     const connectionBDD = await getConection()

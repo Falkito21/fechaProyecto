@@ -1,166 +1,166 @@
-import { verificarDuplicado, verificarId, putFecha, deleteFechas, deleteFecha, postFechas, getFecha, getFechas } from "#Database/querys.js"
+import { duplicateCheckQuery, idCheckQuery, dateModifyQuery, datesRemoveQuery, dateRemoveQuery, dateSaveQuery, dateGetQuery, datesGetQuery } from "#Database/dateQuerys.js"
 import { correcto } from "./validationsMock.js"
-describe('Testeo del FUNCIONAMIENTO de las funciones de QUERYS', () => {
-    describe('Verificamos la funcion verificarDuplicado', () => {
-        test('Caso en el que ya existe una fecha', () => {
-                verificarDuplicado(correcto.FechaDia)
-                expect(verificarDuplicado(correcto.FechaDia))
+describe('Dates Querys', () => {
+    describe('DuplicateCheckQuery', () => {
+        test('Allready exist a date', () => {
+                duplicateCheckQuery(correcto.FechaDia)
+                expect(duplicateCheckQuery(correcto.FechaDia))
                 .toBe("SELECT FechaDia FROM Fechas WHERE FechaDia = '" + correcto.FechaDia + "';")
             })
-        test('Caso en el que se genere algun error en la query', () => {
+        test('Error on the query', () => {
             try {
-                verificarDuplicado(correcto.FechaDa)
+                duplicateCheckQuery(correcto.FechaDa)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de fecha en verificarDuplicado es incorrecto o esta vacio.')
+                .toBe('The value of date is incorrect or is empty.')
             }
         })
-        test('Caso en el que todo salga ok en la query', () => {
-            verificarDuplicado(correcto.FechaDia)
-            expect(verificarDuplicado(correcto.FechaDia))
+        test('Query ok', () => {
+            duplicateCheckQuery(correcto.FechaDia)
+            expect(duplicateCheckQuery(correcto.FechaDia))
             .toBe("SELECT FechaDia FROM Fechas WHERE FechaDia = '" + correcto.FechaDia + "';")
         })
     })
-    describe('Verificamos la funcion verificarId', () => {
-        test('Caso de que genere un error en la query', () => {
+    describe('IdCheckQuery', () => {
+        test('Error on the query', () => {
             try {
-                verificarId(correcto.FechaDa)
+                idCheckQuery(correcto.FechaDa)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id en verificarId es incorrecto o esta vacio.')
+                .toBe('The value of id is incorrect or is empty.')
             }
         })
-        test('Caso de que los datos y la query esten OK', () => {
-            expect(verificarId(1140))
+        test('Data and query are ok', () => {
+            expect(idCheckQuery(1140))
             .toBe("SELECT FechaID FROM Fechas WHERE FechaID = '1140';")
         })
     })
-    describe('Verificamos la funcion putFecha', () => {
-        test('Caso de que los datos y la query esten ok', () => {
-            putFecha(1, correcto.FechaDia, correcto.FechaDescripcion)
-            expect(putFecha(30, correcto.FechaDia, correcto.FechaDescripcion))
+    describe('DateModifyQuery', () => {
+        test('Data and query are ok', () => {
+            dateModifyQuery(1, correcto.FechaDia, correcto.FechaDescripcion)
+            expect(dateModifyQuery(30, correcto.FechaDia, correcto.FechaDescripcion))
             .toBe("UPDATE Fechas SET FechaDia = '2034-04-09', FechaDescripcion = 'Primera fecha de testing' WHERE fechaID = '30';")
         })
-        test('Caso de que se genere un error en la query con la fecha', () => {
+        test('Error on the query with the date', () => {
             try {
-                putFecha(1, correcto.a, correcto.FechaDescripcion)
+                dateModifyQuery(1, correcto.a, correcto.FechaDescripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de dia en putFecha es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of date is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso de que se genere un error en la query con la descripcion', () => {
+        test('Error on the query with the description', () => {
             try {
-                putFecha(1, correcto.FechaDia, correcto.FechaDecripcion)
+                dateModifyQuery(1, correcto.FechaDia, correcto.FechaDecripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de descripcion en putFecha es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of description is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso de que se genere un 2do error en la query con la descripcion', () => {
+        test('Second error on the query with the description', () => {
             try {
-                putFecha(1, correcto.FechaDia, 3)
+                dateModifyQuery(1, correcto.FechaDia, 3)
             } catch (error) {
                 expect(error.message)
-                .toBe('La descripcion no es de tipo texto.')
+                .toBe('description is not of text type.')
             }
         })
-        test('Caso de que se genere un error en la query con el ID', () => {
+        test('Error on the query with the ID', () => {
             try {
-                putFecha( "" , correcto.FechaDia, correcto.FechaDescripcion)
+                dateModifyQuery( "" , correcto.FechaDia, correcto.FechaDescripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id en putFecha es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of id is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
     })
-    describe('Verificamos la funcion deleteFechas', () => {
-        test('Unico caso donde la query este OK', () => {
-            let asd = deleteFechas()
+    describe('DatesRemoveQuery', () => {
+        test('Query is OK', () => {
+            let asd = datesRemoveQuery()
             expect(asd)
             .toBe("DELETE FROM Fechas;")
         })
     })
-    describe('Verificamos la funcion deleteFecha', () => {
-        test('Caso en el que se genere un error en la query o en el Id', () => {
+    describe('DateRemoveQuery', () => {
+        test('Error on the query or Id', () => {
             try {
-                deleteFecha("")
+                dateRemoveQuery("")
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id en idFecha es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of dateRemoveQuery is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el que la query este OK', () => {
-            deleteFecha(1140)
-            expect(deleteFecha(1140))
+        test('Query este OK', () => {
+            dateRemoveQuery(1140)
+            expect(dateRemoveQuery(1140))
             .toBe("delete from Fechas where FechaID = '1140';")
         })
     })
-    describe('Verificamos la funcion postFechas', () => {
-        test('Caso de que se genere un error en la query con la fecha', () => {
+    describe('DateSaveQuery', () => {
+        test('Error on the query with the date', () => {
             try {
-                postFechas(correcto.a, correcto.FechaDescripcion)
+                dateSaveQuery(correcto.a, correcto.FechaDescripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de postFechas es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of dateSaveQuery is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso de que se genere un error en la query con la descripcion', () => {
+        test('Error on the query with the description', () => {
             try {
-                postFechas(correcto.FechaDia, correcto.FechaDecripcion)
+                dateSaveQuery(correcto.FechaDia, correcto.FechaDecripcion)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de postFechas es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of dateSaveQuery is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso de que se genere un 2do error en la query con la descripcion', () => {
+        test('Second error on the query with the description', () => {
             try {
-                postFechas(correcto.FechaDia, 3)
+                dateSaveQuery(correcto.FechaDia, 3)
             } catch (error) {
                 expect(error.message)
-                .toBe('La descripcion no es de tipo texto.')
-                expect(error.codigoRes)
+                .toBe('description is not of text type.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el que la query este todo OK', () => {
-            postFechas(correcto.FechaDia, correcto.FechaDescripcion)
-            expect(postFechas(correcto.FechaDia, correcto.FechaDescripcion))
+        test('Query is ok', () => {
+            dateSaveQuery(correcto.FechaDia, correcto.FechaDescripcion)
+            expect(dateSaveQuery(correcto.FechaDia, correcto.FechaDescripcion))
             .toBe("insert into Fechas ( FechaDia, FechaDescripcion) VALUES ('2034-04-09', 'Primera fecha de testing');")
         })
     })
-    describe('Validamos la funcion getFecha', () => {
-        test('Caso de que se genere un error en la query con el ID', () => {
+    describe('DateGetQuery', () => {
+        test('Error on the query with the ID', () => {
             try {
-                getFecha('')
+                dateGetQuery('')
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id en getFecha es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of dateGetQuery is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso en el que la query esta todo OK', () => {
-            getFecha(1)
-            expect(getFecha(1))
+        test('Query is OK', () => {
+            dateGetQuery(1)
+            expect(dateGetQuery(1))
             .toBe("SELECT FechaID, FechaDescripcion,FechaDia FROM Fechas WHERE FechaID = '1'")
         })
     })
-    describe('Validamos la funcion getFechas', () => {
-        test('Unico caso en el cual la query este todo OK', () => {
-            expect(getFechas())
+    describe('DatesGetQuery', () => {
+        test('Query is OK', () => {
+            expect(datesGetQuery())
             .toBe('SELECT FechaID,FechaDescripcion,FechaDia FROM  Fechas ORDER BY FechaDia ASC')
         })
     })
