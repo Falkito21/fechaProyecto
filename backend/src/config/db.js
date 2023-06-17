@@ -2,7 +2,7 @@ import sql from 'mssql'
 import {config} from 'dotenv'
 
 config()
-const {DB_USER, DB_PWD,DB_SERVER, DB_DATABASE, DB_DATABASE_TEST} = process.env;
+const {DB_USER, DB_PWD,DB_SERVER, DB_DATABASE, DB_DATABASE_TEST, NODE_ENV} = process.env;
 export const dbConfig = {
     user: DB_USER
     ,password: DB_PWD
@@ -19,7 +19,6 @@ export const dbConfigTest = {
 }
 export const getConection = async () => {
     try{
-        console.log('node_env: ', NODE_ENV)
         const conection = null 
         if(NODE_ENV === 'test') conection = new sql.ConnectionPool(dbConfigTest)
         if(NODE_ENV === 'dev') conection = new sql.ConnectionPool(dbConfig)
