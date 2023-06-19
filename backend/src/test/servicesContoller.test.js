@@ -8,21 +8,21 @@ import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarF
 import { mostrarFechas } from "../controllers/dateController.js"
 import { datosVacio } from "./userController.mock.js"
 
-describe('Testeamos las funciones de SERVICIO', () => {
-    describe('Verificamos el servicio servicioMostrarFechas', () => {
-        test('Caso en el cual trae los datos correctamente', async () => {
+describe('Services Controller', () => {
+    describe('Display dates service', () => {
+        test('Everything ok', async () => {
             await api
             .get('/fechas')
             .expect(200)
         })
-        test('Caso en el cual la ruta es incorrecta', async () => {
+        test('Wrong route', async () => {
             await api
             .get('/fechas/fds')
             .expect(404)
         })
     })
-    describe('Verificamos el servicio guardarFecha', () => {
-        test('Caso en dode la fecha esta OK', async () => {
+    describe('Save date', () => {
+        test('Date is OK', async () => {
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr2)
@@ -30,14 +30,14 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(200)
             
         })
-        test('Caso en donde la fecha es Erronea', async () => {
+        test('Error date', async () => {
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr)
             expect(res.status)
             .toBe(500)
         })
-        test('Caso en donde la ruta es incorrecta', async () => {
+        test('Wrong route', async () => {
             const res = await api
             .post('/guardarFeca')
             .send(serviciosGuardarFechaCorr)
@@ -45,8 +45,8 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .toBe(404)
         })
     })
-    describe('Verificamos el servicio servicioMostrarFecha', () => {
-        test('Caso en el cual trae la fecha indicada', async () => {
+    describe('Display date service', () => {
+        test('Get correct date', async () => {
             let datos = await mostrarFechas()
             serviciosMostrarFechaCorr.FechaID = datos[0].FechaID
             await api
@@ -54,21 +54,21 @@ describe('Testeamos las funciones de SERVICIO', () => {
             .send(serviciosMostrarFechaCorr)
             .expect(200)
         })
-        test('Caso en el cual lanza un error', async() => {
+        test('Throw error', async() => {
             await api 
             .get('/unaFecha')
             .send(serviciosMostrarFechaIdMal)
             .expect(501)
         })
-        test('Caso en el cual la ruta es incorrecta', async () => {
+        test('Incorrect date', async () => {
             await api
             .get('/unaFeca')
             .send(serviciosMostrarFechaCorr2)
             .expect(404)
         })
     })
-    describe('Verificamos el servicio modificarFecha', () => {
-        test('Caso donde la fecha se modifica correctamente', async() => {
+    describe('Modify Date Service', () => {
+        test('Successfully modified', async() => {
             let datos = await mostrarFechas()
             serviciosModificarFechaCorr.FechaID = datos[0].FechaID
             const res = await api
