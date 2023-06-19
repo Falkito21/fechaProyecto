@@ -4,7 +4,7 @@ import { emptyValidate } from '#Validations/customGeneralValidations.js'
 export const userCreateQuery = (email, pass) => {
     try {
         let query = ""
-        query += "INSERT INTO Usuarios"
+        query += "INSERT INTO USERS"
         query += "("
         query += " email, "
         query += "password"
@@ -23,7 +23,7 @@ export const userPasswordGetQuery = (email) => {
     try {
         let query = ""
         query += "SELECT password "
-        query += "FROM Usuarios "
+        query += "FROM USERS "
         query += "WHERE email = '" + email + "';"
         return query
     } catch (error) {
@@ -33,7 +33,7 @@ export const userPasswordGetQuery = (email) => {
 export const emailCheckQuery = (email) => {
     try {
         let query = ""
-        query += "SELECT email FROM Usuarios "
+        query += "SELECT email FROM USERS "
         query += "WHERE email = "
         query += "'" + email + "';"
         return query
@@ -44,7 +44,7 @@ export const emailCheckQuery = (email) => {
 export const idGetQuery = (email) => {
     try {
         let query = ""
-        query += "SELECT id from Usuarios WHERE email = "
+        query += "SELECT id from USERS WHERE email = "
         query += "'" + email +"';"
         return query
     } catch (error) {
@@ -55,7 +55,7 @@ export const userGetQuery = (email) => {
     try {
         let query = ""
         query += "SELECT id, email " 
-        query += "FROM Usuarios "
+        query += "FROM USERS "
         query += "WHERE email = '" + email +"';"
         return query
     } catch (error) {
@@ -65,7 +65,7 @@ export const userGetQuery = (email) => {
 export const userRemoveQuery = (id) => {
     try {
         let query = ""
-        query += "DELETE FROM Usuarios "
+        query += "DELETE FROM USERS "
         query += "WHERE id = '" + id + "';"
         return query
     } catch (error) {
@@ -77,7 +77,7 @@ export const userIdCheckQuery = (id) => {
         emptyValidate(id, 'id in userIdCheckQuery')
         let query = ""
         query += "SELECT id "
-        query += "FROM Usuarios "
+        query += "FROM USERS "
         query += "WHERE id = '" + id + "';"
         return query
     } catch (error) {

@@ -7,6 +7,7 @@ export const dbConfig = {
     user: DB_USER
     ,password: DB_PWD
     ,server: DB_SERVER
+    ,port: 1433
     ,database: DB_DATABASE 
     ,trustServerCertificate: true
 }
@@ -14,6 +15,7 @@ export const dbConfigTest = {
     user: DB_USER
     ,password: DB_PWD
     ,server: DB_SERVER
+    ,port: 1433
     ,database: DB_DATABASE_TEST 
     ,trustServerCertificate: true
 }

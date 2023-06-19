@@ -170,7 +170,7 @@ const dateValidations = async (date, avoidValidation) => {
 
 export const createDataUser = async(email) => {
     try {
-        let responseRepository = await countRepository.getUser(email)
+        let responseRepository = await countRepository.getUserEmail(email)
         if(!responseRepository.recordset[0]) throw new incorrectEmailError(501)
         return responseRepository.recordset[0]
     } catch (error) {
@@ -280,6 +280,15 @@ export const generalUserValidations = async (userEmail, userPassword) => {
         await emptyValidate(userPassword, 'password')
         await gmailValidate(userEmail)
         await passwordValidate(userPassword)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getUserByEmail = async(email) => {
+    try {
+        await gmailValidate(email)
+        return await countRepository.getUserEmail(email)
     } catch (error) {
         throw error
     }

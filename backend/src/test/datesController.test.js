@@ -73,7 +73,7 @@ describe('Date Controller', () => {
             expect(200)
         })
         test('Duplicate date', async () => {
-            let fecha = formatDate(correcto.FechaDia)
+            let fecha = formatDate(correcto.date)
             try {
                     await saveDate(correcto)
             } catch (error) {
@@ -88,15 +88,15 @@ describe('Date Controller', () => {
             let data = await displayDates()
             let obj = data[0]
             expect(obj)
-            .toHaveProperty('FechaID')
+            .toHaveProperty('id')
             expect(obj)
             .toBeDefined()
             expect(obj)
-            .toHaveProperty('FechaDescripcion')
+            .toHaveProperty('description')
             expect(obj)
             .toBeDefined()
             expect(obj)
-            .toHaveProperty('FechaDia')
+            .toHaveProperty('date')
             expect(obj)
             .toBeDefined()
         })
@@ -127,27 +127,27 @@ describe('Date Controller', () => {
                     await displayDate(idMal)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('The id: '+ idMal.FechaID + ' doesnt exist.')
+                    .toBe('The id: '+ idMal.id + ' doesnt exist.')
                     expect(error.statusCode)
                     .toBe(501)
                 }
             })
             test('ID exist', async () => {
                 let info = await displayDates()
-
-                let fechaId = info[0]
-                let data = await displayDate(fechaId)
-                expect(data[0].FechaID)
-                .toBe(fechaId.FechaID)
-                expect(data[0].FechaDescripcion)
-                .toBe(fechaId.FechaDescripcion)
+                let dateId = info[0]
+                // console.log('Id exist - display date - dateId: ', dateId)
+                let data = await displayDate(dateId)
+                expect(data[0].id)
+                .toBe(dateId.id)
+                expect(data[0].description)
+                .toBe(dateId.description)
             })
     })
     describe('Modify date', () => {
             test('Description has double spaces', async () => {
                 const dataBase = await displayDates()
-                    correcto['FechaID'] = dataBase[0].FechaID
-                    correcto.FechaDescripcion = doubleSpaces.FechaDescripcion
+                correcto['id'] = dataBase[0].id
+                correcto.description = doubleSpaces.description
                 try {
                     await modifyDate(correcto) 
                 } catch (error) {
@@ -159,7 +159,7 @@ describe('Date Controller', () => {
             })
             test('Day is empty', async () => {
                 const info = await displayDates()
-                noFecha['FechaID'] = info[0].FechaID
+                noFecha['id'] = info[0].id
                 try {
                     await modifyDate(noFecha)  
                 } catch (error) {
@@ -171,7 +171,7 @@ describe('Date Controller', () => {
             })
             test('Description is empty', async () => {
                 const info = await displayDates()
-                noDescripcion['FechaID'] = info[0].FechaID
+                noDescripcion['id'] = info[0].id
                 try {
                     await modifyDate(noDescripcion)
                 } catch (error) {
@@ -182,7 +182,7 @@ describe('Date Controller', () => {
                 }
             })
             test('Id is not a number', async () => {
-                correcto['FechaID'] = '432'
+                correcto['id'] = '432'
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
@@ -194,8 +194,8 @@ describe('Date Controller', () => {
             })
             test('Descripcion has numbers', async () => {
                 const info = await displayDates()
-                correcto['FechaID'] = info[0].FechaID
-                correcto.FechaDescripcion = contieneNum.FechaDescripcion
+                correcto['id'] = info[0].id
+                correcto.description = contieneNum.description
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
@@ -206,12 +206,12 @@ describe('Date Controller', () => {
                 }
             })
             test('Id doesnt exist', async () => {
-                correcto['FechaID'] = 2
+                correcto['id'] = 2
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
                     expect(error.message)
-                    .toBe('The id: ' + correcto.FechaID + ' doesnt exist.')
+                    .toBe('The id: ' + correcto.id + ' doesnt exist.')
                     expect(error.statusCode)
                     .toBe(501)
                 }
@@ -220,9 +220,9 @@ describe('Date Controller', () => {
                 let fechaAct = new Date()
                 let fechaHoy = formatDate(fechaAct)
                 const info = await displayDates()
-                correcto['FechaID'] = info[0].FechaID
+                correcto['id'] = info[0].id
                 correcto.FechaDia = fechaMenor.FechaDia
-                correcto.FechaDescripcion = 'fechass lskdjfa'
+                correcto.description = 'fechass lskdjfa'
                 try {
                     await modifyDate(correcto)
                 } catch (error) {
@@ -255,7 +255,7 @@ describe('Date Controller', () => {
             }
         })
         test('Wrong id', async () => {
-            let id = idMal.FechaID
+            let id = idMal.id
             try {
                 await removeDate(idMal)
             } catch (error) {
@@ -268,7 +268,7 @@ describe('Date Controller', () => {
         test('Id is OK', async () => {
             const info = await displayDates()
             const fechaEliminar = {
-                FechaID: info[0].FechaID
+                id: info[0].id
             }
             await removeDate(fechaEliminar)
             expect(200)

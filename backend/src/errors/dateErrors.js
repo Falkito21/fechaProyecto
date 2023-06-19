@@ -1,6 +1,6 @@
 export class emptyElementError extends Error {
     constructor(type, num) {
-        super(type, num)
+        super(type)
         this.statusCode = num
         this.message = 'The value of ' + type + ' is incorrect or is empty.'
     }

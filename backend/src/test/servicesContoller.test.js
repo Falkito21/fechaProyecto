@@ -5,11 +5,11 @@ import {server} from "../index.js"
 const api = supertest(app)
 
 import {serviciosEliminarFechaCorr, serviciosEliminarFechaInc, serviciosGuardarFechaCorr, serviciosGuardarFechaCorr2, serviciosModificarFechaCorr, serviciosModificarFechaInc, serviciosMostrarFechaCorr, serviciosMostrarFechaCorr2, serviciosMostrarFechaIdMal} from './servicesController.mock.js'
-import { mostrarFechas } from "../controllers/dateController.js"
+import { displayDates } from "../controllers/dateController.js"
 import { datosVacio } from "./userController.mock.js"
 
 describe('Services Controller', () => {
-    describe('Display dates service', () => {
+    describe('Display dates Service', () => {
         test('Everything ok', async () => {
             await api
             .get('/fechas')
@@ -26,7 +26,7 @@ describe('Services Controller', () => {
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr2)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(200)
             
         })
@@ -34,21 +34,21 @@ describe('Services Controller', () => {
              const res = await api 
              .post('/guardarFecha')
              .send(serviciosGuardarFechaCorr)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(500)
         })
         test('Wrong route', async () => {
             const res = await api
             .post('/guardarFeca')
             .send(serviciosGuardarFechaCorr)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(404)
         })
     })
-    describe('Display date service', () => {
+    describe('Display date Service', () => {
         test('Get correct date', async () => {
-            let datos = await mostrarFechas()
-            serviciosMostrarFechaCorr.FechaID = datos[0].FechaID
+            let datos = await displayDates()
+            serviciosMostrarFechaCorr.id = datos[0].id
             await api
             .get('/unaFecha')
             .send(serviciosMostrarFechaCorr)
@@ -60,7 +60,7 @@ describe('Services Controller', () => {
             .send(serviciosMostrarFechaIdMal)
             .expect(501)
         })
-        test('Incorrect date', async () => {
+        test('Wrong date', async () => {
             await api
             .get('/unaFeca')
             .send(serviciosMostrarFechaCorr2)
@@ -69,51 +69,51 @@ describe('Services Controller', () => {
     })
     describe('Modify Date Service', () => {
         test('Successfully modified', async() => {
-            let datos = await mostrarFechas()
-            serviciosModificarFechaCorr.FechaID = datos[0].FechaID
+            let datos = await displayDates()
+            serviciosModificarFechaCorr.id = datos[0].id
             const res = await api
             .put('/modificarFecha')
             .send(serviciosModificarFechaCorr)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(200)
         })
-        test('Caso donde la fecha es Erronea', async () => {
+        test('Wrong Date', async () => {
             const res = await api 
             .put('/modificarFecha')
             .send(serviciosModificarFechaInc)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(501)
         })
-        test('Caso en donde la ruta es incorrecta', async () => {
+        test('Wrong route', async () => {
             const res = await api
             .put('/modificarFeca')
             .send(serviciosGuardarFechaCorr)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(404)
         })
     })
-    describe('Verificamos el servicio eliminarFecha', () => {
-        test('Caso en el cual esta TODO OK', async() => {
-            let datos = await mostrarFechas()
-            serviciosEliminarFechaCorr.FechaID = datos[0].FechaID
+    describe('Remove Date Service', () => {
+        test('Everything is Ok', async() => {
+            let datos = await displayDates()
+            serviciosEliminarFechaCorr.id = datos[0].id
             const res = await api 
             .delete('/eliminarFecha')
             .send(serviciosEliminarFechaCorr)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(200)
         })
-        test('Caso en el cual lanza ERROR', async () => {
+        test('Throw error', async () => {
             
             const res = await api
             .delete('/eliminarFecha')
             .send(serviciosEliminarFechaInc)
-            expect(res.status)
+            expect(res.statusCode)
             .toBe(501)
         })
     })
 
-    describe('Se verifica el servicio servicioCrearCuenta', () => {
-        test('Caso que no contiene body', async()  => {
+    describe('Create Count Service', () => {
+        test('Dont have body', async()  => {
             try {
                 await api 
                 .get('/')

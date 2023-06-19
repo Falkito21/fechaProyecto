@@ -1,48 +1,47 @@
 import supertest from "supertest"
 import { datosComp, datosVacio, formatoMailInc, formatoPassInc, sinEmail, sinPwd } from "./userController.mock.js"
 import app from "#Config/http.js"
-import { traerUserIdPorMail } from "#Validations/loginCreate.js"
+import { getUserByEmail } from "#Validations/customGeneralValidations.js"
 const api = supertest(app)
 
-describe('Testeo del funcionamiento del controllerSecion', () => {
-    describe('ServicioCrearCuenta', () => {
-        test('No recibe los datos', async () => {
+describe('User Controller', () => {
+    describe('Create Count Service', () => {
+        test('Doesnt receive data.', async () => {
             const res = await api
                 .post('/crearCuenta')
                 .send(datosVacio)
-            expect(res.status)
+            expect(res.statusCode)
                 .toBe(501)
         })
-        test('No recibe email', async () => {
+        test('Doesnt receive email.', async () => {
             const res = await api
                 .post('/crearCuenta')
                 .send(sinEmail)
-            expect(res.status)
+                expect(res.statusCode)
                 .toBe(501)
-        })
-        test('No recibe una password', async () => {
-            const res = await api
+            })
+            test('Doesnt receive password.', async () => {
+                const res = await api
                 .post('/crearCuenta')
                 .send(sinPwd)
-            expect(res.status)
+            expect(res.statusCode)
                 .toBe(501)
         })
-        test('Formato mail incorrecto', async () => {
+        test('Incorrect email format', async () => {
             const res = await api
                 .post('/crearCuenta')
                 .send(formatoMailInc)
             expect(res.statusCode)
                 .toBe(501)
         })
-        test('Formato password incorrecto', async () => {
+        test('Incorrect password format', async () => {
             const res = await api
                 .post('/crearCuenta')
                 .send(formatoPassInc)
             expect(res.statusCode)
                 .toBe(501)
         })
-        // tengo que agregar un eliminar cuenta 
-        test('Todo OK', async () => {
+        test('Everything Ok', async () => {
             const res = await api
                 .post('/crearCuenta')
                 .send(datosComp)
@@ -51,37 +50,36 @@ describe('Testeo del funcionamiento del controllerSecion', () => {
         })
 
     })
-    describe('ServicioInicioSesion', () => {
-        test('No recibe los datos', async () => {
+    describe('Login Service', () => {
+        test('Doesnt receive data', async () => {
             const res = await api
                 .post('/inicioSesion')
                 .send(datosVacio)
             expect(res.statusCode)
                 .toBe(501)
         })
-        test('No recibe una password', async () => {
+        test('Doesnt receive password', async () => {
             const res = await api
                 .post('/inicioSesion')
                 .send(sinPwd)
-            expect(res.status)
+            expect(res.statusCode)
                 .toBe(501)
         })
-        test('Formato mail incorrecto', async () => {
+        test('Incorrect email format', async () => {
             const res = await api
                 .post('/inicioSesion')
                 .send(formatoMailInc)
             expect(res.statusCode)
                 .toBe(501)
         })
-        test('Formato password incorrecto', async () => {
+        test('Incorrect password format', async () => {
             const res = await api
                 .post('/inicioSesion')
                 .send(formatoPassInc)
             expect(res.statusCode)
                 .toBe(501)
         })
-        //tengo que agregar un eliminar cuenta 
-        test('Todo OK', async () => {
+        test('Everything Ok', async () => {
             const res = await api
                 .post('/inicioSesion')
                 .send(datosComp)
@@ -89,16 +87,16 @@ describe('Testeo del funcionamiento del controllerSecion', () => {
                 .toBe(200)
         })
     })
-    describe('servicioEliminarCuenta', () => {
-        test('Id inexistente: ', async () => {
+    describe('Remove Count Service', () => {
+        test('Wrong id', async () => {
             const res = await api
                 .delete('/eliminarCuenta')
                 .send(0)
             expect(res.statusCode)
                 .toBe(501)
         })
-        test('Todo OK: ', async () => {
-            let idList = await traerUserIdPorMail('juan.falco@gmail.com')
+        test('Everything Ok: ', async () => {
+            let idList = await getUserByEmail('juan.falco@gmail.com')
             let id = idList.recordset[0].id
             let obj = { id: id }
             const res = await api

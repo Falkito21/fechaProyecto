@@ -1,6 +1,6 @@
 import { responseFront} from '#Helpers/stateResponseFront.js';
-import { bodyValidate, createDataUser, desencryptPassword, generalUserValidations, generateAccessToken, idValidations, tokenCreate } from '#Validations/customGeneralValidations.js'
-import { incorrectEmailError } from '#Errors/userErrors.js';
+import { bodyValidate, createDataUser, desencryptPassword, emptyValidate, encriptPassword, generalUserValidations, generateAccessToken, gmailValidate, idValidations, passwordValidate, tokenCreate } from '#Validations/customGeneralValidations.js'
+import { emailInUseError, emptyElementError, incorrectEmailError } from '#Errors/userErrors.js';
 import { countRepository } from '#Helpers/countRepository.js';
 import jwt_decode from 'jwt-decode'
 
@@ -10,17 +10,20 @@ export const createCountService = async(req, res) => {
         const accessToken = await createCount(req, res)
         const payload = jwt_decode(accessToken)
         await tokenCreate(res, accessToken, payload)
-    } catch(error) { validacionesGenericas
-        responseFront(res, error.responseCode, error.message)
+    } catch(error) { 
+        responseFront(res, error.statusCode, error.message)
     }
 }
 const createCount = async(req, res) => {
     const {email, password} = req.body
-    try{
-        await (email, password)
-        const result = await countRepository.checkMail(email)
-        if(result.recordset[0]) throw new emailEnUso(501)
-        let pwd = await encriptPass(password)
+    try{        
+        await emptyValidate(email,'email')
+        await emptyValidate(password, 'password')
+        await gmailValidate(email)
+        const responseRepositoryCountEmail = await countRepository.checkMail(email)
+        if(responseRepositoryCountEmail.recordset[0]) throw new emailInUseError(501)
+        await passwordValidate(password)
+        let pwd = await encriptPassword(password)
         await countRepository.insertUser(email, pwd)
         let user = await createDataUser(email)
         return await generateAccessToken(user)
@@ -40,7 +43,7 @@ export const loginService = async(req, res, next) => {
         await tokenCreate(res, accessToken, payload)
         next()
     } catch (error) {
-        responseFront(res, error.responseCode, error.message)
+        responseFront(res, error.statusCode, error.message)
     }
 }
 const login = async(emailUser, passwordUser) => {
@@ -51,7 +54,6 @@ const login = async(emailUser, passwordUser) => {
         let userData = await createDataUser(emailUser)
         return generateAccessToken(userData)
     } catch(error) {
-        console.log(error)
         throw error
     }
 }
@@ -61,7 +63,7 @@ export const getUserService = async(req, res) => {
     try {
         return await getUser(email)
     } catch (error) {
-        responseFront(res, error.responseCode, error.message)
+        responseFront(res, error.statusCode, error.message)
     }
 }
 export const getUser = async(email) => {
@@ -78,7 +80,7 @@ export const removeCountService = async(req, res) => {
         await removeCount(id)
         responseFront(res, 200, 'User successfully deleted')
     } catch (error) {
-        responseFront(res, error.responseCode, error.message)
+        responseFront(res, error.statusCode, error.message)
     }
 }
 const removeCount = async(idUser) => {

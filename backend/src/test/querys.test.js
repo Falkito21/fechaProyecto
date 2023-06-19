@@ -3,9 +3,9 @@ import { correcto } from "./validationsMock.js"
 describe('Dates Querys', () => {
     describe('DuplicateCheckQuery', () => {
         test('Allready exist a date', () => {
-                duplicateCheckQuery(correcto.FechaDia)
-                expect(duplicateCheckQuery(correcto.FechaDia))
-                .toBe("SELECT FechaDia FROM Fechas WHERE FechaDia = '" + correcto.FechaDia + "';")
+                duplicateCheckQuery(correcto.date)
+                expect(duplicateCheckQuery(correcto.date))
+                .toBe("SELECT date FROM DATES WHERE date = '" + correcto.date + "';")
             })
         test('Error on the query', () => {
             try {
@@ -16,9 +16,9 @@ describe('Dates Querys', () => {
             }
         })
         test('Query ok', () => {
-            duplicateCheckQuery(correcto.FechaDia)
-            expect(duplicateCheckQuery(correcto.FechaDia))
-            .toBe("SELECT FechaDia FROM Fechas WHERE FechaDia = '" + correcto.FechaDia + "';")
+            duplicateCheckQuery(correcto.date)
+            expect(duplicateCheckQuery(correcto.date))
+            .toBe("SELECT date FROM DATES WHERE date = '" + correcto.date + "';")
         })
     })
     describe('IdCheckQuery', () => {
@@ -32,14 +32,14 @@ describe('Dates Querys', () => {
         })
         test('Data and query are ok', () => {
             expect(idCheckQuery(1140))
-            .toBe("SELECT FechaID FROM Fechas WHERE FechaID = '1140';")
+            .toBe("SELECT id FROM DATES WHERE id = '1140';")
         })
     })
     describe('DateModifyQuery', () => {
         test('Data and query are ok', () => {
-            dateModifyQuery(1, correcto.FechaDia, correcto.FechaDescripcion)
-            expect(dateModifyQuery(30, correcto.FechaDia, correcto.FechaDescripcion))
-            .toBe("UPDATE Fechas SET FechaDia = '2034-04-09', FechaDescripcion = 'Primera fecha de testing' WHERE fechaID = '30';")
+            dateModifyQuery(1, correcto.date, correcto.description)
+            expect(dateModifyQuery(30, correcto.date, correcto.description))
+            .toBe("UPDATE DATES SET date = '2034-04-09', description = 'Primera fecha de testing' WHERE id = '30';")
         })
         test('Error on the query with the date', () => {
             try {
@@ -53,7 +53,7 @@ describe('Dates Querys', () => {
         })
         test('Error on the query with the description', () => {
             try {
-                dateModifyQuery(1, correcto.FechaDia, correcto.FechaDecripcion)
+                dateModifyQuery(1, correcto.date, correcto.description)
             } catch (error) {
                 expect(error.message)
                 .toBe('The value of description is incorrect or is empty.')
@@ -63,7 +63,7 @@ describe('Dates Querys', () => {
         })
         test('Second error on the query with the description', () => {
             try {
-                dateModifyQuery(1, correcto.FechaDia, 3)
+                dateModifyQuery(1, correcto.date, 3)
             } catch (error) {
                 expect(error.message)
                 .toBe('description is not of text type.')
@@ -71,7 +71,7 @@ describe('Dates Querys', () => {
         })
         test('Error on the query with the ID', () => {
             try {
-                dateModifyQuery( "" , correcto.FechaDia, correcto.FechaDescripcion)
+                dateModifyQuery( "" , correcto.date, correcto.description)
             } catch (error) {
                 expect(error.message)
                 .toBe('The value of id is incorrect or is empty.')
@@ -84,7 +84,7 @@ describe('Dates Querys', () => {
         test('Query is OK', () => {
             let asd = datesRemoveQuery()
             expect(asd)
-            .toBe("DELETE FROM Fechas;")
+            .toBe("DELETE FROM DATES;")
         })
     })
     describe('DateRemoveQuery', () => {
@@ -101,7 +101,7 @@ describe('Dates Querys', () => {
         test('Query este OK', () => {
             dateRemoveQuery(1140)
             expect(dateRemoveQuery(1140))
-            .toBe("delete from Fechas where FechaID = '1140';")
+            .toBe("delete from DATES where id = '1140';")
         })
     })
     describe('DateSaveQuery', () => {
@@ -117,7 +117,7 @@ describe('Dates Querys', () => {
         })
         test('Error on the query with the description', () => {
             try {
-                dateSaveQuery(correcto.FechaDia, correcto.FechaDecripcion)
+                dateSaveQuery(correcto.date, correcto.description)
             } catch (error) {
                 expect(error.message)
                 .toBe('The value of dateSaveQuery is incorrect or is empty.')
@@ -127,7 +127,7 @@ describe('Dates Querys', () => {
         })
         test('Second error on the query with the description', () => {
             try {
-                dateSaveQuery(correcto.FechaDia, 3)
+                dateSaveQuery(correcto.date, 3)
             } catch (error) {
                 expect(error.message)
                 .toBe('description is not of text type.')
@@ -136,9 +136,9 @@ describe('Dates Querys', () => {
             }
         })
         test('Query is ok', () => {
-            dateSaveQuery(correcto.FechaDia, correcto.FechaDescripcion)
-            expect(dateSaveQuery(correcto.FechaDia, correcto.FechaDescripcion))
-            .toBe("insert into Fechas ( FechaDia, FechaDescripcion) VALUES ('2034-04-09', 'Primera fecha de testing');")
+            dateSaveQuery(correcto.date, correcto.description)
+            expect(dateSaveQuery(correcto.date, correcto.description))
+            .toBe("insert into DATES ( date, description) VALUES ('2034-04-09', 'Primera fecha de testing');")
         })
     })
     describe('DateGetQuery', () => {
@@ -155,13 +155,13 @@ describe('Dates Querys', () => {
         test('Query is OK', () => {
             dateGetQuery(1)
             expect(dateGetQuery(1))
-            .toBe("SELECT FechaID, FechaDescripcion,FechaDia FROM Fechas WHERE FechaID = '1'")
+            .toBe("SELECT id, description,date FROM DATES WHERE id = '1'")
         })
     })
     describe('DatesGetQuery', () => {
         test('Query is OK', () => {
             expect(datesGetQuery())
-            .toBe('SELECT FechaID,FechaDescripcion,FechaDia FROM  Fechas ORDER BY FechaDia ASC')
+            .toBe('SELECT id,description,date FROM  DATES ORDER BY date ASC')
         })
     })
 })

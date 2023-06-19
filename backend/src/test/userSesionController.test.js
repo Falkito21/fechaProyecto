@@ -1,40 +1,40 @@
-import { encriptPass, validarGmail, validarPass } from "#Validations/loginCreate.js"
+import { encriptPassword, gmailValidate, passwordValidate } from "#Validations/customGeneralValidations.js"
 import { emailCorrecto, emailIncorrecto, passCorrecta, passIncorrecta } from "./userSesionController.mock.js"
 
-describe('Testeo del funcionamiento de las validaciones de loginCreate', () => {
-    describe('Verificamos la funcion validarGmail', () => {
-        test('Caso en el que mail es correcto', async () => {
-            let validacion = await validarGmail(emailCorrecto.email)
+describe('Users Validations', () => {
+    describe('Email Validate', () => {
+        test('Everything Ok', async () => {
+            let validacion = await gmailValidate(emailCorrecto.email)
             expect(validacion)
             .toBe(emailCorrecto.email)
         })
-        test('Caso en el que el mail tenga un formato incorrecto', async () => {
+        test('Incorrect email format', async () => {
             try{
-                await validarGmail(emailIncorrecto)
+                await gmailValidate(emailIncorrecto)
             }catch(error){
                 expect(error.message)
-                .toBe('El formato del mail no es el correcto')
+                .toBe('The email format is incorrect.')
             }
         })
     })
-    describe('Verificamos la funcion validarPass', () => {
-        test('Caso donde le formato de la contrasenia es correcto: ', async () => {
-            let validacion = await validarPass(passCorrecta.password)
+    describe('Password Validate', () => {
+        test('Everything Ok', async () => {
+            let validacion = await passwordValidate(passCorrecta.password)
             expect(validacion)
             .toBe(passCorrecta.password)
         })
-        test('Caso en el que la contrasenia es incorrecta', async () => {
+        test('Incorrect password format', async () => {
             try {
-                await validarPass(passIncorrecta)
+                await passwordValidate(passIncorrecta)
             } catch (error) {
                 expect(error.message)
-                .toBe('La contraseña debe contar con los siguientes requisitos: 8 caracteres de longitud.\n Al menos una letra mayúscula\n Al menos una letra minúscula \nAl menos un número \nUn carácter especial')
+                .toBe('The password must meet the following requirements:\n8 characters in length.\nAt least one uppercase letter. \nAt least one lowercase letter. \nAt least one number. \nA special character.')
             }
         })
     })
-    describe('encriptPass', () => {
-        test('Unico caso en el cual encripta correctamente', async () => {
-            let validacion = await encriptPass('laLa21%^hyr')
+    describe('encriptPassword', () => {
+        test('Everything Ok', async () => {
+            let validacion = await encriptPassword('laLa21%^hyr')
             expect(validacion.length)
             .toBe(60)
         })

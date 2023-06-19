@@ -45,7 +45,7 @@ export class countRepository{
             throw error
         }
     }
-    static getUser = async(email) => {
+    static getUserEmail = async(email) => {
         try {
             return await executeQuery(userGetQuery(email))
         } catch (error) {

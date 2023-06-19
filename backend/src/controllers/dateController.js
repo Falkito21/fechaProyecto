@@ -34,7 +34,8 @@ export const displayDateService = async (req, res) => {
 }  
 export const displayDate = async (data) => {
     try{
-        let bodyDateId = data.FechaID
+        let bodyDateId = data.id
+    
         await generalValidation(bodyDateId, false, false)
         const responseRepositoryDate = await dateRepository.getDate(bodyDateId)
         return responseRepositoryDate.recordset 
@@ -53,8 +54,8 @@ export const saveDateService = async (req, res) => {
 }  
 export const saveDate = async (data) => {
     try {
-        let dayDateBody = data.FechaDia
-        let descriptionDateBody = data.FechaDescripcion
+        let dayDateBody = data.date
+        let descriptionDateBody = data.description
         await generalValidation(false, dayDateBody, descriptionDateBody, false)
         await dateRepository.saveDate(dayDateBody, descriptionDateBody)
     } catch (error) {
@@ -72,9 +73,9 @@ export const modifyDateService = async (req, res) => {
 }  
 export const modifyDate = async (data) => {
     try {
-        const {FechaID, FechaDia, FechaDescripcion} = data
-        await generalValidation(FechaID, FechaDia, FechaDescripcion)
-        await dateRepository.modifyDate(FechaID, FechaDia, FechaDescripcion)
+        const {id, date, description} = data
+        await generalValidation(id, date, description)
+        await dateRepository.modifyDate(id, date, description)
     } catch (error) {
         throw error
     } 
@@ -90,7 +91,7 @@ export const removeDateService = async (req, res) => {
 }
 export const removeDate = async (data) => {
     try { 
-        let idDate = data.FechaID
+        let idDate = data.id
         await generalValidation(idDate, false, false)
         await dateRepository.removeDate(idDate)       
     } catch (error) {

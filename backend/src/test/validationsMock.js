@@ -1,38 +1,38 @@
 
 export const validarBodyVacio = {
-    FechaDia: "",
-    FechaDescripcion: "" 
+    date: "",
+    description: "" 
 }
 export const correcto = {
-    FechaDia: "2034-04-09",
-    FechaDescripcion: "Primera fecha de testing" 
+    date: "2034-04-09",
+    description: "Primera fecha de testing" 
 }
 export const noDescripcion = {
-    FechaDia: "2034-04-09",
-    FechaDescripcion:""
+    date: "2034-04-09",
+    description:""
 }
 export const noFecha = {
-    FechaDia: "",
-    FechaDescripcion: "Primera fecha de testing" 
+    date: "",
+    description: "Primera fecha de testing" 
 }
 export const dobleEspacios = {
-    FechaDia : "2034-04-09"
-    ,FechaDescripcion : "Primer   a fecha de testing"
+    date : "2034-04-09"
+    ,description : "Primer   a fecha de testing"
 }
 export const contieneNum = {
-    FechaDia : "2034-04-10"
-    ,FechaDescripcion : "jflask231fdds" 
+    date : "2034-04-10"
+    ,description : "jflask231fdds" 
 }
 export const soloNum = {
-    FechaDia : "2034-04-09"
-    ,FechaDescripcion : 21332 
+    date : "2034-04-09"
+    ,description : 21332 
 }
 export const conSignos = {
-    FechaDia : "2035-04-10"
-    ,FechaDescripcion : "jflask%^&*@fdds" 
+    date : "2035-04-10"
+    ,description : "jflask%^&*@fdds" 
 }
 
 export const fechaMenor ={
-    FechaDia: "2019-04-12",
-    FechaDescripcion: "fecha menor"
+    date: "2019-04-12",
+    description: "fecha menor"
 }
