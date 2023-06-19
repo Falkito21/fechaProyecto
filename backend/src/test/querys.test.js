@@ -66,7 +66,7 @@ describe('Dates Querys', () => {
                 dateModifyQuery(1, correcto.date, 3)
             } catch (error) {
                 expect(error.message)
-                .toBe('description is not of text type.')
+                .toBe('The description is not of text type.')
             }
         })
         test('Error on the query with the ID', () => {
@@ -130,7 +130,7 @@ describe('Dates Querys', () => {
                 dateSaveQuery(correcto.date, 3)
             } catch (error) {
                 expect(error.message)
-                .toBe('description is not of text type.')
+                .toBe('The description is not of text type.')
                 expect(error.statusCode)
                 .toBe(501)
             }

@@ -37,7 +37,7 @@ export const typeNumValidate = (data) => {
 } 
 export const typeStringValidate = (data) => {
     try {
-        if(typeof data !== 'string') throw new typeError('description', 'text', 501)
+        if(typeof data !== 'string') throw new typeError('The description', 'text', 501)
         return numberTextValidate(data)
     } catch (error) {
         throw error

@@ -1,209 +1,182 @@
-import {compararFechas, formatFecha, validarBody, validarNumEnTexto, validarCaracteresConSignos, validarDobleEspacios, validarEpocaFecha, validarId, validarTipoString, validarVacio, validarDuplicado} from '#Validations/validaciones.js'
+import {dateCompare, formatDate, bodyValidate, numberTextValidate, textSignsValidate, doubleSpacesValidate, eraDateValidate, idDateValidate, typeStringValidate, emptyValidate} from '#Validations/customGeneralValidations.js'
 import { conSignos, contieneNum, correcto, dobleEspacios, noDescripcion, noFecha, soloNum, validarBodyVacio } from './validationsMock.js'
 
-describe('Testeo del FUNCIONAMIENTO de las funciones de VALIDACIONES', () => {
-    describe('Verificacion de la funcion validarBody', () => {
-        test('Caso en el que no contega nada el body', () => {
+describe('Custom General Validations', () => {
+    describe('Body validate', () => {
+        test('Dont has body', () => {
             try {
-                validarBody(validarBodyVacio)
+                bodyValidate(validarBodyVacio)
             } catch (error) {
                 expect(error.message)
                 .toBe('El BODY no esta recibiendo informacion')
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
             }
-        })
-        test('Caso en el que el body contiene datos', () => {
-                validarBody(correcto)
-                expect(correcto.FechaDia).toEqual(correcto.FechaDia)
-                expect(correcto.FechaDescripcion).toEqual('Primera fecha de testing')
         })
     })
-    describe('Verificacion de la funcion validarVacio', () => {
-        test('Caso de que no tenga descripcion',() => {
+    describe('Empty validate', () => {
+        test('Dont has description',() => {
             try {
-                validarVacio(noDescripcion.FechaDescripcion, 'Fecha descripcion');
+                emptyValidate(noDescripcion.description, 'Fecha descripcion');
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de Fecha descripcion es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of Fecha descripcion is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501)
             }
         })
-        test('Caso de que no tenga una fecha', () => {
+        test('Dont has a date', () => {
             try {
-                validarVacio(noFecha.FechaDia, 'fecha dia')
+                emptyValidate(noFecha.date, 'date')
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de fecha dia es incorrecto o esta vacio.')
-                expect(error.codigoRes)
+                .toBe('The value of date is incorrect or is empty.')
+                expect(error.statusCode)
                 .toBe(501) 
             }
         })
     })
-    describe('Verificacion de la funcion validarDobleEspacios', () => {
-        test('Caso de que no contenga un doble espacio la descripcion', () => {
-                let dobleEspacios = validarDobleEspacios(correcto.FechaDescripcion)
-                expect(dobleEspacios)
-                .toBe('Primera fecha de testing')
-        })
-        test('Caso de que la descripcion contenga doble espacio', () => {
+        test('Has double spaces', () => {
             try {
-                validarDobleEspacios(dobleEspacios.FechaDescripcion)
+                doubleSpacesValidate(dobleEspacios.description)
             } catch (error) {
                 expect(error.message)
-                .toBe('No se permiten dos o mas espacios en blanco juntos')
-                expect(error.codigoRes)
+                .toBe('Two or more consecutive blank spaces are not allowed.')
+                expect(error.statusCode)
                 .toBe(501)
             }
             
         })
-    })
-    describe('Verificamos la funcion validarCadaCaracter', () => {
-        test('Caso de que los caracteres de la descripcion esten todos bien', () => {
-            let cadaCaracter = validarNumEnTexto(correcto.FechaDescripcion)
-            expect(cadaCaracter)
-            .toBe(correcto.FechaDescripcion)
-        })
-        test('Caso donde los caracteres de la descripcion contiene Numeros', () => {
+    describe('Number in text validate', () => {
+        test('Description conatin numbers', () => {
             try {
-                validarNumEnTexto(contieneNum.FechaDescripcion)
+                numberTextValidate(contieneNum.description)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('El texto de la descripcion no debe contener numeros')
+                .toBe('The description text must not contain numbers.')
             }
         })
     })
-    describe('Verificamos la funcion validarTipoString', () => {
-        test('Caso de que la descripcion sea de tipo String', () => {
-            validarTipoString(correcto.FechaDescripcion)
-            expect(validarTipoString(correcto.FechaDescripcion))
-            .toBe(correcto.FechaDescripcion)
-        })
-        test('Caso de que la descripcion no sea de tipo String', () => {
+    describe('Type string validate', () => {
+        test('Description is not type string', () => {
             try {
-                validarTipoString(soloNum.FechaDescripcion)
+                typeStringValidate(soloNum.description)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('La descripcion no es de tipo texto.')
+                .toBe('The description is not of text type.')
             }
         })
     })
-    describe('Verificamos la funcion validarCaracteres', () => {
-        test('Caso de que la descripcion este correctamente', () => {
-            let signosEnDescript = validarCaracteresConSignos(correcto.FechaDescripcion)
-            expect(signosEnDescript)
-            .toBe(correcto.FechaDescripcion)
-        })
-        test('Caso de que la descripcion contenga signos', () => {
+    describe('Text sings validate', () => {
+        test('Has sing in text', () => {
             try {
-                validarCaracteresConSignos(conSignos)
+                textSignsValidate(conSignos)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('La descripcion no puede contener signos($%^&&)')
+                .toBe('The description can not containt symbols($%^&&)')
             }
         })
     })
-    describe('Verificamos la funcion compararfechas', () => {
-        test('Caso de que la fecha sea mayor a la fecha de hoy', () => {
+    describe('Verificamos la funcion dateCompare', () => {
+        test('Date after today', () => {
                 let fechaHoy = new Date()
-                , fechaUser = correcto.FechaDia
-                compararFechas(fechaUser, fechaHoy)
-                expect(compararFechas(fechaUser, fechaHoy))
+                , fechaUser = correcto.date
+                dateCompare(fechaUser, fechaHoy)
+                expect(dateCompare(fechaUser, fechaHoy))
                 .toBe(true)
         })
-        test('Caso de que la fecha sea igual a la fecha de hoy', () => {
+        test('Date equal to today', () => {
                 let fechaHoy = new Date() 
                 fechaHoy = fechaHoy.toLocaleDateString()
-                compararFechas(fechaHoy, fechaHoy)
-                expect(compararFechas(fechaHoy, fechaHoy))
+                dateCompare(fechaHoy, fechaHoy)
+                expect(dateCompare(fechaHoy, fechaHoy))
                 .toBe(false)            
         })
-        test('Caso de que la fecha sea menor a la fecha de hoy', () => {
+        test('Date before today', () => {
             let fechaHoy = new Date()
             fechaHoy = fechaHoy.toLocaleDateString()
             let fechaAnt = '2018-05-14'
-            compararFechas(fechaAnt, fechaHoy)
-            expect(compararFechas(fechaAnt, fechaHoy))
+            dateCompare(fechaAnt, fechaHoy)
+            expect(dateCompare(fechaAnt, fechaHoy))
             .toBe(false)
         })
     })
-    describe('Verificamos la funcion formatFecha', () => {
-        test('Unico caso en el cual devuelve el formato correcto', ()=> {
-            let fechaFormateada = formatFecha('5-2-2022')
+    describe('Format date', () => {
+        test('Get correct format', ()=> {
+            let fechaFormateada = formatDate('5-2-2022')
             expect(fechaFormateada)
             .toBe('2022/05/02')
         })
     })
-    describe('Verificamos la funcion validarEpocaFecha', () => {
-        test('Caso en el cual la fecha es mayor a la actual', () => {
+    describe('Era date validate', () => {
+        test('Date after today', () => {
             try {
-                validarEpocaFecha(correcto.FechaDia)
-                expect(validarEpocaFecha(correcto.FechaDia))
-                .toBe(correcto.FechaDia)
+                eraDateValidate(correcto.date)
+                expect(eraDateValidate(correcto.date))
+                .toBe(correcto.date)
             } catch (error) {
                 throw error
             }
         })
-        test('Caso en el cual la fecha es igual a la actual', () => {
+        test('Date equal to today', () => {
             let fechaHoy = new Date()
-            let fechaAct = formatFecha(fechaHoy)
+            let fechaAct = formatDate(fechaHoy)
             try {
-                validarEpocaFecha(fechaAct)
+                eraDateValidate(fechaAct)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('La fecha no puede ser menor o igual a ' + fechaAct)
+                .toBe('The date can not be less or equal to ' + fechaAct + '.')
             }
         })
-        test('Caso en el cual la fecha es menor a la actual', () => {
+        test('Date before today', () => {
             let fechaHoy = new Date()
-            let fechaAct = formatFecha(fechaHoy)
+            let fechaAct = formatDate(fechaHoy)
             let fechaUser = '2020-12-01'
             try {
-                validarEpocaFecha(fechaUser)
+                eraDateValidate(fechaUser)
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
-                .toBe('La fecha no puede ser menor o igual a ' + fechaAct)
+                .toBe('The date can not be less or equal to ' + fechaAct + '.')
             }
         })
     })
-    describe('Validamos la funcion validarDuplicado', () => {
-        test('Caso de que ya exista una fecha en la base de datos', async () => {
+    describe('Double spaces validate', () => {
+        test('The date already exist', async () => {
             try {
-                await validarDuplicado('2033/04/10')
+                await doubleSpacesValidate('2033/04/10')
             } catch (error) {
-                expect(error.codigoRes)
+                expect(error.statusCode)
                 .toBe(501)
                 expect(error.message)
                 .toBe('La fecha: 2033/04/10 YA existe.')
             }
         })
     })
-    describe('Validamos la funcion validarId', () => {
-        test('Caso de que el ID sea undefined',async () => {
+    describe('Id date validate', () => {
+        test('Id id undefined',async () => {
             try {
-                await validarId(correcto.FechaId)
+                await idDateValidate(correcto.id)
             } catch (error) {
                 expect(error.message)
-                .toBe('El valor de id en verificarId es incorrecto o esta vacio.')
+                .toBe('The value of id is incorrect or is empty.')
             }
         })
-        test('Caso de que el ID no exista', async () => {
+        test('Id dont exist', async () => {
             try {
-                await validarId(1)
+                await idDateValidate(1)
             } catch (error) {
                 expect(error.message)
-                .toBe('El id: 1 no existe.')
+                .toBe('The id: 1 doesnt exist.')
             }
         })
     })
